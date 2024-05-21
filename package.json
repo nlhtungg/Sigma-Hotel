@@ -8,5 +8,10 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "msnodesqlv8": "^4.2.1",
+    "mssql": "^10.0.2"
+  }
 }
