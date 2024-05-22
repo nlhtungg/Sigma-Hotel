@@ -1,4 +1,3 @@
-CREATE DATABASE SigmaHotel
 CREATE TABLE [Room] (
   [RoomNumber] int PRIMARY KEY,
   [TypeID] varchar(50),
@@ -16,8 +15,8 @@ GO
 
 CREATE TABLE [Guest] (
   [GuestID] int IDENTITY(1,1) PRIMARY KEY,
-  [Username] varchar(50),
-  [Password] varchar(50),
+  [Username] varchar(50) NOT NULL UNIQUE,
+  [Password] varchar(50) NOT NULL,
   [Name] varchar(50),
   [DOB] date,
   [Address] varchar(255),
@@ -38,8 +37,8 @@ GO
 
 CREATE TABLE [Staff] (
   [StaffID] int IDENTITY(1,1) PRIMARY KEY,
-  [Username] varchar(50),
-  [Password] varchar(50),
+  [Username] varchar(50) NOT NULL UNIQUE,
+  [Password] varchar(50) NOT NULL,
   [Name] varchar(50),
   [Position] varchar(50),
   [Salary] decimal(10,2),

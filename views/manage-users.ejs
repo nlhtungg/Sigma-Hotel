@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Users</title>
+    <link rel="stylesheet" type="text/css" href="/css/manage-users.css">
+    <script>
+        function showAddUserForm() {
+            document.getElementById('addUserForm').style.display = 'block';
+        }
+    </script>
+</head>
+<body>
+    <div class="admin-container">
+        <header>
+            <h1>Manage Users</h1>
+            <nav>
+                <ul>
+                    <li><a href="/admin">Dashboard</a></li>
+                    <li><a href="/manage-users">Manage Users</a></li>
+                    <li><a href="/manage-staffs">Manage Staffs</a></li>
+                    <li><a href="/manage-rooms">Manage Rooms</a></li>
+                    <li><a href="/manage-bookings">Manage Bookings</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+            </nav>
+        </header>
+        <button class="add-user-btn" onclick="showAddUserForm()">Add User</button>
+        <form id="addUserForm" method="POST" action="/add-user" style="display:none;">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required>
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" required>
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="dob" required>
+            <button type="submit">Add User</button>
+        </form>
+
+        <main>
+            <h2>User List</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>DOB</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach(user => { %>
+                        <tr>
+                            <td><%= user.GuestID %></td>
+                            <td><%= user.Username %></td>
+                            <td><%= user.Name %></td>
+                            <td><%= user.Email %></td>
+                            <td><%= user.DOB %></td>
+                            <td><%= user.Phone %></td>
+                            <td><%= user.Address %></td>
+                            <td>
+                                <form method="POST" action="/delete-user">
+                                    <input type="hidden" name="UserID" value="<%= user.Username %>">
+                                    <button type="submit">Delete</button>
+                                </form>
+                            </td>
+                        </tr>    
+                    <% }) %>  
+                    <!-- Add more rows as needed -->
+                </tbody>
+            </table>
+        </main>
+    </div>
+</body>
+</html>

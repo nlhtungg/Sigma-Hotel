@@ -1,5 +1,6 @@
-/* public/css/admin.css */
+/* manage-users.css */
 
+/* General styles */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -8,17 +9,18 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100%;
 }
 
 .admin-container {
-    width: 80%;
+    width: 100%;
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Header styles */
 header {
     display: flex;
     justify-content: space-between;
@@ -28,8 +30,6 @@ header {
 header h1 {
     margin: 0;
     font-size: 24px;
-    font-style: italic;
-    color: #007bff;
 }
 
 nav ul {
@@ -53,40 +53,33 @@ nav ul li a:hover {
     text-decoration: underline;
 }
 
-main {
-    margin-top: 20px;
+/* Button styles */
+.add-user-btn {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
 }
 
-main h2 {
-    font-size: 20px;
-    margin-bottom: 20px;
+.add-user-btn:hover {
+    background-color: darkgreen;
 }
 
-.stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-.stat {
-    background-color: #007bff;
-    color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
+button:hover {
+    background-color: darkred;
 }
 
-.stat h3 {
-    margin: 0;
-    font-size: 16px;
-}
-
-.stat p {
-    margin: 5px 0 0;
-    font-size: 24px;
-    font-weight: bold;
-}
-
+/* Table styles */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -106,17 +99,4 @@ table th {
 
 table tr:nth-child(even) {
     background-color: #f2f2f2;
-}
-
-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
 }

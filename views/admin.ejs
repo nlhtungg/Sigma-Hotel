@@ -13,32 +13,20 @@
             <nav>
                 <ul>
                     <li><a href="/manage-users">Manage Users</a></li>
+                    <li><a href="/manage-staffs">Manage Staffs</a></li>
                     <li><a href="/manage-rooms">Manage Rooms</a></li>
                     <li><a href="/manage-bookings">Manage Bookings</a></li>
-                    <li><a href="/manage-services">Manage Services</a></li>
                     <li><a href="/logout">Logout</a></li>
                 </ul>
             </nav>
         </header>
         <main>
-            <h2>Welcome, <%= user.username %></h2>
+            <h2>Welcome, <%= user.Name %>!</h2>
             <section class="stats">
-                <div class="stat">
-                    <h3>Total Users</h3>
-                    <p>123</p>
-                </div>
-                <div class="stat">
-                    <h3>Total Rooms</h3>
-                    <p>45</p>
-                </div>
-                <div class="stat">
-                    <h3>Total Bookings</h3>
-                    <p>78</p>
-                </div>
-                <div class="stat">
-                    <h3>Total Services</h3>
-                    <p>34</p>
-                </div>
+                <button onclick="location.href='/manage-users';">Manage Users</button>
+                <button onclick="location.href='/manage-staffs';">Manage Staffs</button>
+                <button onclick="location.href='/manage-rooms';">Manage Rooms</button>
+                <button onclick="location.href='/manage-bookings';">Manage Bookings</button>
             </section>
         </main>
     </div>
