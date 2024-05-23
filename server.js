@@ -30,7 +30,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // Log in - Sign up
-app.get('/', (req, res) => {
+app.get('/login', (req, res) => {
     res.render('login', { message: req.session.message });
 });
 
@@ -48,7 +48,7 @@ app.post('/login', async (req, res) => {
       res.redirect('/guest');
     } else {
       req.session.message = 'Invalid username or password';
-      res.redirect('/');
+      res.redirect('/login');
     }
   } catch (err) {
     console.error('SQL error', err);
@@ -141,6 +141,35 @@ app.post('/add-user', async (req, res) => {
   }
 });
 
+app.get('/manage-rooms', async (req, res) => {
+  if (req.session.role === 'admin') {
+    try {
+        await sql.connect(sqlConfig);
+        let query = 
+        'select room.RoomNumber, RoomType.Description, RoomType.Capacity, RoomType.PricePerNight, Room.Status from room inner join RoomType on room.TypeID = RoomType.TypeID';
+        const result = await sql.query(query);
+        res.render('manage-rooms', { users: result.recordset});
+    } catch (err) {
+        console.error('SQL error', err);
+        res.status(500).send('Internal Server Error');
+    }
+} else {
+    res.redirect('/admin');
+}
+});
+
+app.post('/delete-room', async (req, res) => {
+  const { UserID } = req.body;
+  try {
+    await sql.connect(sqlConfig);
+    await sql.query`DELETE FROM Room WHERE RoomNumber = ${UserID}`;
+    res.redirect('/manage-rooms');
+  } catch (err) {
+    console.error('SQL error', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 // Staff Session
 app.get('/staff', (req, res) => {
   if (req.session.role === 'staff') {
@@ -155,7 +184,7 @@ app.get('/guest', (req, res) => {
   if (req.session.role === 'guest') {
       res.render('guest', { user: req.session.user });
   } else {
-      res.redirect('/');
+      res.redirect('/login');
   }
 });
 

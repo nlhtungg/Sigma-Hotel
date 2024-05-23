@@ -69,6 +69,10 @@
                             <td><%= user.Phone %></td>
                             <td><%= user.Address %></td>
                             <td>
+                                <form type="POST" action="/modify-user">
+                                    <input type="hidden" name="UserID" value="<%= user.Username %>">
+                                    <button type="submit">Modify</button>
+                                </form>
                                 <form method="POST" action="/delete-user">
                                     <input type="hidden" name="UserID" value="<%= user.Username %>">
                                     <button type="submit">Delete</button>

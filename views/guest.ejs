@@ -1,11 +1,128 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guest Page</title>
+    <title>Guest Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="/css/guest-dashboard.css">
+    <script>
+        function showSection(sectionId) {
+            var sections = document.querySelectorAll('main section');
+            sections.forEach(function(section) {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionId).style.display = 'block';
+        }
+        window.onload = function() {
+            showSection('rooms');
+        }
+    </script>
 </head>
 <body>
-    <h1>Welcome, <%= user.Name %>!</h1>
+    <div class="guest-container">
+        <header>
+            <h1>Guest Dashboard</h1>
+            <nav>
+                <ul>
+                    <li><a href="javascript:void(0)" onclick="showSection('rooms')">Rooms</a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('bookings')">Bookings</a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('payments')">Payments</a></li>
+                    <li><a href="javascript:void(0)" onclick="showSection('edit-info')">Edit Info</a></li>
+                    <li><a href="/login">Logout</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section id="rooms">
+                <h2>Available Rooms</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Room Number</th>
+                            <th>Type</th>
+                            <th>Capacity</th>
+                            <th>Price</th>
+                            <th>Availability</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <!-- Add more available room rows as needed -->
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="bookings" style="display:none;">
+                <h2>My Bookings</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Room Number</th>
+                            <th>Check-in Date</th>
+                            <th>Check-out Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>001</td>
+                            <td>101</td>
+                            <td>2023-01-01</td>
+                            <td>2023-01-05</td>
+                            <td>Confirmed</td>
+                        </tr>
+                        <!-- Add more bookings rows as needed -->
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="payments" style="display:none;">
+                <h2>My Payments</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Payment ID</th>
+                            <th>Booking ID</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>001</td>
+                            <td>001</td>
+                            <td>$500</td>
+                            <td>2023-01-01</td>
+                            <td>Paid</td>
+                        </tr>
+                        <!-- Add more payments rows as needed -->
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="edit-info" style="display:none;">
+                <h2>Edit Information</h2>
+                <form id="editInfoForm">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" value="John Doe"><br>
+                    
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" value="john@example.com"><br>
+                    
+                    <label for="dob">Date of Birth:</label>
+                    <input type="date" id="dob" name="dob" value="1990-01-01"><br>
+                    
+                    <label for="phone">Phone:</label>
+                    <input type="text" id="phone" name="phone" value="123-456-7890"><br>
+                    
+                    <label for="address">Address:</label>
+                    <input type="text" id="address" name="address" value="123 Main St, City, Country"><br>
+                    
+                    <input type="submit" value="Update Info">
+                </form>
+            </section>
+        </main>
+    </div>
 </body>
 </html>
