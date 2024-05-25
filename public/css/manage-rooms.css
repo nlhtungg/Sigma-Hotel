@@ -3,7 +3,7 @@
 /* General styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: black;
+    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
     display: flex;
@@ -54,7 +54,7 @@ nav ul li a:hover {
 }
 
 /* Button styles */
-.add-user-btn {
+.add-room-btn {
     background-color: green;
     color: white;
     border: none;
@@ -62,7 +62,7 @@ nav ul li a:hover {
     cursor: pointer;
 }
 
-.add-user-btn:hover {
+.add-room-btn:hover {
     background-color: darkgreen;
 }
 
@@ -106,14 +106,5 @@ table tr:nth-child(even) {
 }
 
 .submit-add-btn:hover {
-    background-color: darkgreen;
-}
-
-.close-add-btn {
-    border-radius: 50%;
-    background-color: green;
-}
-
-.close-add-btn:hover {
     background-color: darkgreen;
 }

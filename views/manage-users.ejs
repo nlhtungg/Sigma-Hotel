@@ -40,7 +40,8 @@
             <input type="text" id="address" name="address" required>
             <label for="dob">Date of Birth:</label>
             <input type="date" id="dob" name="dob" required>
-            <button type="submit">Add User</button>
+            <button class="submit-add-btn" type="submit">Submit</button>
+            <button class="close-add-btn" type="submit">X</button>
         </form>
 
         <main>
@@ -69,12 +70,12 @@
                             <td><%= user.Phone %></td>
                             <td><%= user.Address %></td>
                             <td>
-                                <form type="POST" action="/modify-user">
-                                    <input type="hidden" name="UserID" value="<%= user.Username %>">
+                                <form type="GET" action="/modify-user">
+                                    <input type="hidden" name="Username" value="<%= user.Username %>">
                                     <button type="submit">Modify</button>
                                 </form>
                                 <form method="POST" action="/delete-user">
-                                    <input type="hidden" name="UserID" value="<%= user.Username %>">
+                                    <input type="hidden" name="Username" value="<%= user.Username %>">
                                     <button type="submit">Delete</button>
                                 </form>
                             </td>

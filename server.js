@@ -118,7 +118,6 @@ app.get('/manage-users', async (req, res) => {
 
 app.post('/delete-user', async (req, res) => {
   const { UserID } = req.body;
-  console.log('GuestID:', UserID); // Log the UserID for debugging
   try {
     await sql.connect(sqlConfig);
     await sql.query`DELETE FROM Guest WHERE Username = ${UserID}`;
@@ -141,6 +140,58 @@ app.post('/add-user', async (req, res) => {
   }
 });
 
+app.get('/modify-user', async (req, res) => {
+  const guestID = req.query.Username;
+
+  try {
+      await sql.connect(sqlConfig);
+      const result = await sql.query`SELECT * FROM Guest WHERE Username = ${guestID}`;
+      if (result.recordset.length === 0) {
+          return res.status(404).send('User not found');
+      }
+      res.render('modify-user', { user: result.recordset[0] });
+  } catch (err) {
+      console.error('SQL error', err);
+      res.status(500).send('Internal Server Error');
+  }
+});
+
+app.post('/modify-user', async (req, res) => {
+  const { guestID, username, name, dob, address, phone, email, oldpassword, newpassword } = req.body;
+
+  try {
+      await sql.connect(sqlConfig);
+      // Update the guest information
+      const updateSql = `
+          UPDATE Guest
+          SET
+              Password = ${newpassword},
+              Name = ${name},
+              DOB = ${dob},
+              Address = ${address},
+              Phone = ${phone},
+              Email = ${email}
+          WHERE Username = ${GuestID};
+      `;
+      const updateRequest = new sql.Request();
+      updateRequest.input('guestID', sql.Int, guestID);
+      updateRequest.input('newpassword', sql.VarChar, newpassword || verifyPasswordResult.recordset[0].Password);
+      updateRequest.input('name', sql.VarChar, name);
+      updateRequest.input('dob', sql.Date, dob);
+      updateRequest.input('address', sql.VarChar, address);
+      updateRequest.input('phone', sql.VarChar, phone);
+      updateRequest.input('email', sql.VarChar, email);
+
+      await updateRequest.query(updateSql);
+
+      res.redirect('/manage-users');
+  } catch (err) {
+      console.error('SQL error', err);
+      res.status(500).send('Internal Server Error');
+  }
+});
+
+// Manage Rooms
 app.get('/manage-rooms', async (req, res) => {
   if (req.session.role === 'admin') {
     try {
@@ -167,6 +218,21 @@ app.post('/delete-room', async (req, res) => {
   } catch (err) {
     console.error('SQL error', err);
     res.status(500).send('Internal Server Error');
+  }
+});
+
+app.post('/add-room', async (req, res) => {
+  const { RoomNumber, TypeID, Status } = req.body;
+  console.log(RoomNumber);
+  console.log(TypeID);
+  console.log(Status);
+  try {
+      await sql.connect(sqlConfig);
+      await sql.query`INSERT INTO Room (RoomNumber, TypeID, Status) VALUES (${RoomNumber}, ${TypeID}, ${Status})`;
+      res.redirect('/manage-rooms');
+  } catch (err) {
+      console.error('SQL error', err);
+      res.status(500).send('Internal Server Error');
   }
 });
 
