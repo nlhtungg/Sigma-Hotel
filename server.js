@@ -29,6 +29,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+// Main page
+app.get('/', (req, res) => {
+  res.render('landing-page');
+});
+
 // Log in - Sign up
 app.get('/login', (req, res) => {
     res.render('login', { message: req.session.message });
