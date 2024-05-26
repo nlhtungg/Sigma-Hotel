@@ -20,29 +20,29 @@
         </header>
 
         <main>
-            <section id="rooms">
-                <h2>Available Rooms</h2>
+            <section id="bookings">
+                <h2>My Bookings</h2>
                 <table>
                     <thead>
                         <tr>
+                            <th>Booking ID</th>
                             <th>Room Number</th>
-                            <th>Type</th>
-                            <th>Capacity</th>
-                            <th>Price</th>
-                            <th>Availability</th>
+                            <th>Check-in Date</th>
+                            <th>Check-out Date</th>
+                            <th>Total Price</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% users.forEach(user => { %>
                             <tr>
+                                <td><%= user.BookingID %></td>
                                 <td><%= user.RoomNumber %></td>
-                                <td><%= user.Description %></td>
-                                <td><%= user.Capacity %></td>
-                                <td><%= user.PricePerNight %></td>
-                                <td><%= user.Status %></td>
+                                <td><%= user.CheckinDate %></td>
+                                <td><%= user.CheckoutDate %></td>
+                                <td><%= user.TotalPrice %></td>
                             </tr>    
-                        <% }) %>  
-                        <!-- Add more available room rows as needed -->
+                        <% }) %>
+                        <!-- Add more bookings rows as needed -->
                     </tbody>
                 </table>
             </section>
