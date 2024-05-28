@@ -134,9 +134,9 @@
                             <td><%= user.Phone %></td>
                             <td><%= user.Address %></td>
                             <td>
-                                <form type="GET" action="/modify-user">
+                                <form type="GET" action="/edit-user">
                                     <input type="hidden" name="GuestID" value="<%= user.GuestID %>">
-                                    <button type="submit">Modify</button>
+                                    <button type="submit">Edit</button>
                                 </form>
                                 <form method="POST" action="/delete-user">
                                     <input type="hidden" name="GuestID" value="<%= user.GuestID %>">
