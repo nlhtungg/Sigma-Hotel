@@ -173,7 +173,7 @@ app.post('/add-user', async (req, res) => {
   }
 });
 
-app.get('/modify-user', async (req, res) => {
+app.get('/edit-user', async (req, res) => {
   const guestID = req.query.GuestID;
 
   try {
@@ -189,7 +189,7 @@ app.get('/modify-user', async (req, res) => {
   }
 });
 
-app.post('/modify-user', async (req, res) => {
+app.post('/edit-user', async (req, res) => {
   const { guestID, name, dob, address, phone, email, oldpassword, newpassword } = req.body;
 
   try {
@@ -221,6 +221,110 @@ app.post('/modify-user', async (req, res) => {
         await sql.query`UPDATE Guest SET Password = ${newpassword} WHERE GuestID = ${guestID}`;
       }
       res.redirect('/manage-users')
+  } catch (err) {
+      console.error('SQL error', err);
+      res.status(500).send('Internal Server Error');
+  }
+});
+
+// Manage Staffs
+app.get('/manage-staffs', async (req, res) => {
+  if (req.session.role === 'admin') {
+      try {
+          const { filterName, filterUsername, filterDOB, filterPhone, filterAddress, filterEmail, filterPosition, orderBy, desc } = req.query;
+          let query = `SELECT * FROM Staff WHERE 1=1`;
+          if (filterName) {
+            query += ` AND Name LIKE '%${filterName}%'`;
+          }
+          if (filterUsername) {
+            query += ` AND Username LIKE '%${filterUsername}%'`;
+          }
+          if (filterEmail) {
+            query += ` AND Email LIKE '%${filterEmail}%'`;
+          }
+          if (filterDOB) {
+            query += ` AND DOB LIKE '%${filterDOB}%'`;
+          }
+          if (filterPhone) {
+            query += ` AND Phone LIKE '%${filterPhone}%'`;
+          }
+          if (filterAddress) {
+            query += ` AND Address LIKE '%${filterAddress}%'`;
+          }
+          if (filterPosition) {
+            query += ` AND Position LIKE '%${filterPosition}%'`;
+          }
+          if (orderBy) {
+            query += ` ORDER BY ${orderBy}`;
+          } else {
+            query += ` ORDER BY StaffID`;
+          }
+          if (desc === 'DESC') {
+            query += ` DESC`;
+          }
+          console.log(query);
+          await sql.connect(sqlConfig);
+          const result = await sql.query(query);
+          res.render('manage-staffs', { users: result.recordset});
+      } catch (err) {
+          console.error('SQL error', err);
+          res.status(500).send('Internal Server Error');
+      }
+  } else {
+      res.redirect('/admin');
+  }
+});
+
+app.get('/edit-staff', async (req, res) => {
+  const staffID = req.query.StaffID;
+
+  try {
+      await sql.connect(sqlConfig);
+      const result = await sql.query`SELECT * FROM Staff WHERE StaffID = ${staffID}`;
+      if (result.recordset.length === 0) {
+          return res.status(404).send('User not found');
+      }
+      res.render('edit-staff', { user: result.recordset[0] });
+  } catch (err) {
+      console.error('SQL error', err);
+      res.status(500).send('Internal Server Error');
+  }
+});
+
+app.post('/edit-staff', async (req, res) => {
+  const { staffID, name, dob, position, salary, phone, email, oldpassword, newpassword } = req.body;
+
+  try {
+      await sql.connect(sqlConfig);
+      // Step 1: Verify the current password
+        const result = await sql.query`SELECT * FROM Staff WHERE StaffID = ${staffID} and Password = ${oldpassword}`;
+        if (result.recordset.length === 0) {
+            return res.status(404).send('Wrong password');
+        }
+
+      // Step 2: Dynamically build and execute individual update queries
+      if (name) {
+        await sql.query`UPDATE Staff SET Name = ${name} WHERE StaffID = ${staffID}`;
+      }
+      if (dob) {
+        await sql.query`UPDATE Staff SET DOB = ${dob} WHERE StaffID = ${staffID}`;
+      }
+      if (phone) {
+        await sql.query`UPDATE Staff SET Phone = ${phone} WHERE StaffID = ${staffID}`;
+      }
+      if (email) {
+        await sql.query`UPDATE Staff SET Email = ${email} WHERE StaffID = ${staffID}`;
+      }
+      if (newpassword) {
+        await sql.query`UPDATE Staff SET Password = ${newpassword} WHERE StaffID = ${staffID}`;
+      }
+      if (position) {
+        await sql.query`UPDATE Staff SET Address = ${position} WHERE StaffID = ${staffID}`;
+      }
+      if (salary) {
+        await sql.query`UPDATE Staff SET Address = ${salary} WHERE StaffID = ${staffID}`;
+      }
+      res.redirect('/manage-staffs')
   } catch (err) {
       console.error('SQL error', err);
       res.status(500).send('Internal Server Error');
