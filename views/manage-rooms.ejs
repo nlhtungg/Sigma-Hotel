@@ -45,6 +45,7 @@
                         <th>Capacity</th>
                         <th>Price</th>
                         <th>Status</th>
+                        <th>Managed By</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -56,6 +57,7 @@
                             <td><%= user.Capacity %></td>
                             <td><%= user.PricePerNight %></td>
                             <td><%= user.Status %></td>
+                            <td><%= user.Name %></td>
                             <td>
                                 <form method="POST" action="/delete-room">
                                     <input type="hidden" name="UserID" value="<%= user.RoomNumber %>">

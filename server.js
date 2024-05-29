@@ -109,7 +109,8 @@ app.get('/manage-users', async (req, res) => {
   if (req.session.role === 'admin') {
       try {
           const { filterName, filterUsername, filterDOB, filterPhone, filterAddress, filterEmail, orderBy, desc } = req.query;
-          let query = `SELECT * FROM Guest WHERE 1=1`;
+          let query = `SELECT GuestID, Username, Password, Name, Address, Phone, Email, FORMAT(DOB, 'dd/MM/yyyy') AS Date
+                       FROM guest WHERE 1=1`;
           if (filterName) {
             query += ` AND Name LIKE '%${filterName}%'`;
           }
@@ -182,7 +183,7 @@ app.get('/edit-user', async (req, res) => {
       if (result.recordset.length === 0) {
           return res.status(404).send('User not found');
       }
-      res.render('modify-user', { user: result.recordset[0] });
+      res.render('edit-user', { user: result.recordset[0] });
   } catch (err) {
       console.error('SQL error', err);
       res.status(500).send('Internal Server Error');
@@ -232,7 +233,7 @@ app.get('/manage-staffs', async (req, res) => {
   if (req.session.role === 'admin') {
       try {
           const { filterName, filterUsername, filterDOB, filterPhone, filterAddress, filterEmail, filterPosition, orderBy, desc } = req.query;
-          let query = `SELECT * FROM Staff WHERE 1=1`;
+          let query = `SELECT *, FORMAT(DOB, 'dd/MM/yyyy') AS Date FROM Staff WHERE 1=1`;
           if (filterName) {
             query += ` AND Name LIKE '%${filterName}%'`;
           }
@@ -337,7 +338,9 @@ app.get('/manage-rooms', async (req, res) => {
     try {
         await sql.connect(sqlConfig);
         let query = 
-        'select room.RoomNumber, RoomType.Description, RoomType.Capacity, RoomType.PricePerNight, Room.Status from room inner join RoomType on room.TypeID = RoomType.TypeID';
+          `select Room.RoomNumber, Room.Status, RoomType.*, Staff.Name
+          from Room left join RoomType on Room.TypeID = RoomType.TypeID
+                    left join (Staff left join Manage on Staff.StaffID = Manage.StaffID) on Room.RoomNumber = Manage.RoomNumber`;
         const result = await sql.query(query);
         res.render('manage-rooms', { users: result.recordset});
     } catch (err) {
