@@ -3,22 +3,49 @@
     <head>
         <meta charset="UTF-8" />
         <title>Staff Login</title>
+        <!-- Embed fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+            rel="stylesheet"
+        />
+        <!-- Style -->
         <link rel="stylesheet" type="text/css" href="/css/login.css" />
     </head>
     <body>
         <div class="login-container">
-            <h1>Staff Log In</h1>
+            <h1 class="login-title">Staff Log In</h1>
             <form action="/staff-login" method="POST">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required />
+                <label for="username" class="login-label">Username:</label>
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Enter username"
+                    class="login-input"
+                    required
+                />
                 <br />
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required />
+                <label for="password" class="login-label">Password:</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter password"
+                    class="login-input"
+                    required
+                />
                 <br />
-                <button type="submit">Login</button>
+                <button type="submit" class="btn">Login</button>
             </form>
-            <p>Don't have an account? <a href="/signup">Sign Up</a></p>
-            <p class="admin-login-btn"><a href="/">Log in as a Guest</a></p>
+            <p class="login-signup">
+                Don't have an account?
+                <a href="/signup" class="login-link">Sign Up</a>
+            </p>
+            <p class="login-admin">
+                <a href="/login" class="login-link">Log in as a Guest</a>
+            </p>
         </div>
     </body>
 </html>
