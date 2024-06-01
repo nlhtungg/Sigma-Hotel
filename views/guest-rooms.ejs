@@ -7,10 +7,10 @@
 <body>
     <div class="guest-container">
         <header>
-            <h1><a href="/guest">Guest Dashboard</a></h1>
+            <h1><a href="/guest">Dashboard</a></h1>
             <nav>
                 <ul>
-                    <li><a href="/guest">Rooms</a></li>
+                    <li><a href="/guest-rooms">Rooms</a></li>
                     <li><a href="/guest-bookings">My Bookings</a></li>
                     <li><a href="/guest-payments">My Payments</a></li>
                     <li><a href="/guest-infos">Edit Info</a></li>
@@ -20,29 +20,29 @@
         </header>
 
         <main>
-            <section id="payments">
-                <h2>My Payments</h2>
+            <section id="rooms">
+                <h2>Available Rooms</h2>
                 <table>
                     <thead>
                         <tr>
-                            <th>Payment ID</th>
-                            <th>Booking ID</th>
-                            <th>Amount</th>
-                            <th>Date</th>
-                            <th>Status</th>
+                            <th>Room Number</th>
+                            <th>Type</th>
+                            <th>Capacity</th>
+                            <th>Price</th>
+                            <th>Availability</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% users.forEach(user => { %>
                             <tr>
-                                <td><%= user.PaymentID %></td>
-                                <td><%= user.BookingID %></td>
-                                <td><%= user.Amount %></td>
-                                <td><%= user.PaymentDate %></td>
-                                <td><%= user.PaymentMethod %></td>
+                                <td><%= user.RoomNumber %></td>
+                                <td><%= user.Description %></td>
+                                <td><%= user.Capacity %></td>
+                                <td><%= user.PricePerNight %></td>
+                                <td><%= user.Status %></td>
                             </tr>    
-                        <% }) %>
-                        <!-- Add more payments rows as needed -->
+                        <% }) %>  
+                        <!-- Add more available room rows as needed -->
                     </tbody>
                 </table>
             </section>

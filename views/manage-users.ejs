@@ -4,11 +4,19 @@
     <title>Manage Users</title>
     <link rel="stylesheet" type="text/css" href="/css/manage-users.css">
     <script>
-        function showAddUserForm() {
-            document.getElementById('addUserForm').style.display = 'block';
+        function addUserForm() {
+            if(document.getElementById('addUserForm').style.display === 'none'){
+                document.getElementById('addUserForm').style.display = 'block';
+            } else {
+                document.getElementById('addUserForm').style.display = 'none';
+            }
         }
-        function closeAddUserForm() {
-            document.getElementById('addUserForm').style.display = 'none';
+        function FilterForm() {
+            if(document.getElementById('FilterForm').style.display === 'none'){
+                document.getElementById('FilterForm').style.display = 'block';
+            } else {
+                document.getElementById('FilterForm').style.display = 'none';
+            }
         }
     </script>
 </head>
@@ -27,8 +35,9 @@
                 </ul>
             </nav>
         </header>
-        <button class="add-user-btn" onclick="showAddUserForm()">Add User</button>
+        <button class="add-user-btn" id="addbtn" onclick="addUserForm()">Add User</button>
         <form id="addUserForm" method="POST" action="/add-user" style="display:none;">
+            <h2>Add an User</h2>
             <div>
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required>
@@ -57,10 +66,12 @@
                 <label for="dob">Date of Birth:</label>
                 <input type="date" id="dob" name="dob" required>
             </div>
-            <button class="submit-add-btn" type="submit">Submit</button>
-            <button class="close-add-btn" onclick="closeAddUserForm()">X</button>
+            <button class="submit-add-btn" type="submit">Add</button>
         </form>
-        <form action="/manage-users" method="GET">
+
+        <button class="filter-btn" id="filter-btn" onclick="FilterForm()">Filter</button>
+        <form id="FilterForm" action="/manage-users" method="GET" style="display:none;">
+            <h2> Filter </h2>
             <div>
                 <label for="filterUsername">Username:</label>
                 <input type="text" id="filterUsername" name="filterUsername">
@@ -105,7 +116,7 @@
                 </select>
             </div>
             <div>
-                <button type="submit">Filter</button>
+                <button type="submit">Apply Filter</button>
             </div>
         </form>
         <main>

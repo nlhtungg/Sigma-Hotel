@@ -3,18 +3,8 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const sql = require('mssql/msnodesqlv8');
 const path = require('path');
+const sqlConfig = require('./sqlConfig');
 const app = express();
-
-// Configure SQL Server connection
-const sqlConfig = {
-    server: 'DESKTOP-256OKAM\\SQLEXPRESS',
-    database: 'SigmaHotel',
-    user: 'TungSQLUsername',
-    password: '892678',
-    Option: {
-        trustedConnection:true
-    }
-};
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -95,6 +85,24 @@ app.get('/signup', (req, res) => {
     res.render('signup', { signupMessage: req.session.signupMessage });
 });
 
+app.post('/signup', async (req, res) => {
+  const { username, password, name, dob, address, phone, email } = req.body;
+  try {
+    await sql.connect(sqlConfig);
+    // Check if username already exists
+    const checkUsernameResult = await sql.query`SELECT Username FROM Guest WHERE Username = ${username}`;
+    if (checkUsernameResult.recordset.length > 0) {
+      req.session.message = 'Username already exists';
+      return res.redirect('/signup');
+    }
+    const result = await sql.query`INSERT INTO Guest (Username, Password, Name, DOB, Address, Phone, Email) VALUES (${username}, ${password}, ${name}, ${dob}, ${address}, ${phone}, ${email})`;
+    return res.redirect('/login');
+  } catch (err) {
+    console.error('SQL error', err);
+    res.status(500).send('Internal Server Error');
+  }
+})
+
 // Admin Session
 app.get('/admin', (req, res) => {
   if (req.session.role === 'admin') {
@@ -102,7 +110,7 @@ app.get('/admin', (req, res) => {
   } else {
     res.redirect('/staff-login');
   }
-})
+});
 
 // Manage Guests
 app.get('/manage-users', async (req, res) => {
@@ -366,9 +374,6 @@ app.post('/delete-room', async (req, res) => {
 
 app.post('/add-room', async (req, res) => {
   const { RoomNumber, TypeID, Status } = req.body;
-  console.log(RoomNumber);
-  console.log(TypeID);
-  console.log(Status);
   try {
       await sql.connect(sqlConfig);
       await sql.query`INSERT INTO Room (RoomNumber, TypeID, Status) VALUES (${RoomNumber}, ${TypeID}, ${Status})`;
@@ -389,13 +394,21 @@ app.get('/staff', (req, res) => {
 });
 
 // Guest Session
-app.get('/guest', async(req, res) => {
+app.get('/guest', (req, res) => {
+  if (req.session.role === 'guest') {
+    res.render('guest', {user: req.session.user});
+  } else {
+    res.redirect('/login');
+  }
+});
+
+app.get('/guest-rooms', async(req, res) => {
   if (req.session.role === 'guest') {
     try {
       await sql.connect(sqlConfig);
       let query = `SELECT * FROM AvailableRooms`;
       const result = await sql.query(query);
-      res.render('guest', { users: result.recordset});
+      res.render('guest-rooms', { users: result.recordset});
   } catch (err) {
       console.error('SQL error', err);
       res.status(500).send('Internal Server Error');
@@ -436,6 +449,62 @@ app.get('/guest-payments', async(req, res) => {
   }
   } else {
       res.redirect('/guest');
+  }
+});
+
+app.get('/guest-infos', async (req, res) => {
+  if (req.session.role === 'guest') {
+    try { 
+      const guestID = req.session.user.GuestID;
+      await sql.connect(sqlConfig);
+      let query = `SELECT * FROM MyInfo(${guestID}) WHERE 1=1`;
+      const result = await sql.query(query);
+      res.render('guest-infos', { user: result.recordset[0]});
+  } catch (err) {
+      console.error('SQL error', err);
+      res.status(500).send('Internal Server Error');
+  }
+  } else {
+      res.redirect('/guest');
+  }
+});
+
+app.post('/guest-infos', async (req, res) => {
+  if (req.session.role === 'guest') {
+      const { name, dob, address, email, phone, newpass, password } = req.body;
+      const guestID = req.session.user.GuestID;
+      try {
+          await sql.connect(sqlConfig);
+          const result = await sql.query`SELECT * FROM Guest WHERE GuestID = ${guestID} and Password = ${password}`;
+          if (result.recordset.length === 0) {
+            return res.status(404).send('Wrong password');
+          } else {
+            if(name) {
+              await sql.query`UPDATE Guest SET Name = ${name} WHERE GuestID = ${guestID}`;
+            }
+            if(dob) {
+              await sql.query`UPDATE Guest SET DOB = ${dob} WHERE GuestID = ${guestID}`;
+            }
+            if(address) {
+              await sql.query`UPDATE Guest SET Address = ${address} WHERE GuestID = ${guestID}`;
+            }
+            if(email) {
+              await sql.query`UPDATE Guest SET Email = ${email} WHERE GuestID = ${guestID}`;
+            }
+            if(phone) {
+              await sql.query`UPDATE Guest SET Phone = ${phone} WHERE GuestID = ${guestID}`;
+            }
+            if(newpass) {
+              await sql.query`UPDATE Guest SET Password = ${newpass} WHERE GuestID = ${guestID}`;
+            }
+            res.redirect('/guest');
+          }
+      } catch (err) {
+          console.error('SQL error', err);
+          res.status(500).send('Internal Server Error');
+      }
+  } else {
+      res.redirect('/login');
   }
 });
 

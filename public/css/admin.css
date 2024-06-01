@@ -1,8 +1,8 @@
 /* public/css/admin.css */
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: "Montserrat", sans-serif;
+    background-color: black;
     margin: 0;
     padding: 0;
     display: flex;
@@ -13,7 +13,7 @@ body {
 
 .admin-container {
     width: 80%;
-    background-color: #fff;
+    background-color: #272727;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -29,7 +29,7 @@ header h1 {
     margin: 0;
     font-size: 24px;
     font-style: italic;
-    color: #007bff;
+    color: #ff6b00;
 }
 
 nav ul {
@@ -45,7 +45,7 @@ nav ul li {
 
 nav ul li a {
     text-decoration: none;
-    color: #007bff;
+    color: #ff6b00;
     font-weight: bold;
 }
 
@@ -60,6 +60,7 @@ main {
 main h2 {
     font-size: 20px;
     margin-bottom: 20px;
+    color: white;
 }
 
 .stats {
@@ -69,7 +70,7 @@ main h2 {
 }
 
 .stat {
-    background-color: #007bff;
+    background-color: #ff6b00;
     color: #fff;
     padding: 20px;
     border-radius: 8px;
@@ -100,7 +101,7 @@ table th, table td {
 }
 
 table th {
-    background-color: #007bff;
+    background-color: #ff6b00;
     color: white;
 }
 
@@ -109,7 +110,7 @@ table tr:nth-child(even) {
 }
 
 button {
-    background-color: #007bff;
+    background-color: #ff6b00;
     color: white;
     border: none;
     padding: 5px 10px;
@@ -118,5 +119,5 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: darkorange;
 }

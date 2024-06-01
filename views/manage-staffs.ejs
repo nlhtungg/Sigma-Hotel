@@ -4,11 +4,19 @@
     <title>Manage Users</title>
     <link rel="stylesheet" type="text/css" href="/css/manage-users.css">
     <script>
-        function showAddUserForm() {
-            document.getElementById('addUserForm').style.display = 'block';
+        function addStaffForm() {
+            if(document.getElementById('addStaffForm').style.display === 'none'){
+                document.getElementById('addStaffForm').style.display = 'block';
+            } else {
+                document.getElementById('addStaffForm').style.display = 'none';
+            }
         }
-        function closeAddUserForm() {
-            document.getElementById('addUserForm').style.display = 'none';
+        function FilterForm() {
+            if(document.getElementById('FilterForm').style.display === 'none'){
+                document.getElementById('FilterForm').style.display = 'block';
+            } else {
+                document.getElementById('FilterForm').style.display = 'none';
+            }
         }
     </script>
 </head>
@@ -27,8 +35,8 @@
                 </ul>
             </nav>
         </header>
-        <button class="add-user-btn" onclick="showAddStaffForm()">Add Staff</button>
-        <form id="addUserForm" method="POST" action="/add-staff" style="display:none;">
+        <button class="add-user-btn" id="add-user-btnn" onclick="addStaffForm()">Add Staff</button>
+        <form id="addStaffForm" method="POST" action="/add-staff" style="display:none;">
             <div>
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required>
@@ -62,9 +70,10 @@
                 <input type="number" id="salary" name="salary" required>
             </div>
             <button class="submit-add-btn" type="submit">Submit</button>
-            <button class="close-add-btn" onclick="closeAddStaffForm()">X</button>
         </form>
-        <form action="/manage-staffs" method="GET">
+
+        <button class="filter-btn" id="filter-btn" onclick="FilterForm()">Filter</button>
+        <form id="FilterForm" action="/manage-staffs" method="GET" style="display: none;">
             <div>
                 <label for="filterUsername">Username:</label>
                 <input type="text" id="filterUsername" name="filterUsername">

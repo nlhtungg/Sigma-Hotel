@@ -1,50 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guest Dashboard</title>
-    <link rel="stylesheet" type="text/css" href="/css/guest-dashboard.css">
+    <link rel="stylesheet" href="/css/admin.css">
 </head>
 <body>
-    <div class="guest-container">
+    <div class="admin-container">
         <header>
             <h1>Guest Dashboard</h1>
             <nav>
                 <ul>
-                    <li><a href="/guest">Rooms</a></li>
-                    <li><a href="/guest-bookings">My Bookings</a></li>
-                    <li><a href="/guest-payments">My Payments</a></li>
-                    <li><a href="/guest-infos">Edit Info</a></li>
-                    <li><a href="/login">Logout</a></li>
+                    <button onclick="location.href='/'">Logout</button>
                 </ul>
             </nav>
         </header>
-
         <main>
-            <section id="rooms">
-                <h2>Available Rooms</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Room Number</th>
-                            <th>Type</th>
-                            <th>Capacity</th>
-                            <th>Price</th>
-                            <th>Availability</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% users.forEach(user => { %>
-                            <tr>
-                                <td><%= user.RoomNumber %></td>
-                                <td><%= user.Description %></td>
-                                <td><%= user.Capacity %></td>
-                                <td><%= user.PricePerNight %></td>
-                                <td><%= user.Status %></td>
-                            </tr>    
-                        <% }) %>  
-                        <!-- Add more available room rows as needed -->
-                    </tbody>
-                </table>
+            <h2>Welcome, <%= user.Name %>!</h2>
+            <section class="stats">
+                <button onclick="location.href='/guest-rooms';">Rooms</button>
+                <button onclick="location.href='/guest-bookings';">My Bookings</button>
+                <button onclick="location.href='/guest-payments';">My Payments</button>
+                <button onclick="location.href='/guest-infos';">My Info</button>
             </section>
         </main>
     </div>

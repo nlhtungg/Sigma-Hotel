@@ -33,3 +33,11 @@ AS RETURN
 	WHERE GuestPaymentView.GuestID = @GuestID
 
 SELECT * FROM MyPayments (12)
+
+/* My Info */
+CREATE FUNCTION MyInfo (@GuestID int)
+RETURNS TABLE
+AS RETURN
+	SELECT *
+	FROM Guest
+	WHERE GuestID = @GuestID
