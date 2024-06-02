@@ -30,6 +30,7 @@
                             <th>Capacity</th>
                             <th>Price</th>
                             <th>Availability</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,6 +41,12 @@
                                 <td><%= user.Capacity %></td>
                                 <td><%= user.PricePerNight %></td>
                                 <td><%= user.Status %></td>
+                                <td>
+                                    <form method="GET" action="/reservation">
+                                        <input type="hidden" name="RoomNumber" value="<%= user.RoomNumber %>">
+                                        <button type="submit">Book Now</button>
+                                    </form>
+                                </td>
                             </tr>    
                         <% }) %>  
                         <!-- Add more available room rows as needed -->

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Dashboard</title>
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <header>
+            <h1>Staff Dashboard</h1>
+            <nav>
+                <ul>
+                    <button onclick="location.href='/'">Logout</button>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <h2>Welcome, <%= user.Name %>!</h2>
+            <section class="stats">
+                <button onclick="location.href='/staff-rooms';">Manage Rooms</button>
+                <button onclick="location.href='/staff-infos';">My Info</button>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

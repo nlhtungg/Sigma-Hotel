@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Reservation</title>
+    <link rel="stylesheet" href="/styles.css"> <!-- Assuming there's a CSS file for styling -->
+</head>
+<body>
+    <header>
+        <h1>Room Reservation</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Room Details</h2>
+            <p><strong>Room Number:</strong> <%= room.RoomNumber %></p>
+            <p><strong>Type:</strong> <%= room.Description %></p>
+            <p><strong>Status:</strong> <%= room.Status %></p>
+            <p><strong>Price per Night:</strong> $<%= room.PricePerNight %></p>
+        </section>
+        
+        <section>
+            <h2>Reservation Details</h2>
+            <form action="/make-reservation" method="POST">
+                <input type="hidden" name="roomNumber" value="<%= room.RoomNumber %>">
+                
+                <label for="checkInDate">Check-In Date:</label>
+                <input type="date" id="checkInDate" name="checkInDate" required>
+                
+                <label for="checkOutDate">Check-Out Date:</label>
+                <input type="date" id="checkOutDate" name="checkOutDate" required>
+                <button type="button" onclick="checkAvailability()">Check Availability</button>
+                <button type="submit">Make Reservation</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

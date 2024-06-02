@@ -68,8 +68,8 @@ app.post('/staff-login', async (req, res) => {
         req.session.role = 'admin';
         res.redirect('/admin');
       } else {
-        res.redirect('/staff');
         req.session.role = 'staff';
+        res.redirect('/staff');
       }
     } else {
       req.session.message = 'Invalid username or password';
@@ -377,7 +377,48 @@ app.post('/add-room', async (req, res) => {
   try {
       await sql.connect(sqlConfig);
       await sql.query`INSERT INTO Room (RoomNumber, TypeID, Status) VALUES (${RoomNumber}, ${TypeID}, ${Status})`;
+      await sql.query`INSERT INTO Manage (RoomNumber, StaffID) VALUES (${RoomNumber}, NULL)`; 
       res.redirect('/manage-rooms');
+  } catch (err) {
+      console.error('SQL error', err);
+      res.status(500).send('Internal Server Error');
+  }
+});
+
+app.get('/edit-room', async (req, res) => {
+  const RoomNumber = req.query.RoomNumber;
+
+  try {
+      await sql.connect(sqlConfig);
+      const result = await sql.query`
+      SELECT Room.*, Manage.StaffID
+      FROM Room left join Manage ON Room.RoomNumber = Manage.RoomNumber
+      WHERE Room.RoomNumber = ${RoomNumber}`;
+      if (result.recordset.length === 0) {
+          return res.status(404).send('Room not found');
+      }
+      res.render('edit-room', { user: result.recordset[0] });
+  } catch (err) {
+      console.error('SQL error', err);
+      res.status(500).send('Internal Server Error');
+  }
+});
+
+app.post('/edit-room', async (req, res) => {
+  const { roomnumber, typeid, status, managedby } = req.body;
+
+  try {
+      await sql.connect(sqlConfig);
+      if (typeid) {
+        await sql.query`UPDATE Room SET TypeID = ${typeid} WHERE RoomNumber = ${roomnumber}`;
+      }
+      if (status) {
+        await sql.query`UPDATE Room SET Status = ${status} WHERE RoomNumber = ${roomnumber}`;
+      }
+      if (managedby) {
+        await sql.query`UPDATE Manage SET StaffID = ${managedby} WHERE RoomNumber = ${roomnumber}`;
+      }
+      res.redirect('/manage-rooms')
   } catch (err) {
       console.error('SQL error', err);
       res.status(500).send('Internal Server Error');
@@ -415,6 +456,26 @@ app.get('/guest-rooms', async(req, res) => {
   }
   } else {
       res.redirect('/login');
+  }
+});
+
+app.get('/reservation', async (req, res) => {
+  if (req.session.role === 'guest') {
+    try {
+      const roomnumber = req.query.RoomNumber;
+      await sql.connect(sqlConfig);
+      const result = await sql.query`SELECT * FROM AvailableRooms WHERE RoomNumber = ${roomnumber}`;
+      if (result.recordset.length > 0) {
+        res.render('reservation', { room: result.recordset[0], user: req.session.user });
+      } else {
+        res.status(404).send('Room not found');
+      }
+    } catch (err) {
+      console.error('SQL error', err);
+      res.status(500).send('Internal Server Error');
+    }
+  } else {
+    res.redirect('/login');
   }
 });
 

@@ -59,6 +59,10 @@
                             <td><%= user.Status %></td>
                             <td><%= user.Name %></td>
                             <td>
+                                <form method="GET" action="/edit-room">
+                                    <input type="hidden" name="RoomNumber" value="<%= user.RoomNumber %>">
+                                    <button type="submit">Edit</button>
+                                </form>
                                 <form method="POST" action="/delete-room">
                                     <input type="hidden" name="UserID" value="<%= user.RoomNumber %>">
                                     <button type="submit">Delete</button>
