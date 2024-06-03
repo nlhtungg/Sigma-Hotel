@@ -204,7 +204,7 @@ app.post('/edit-user', async (req, res) => {
   try {
       await sql.connect(sqlConfig);
       // Step 1: Verify the current password
-        const result = await sql.query`SELECT * FROM Guest WHERE GuestID = ${guestID} and Password = ${oldpassword}`;
+        const result = await sql.query`SELECT * FROM Guest WHERE GuestID = ${guestID}`;
         if (result.recordset.length === 0) {
             return res.status(404).send('Wrong password');
             //res.redirect('modify-user');
@@ -425,6 +425,33 @@ app.post('/edit-room', async (req, res) => {
   }
 });
 
+// Manage Bookings
+app.get('/manage-bookings', async (req, res) => {
+  try {
+      await sql.connect(sqlConfig);
+      let query = `
+      select Booking.*, FORMAT(Booking.CheckinDate, 'dd/MM/yyyy') AS inDate, FORMAT(Booking.CheckoutDate, 'dd/MM/yyyy') AS outDate, Payment.PaymentMethod
+       from Booking join Payment on Booking.BookingID = Payment.BookingID`;
+      const result = await sql.query(query);
+      res.render('manage-bookings', { bookings: result.recordset});
+  } catch (error) {
+      console.error('Error fetching bookings:', error);
+      res.status(500).send('Error fetching bookings');
+  }
+});
+
+app.post('/delete-booking', async (req, res) => {
+  const { BookingID } = req.body;
+  try {
+    await sql.connect(sqlConfig);
+    await sql.query`DELETE FROM Booking WHERE BookingID = ${BookingID}`;
+    res.redirect('/manage-bookings');
+  } catch (err) {
+    console.error('SQL error', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 // Staff Session
 app.get('/staff', (req, res) => {
   if (req.session.role === 'staff') {
@@ -484,7 +511,10 @@ app.get('/guest-bookings', async(req, res) => {
     try { 
       const guestID = req.session.user.GuestID;
       await sql.connect(sqlConfig);
-      let query = `SELECT * FROM MyBookings(${guestID})`;
+      let query = `SELECT BookingID, RoomNumber,
+       FORMAT(CheckinDate, 'dd/MM/yyyy') AS inDate,
+       FORMAT(CheckoutDate, 'dd/MM/yyyy') AS outDate,
+       TotalPrice FROM MyBookings(${guestID})`;
       const result = await sql.query(query);
       res.render('guest-bookings', { users: result.recordset});
   } catch (err) {
@@ -501,7 +531,7 @@ app.get('/guest-payments', async(req, res) => {
     try { 
       const guestID = req.session.user.GuestID;
       await sql.connect(sqlConfig);
-      let query = `SELECT * FROM MyPayments(${guestID}) WHERE 1=1`;
+      let query = `SELECT PaymentID, BookingID, Amount, FORMAT(PaymentDate, 'dd/MM/yyyy') AS PDate, PaymentMethod FROM MyPayments(${guestID}) WHERE 1=1`;
       const result = await sql.query(query);
       res.render('guest-payments', { users: result.recordset});
   } catch (err) {
