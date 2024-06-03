@@ -473,8 +473,33 @@ app.get('/guest', (req, res) => {
 app.get('/guest-rooms', async(req, res) => {
   if (req.session.role === 'guest') {
     try {
+      const { filterRoom, filterStatus, filterType, filterPrice, filterCapacity, orderBy, desc } = req.query;
       await sql.connect(sqlConfig);
-      let query = `SELECT * FROM AvailableRooms`;
+      let query = `
+      select Room.RoomNumber, Room.Status, RoomType.*
+      from Room join RoomType on Room.TypeID = RoomType.TypeID
+      where 1=1`;
+      if (filterRoom) {
+        query += `and Room.RoomNumber like '%${filterRoom}%'`;
+      }
+      if (filterStatus) {
+        query += `and Room.Status = %${filterStatus}`;
+      }
+      if (filterType) {
+        query += `and RoomType.Description = %${filterType}`;
+      }
+      if (filterPrice) {
+        query += `and RoomType.PricePerNight = ${filterPrice}`;
+      }
+      if (filterCapacity) {
+        query += `and RoomType.Capacity = ${filterCapacity}`;
+      }
+      if (orderBy) {
+        query += `order by ${orderBy}`;
+      }
+      if (desc === 'DESC') {
+        query += ` ${desc}`;
+      }
       const result = await sql.query(query);
       res.render('guest-rooms', { users: result.recordset});
   } catch (err) {

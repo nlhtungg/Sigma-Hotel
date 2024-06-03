@@ -1,59 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Guest Dashboard</title>
-    <link rel="stylesheet" type="text/css" href="/css/guest-dashboard.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rooms</title>
+    <link rel="stylesheet" href="/css/guest-rooms.css">
+    <script>
+        function FilterForm() {
+            if(document.getElementById('FilterForm').style.display === 'none'){
+                document.getElementById('FilterForm').style.display = 'block';
+            } else {
+                document.getElementById('FilterForm').style.display = 'none';
+            }
+        }
+    </script>
 </head>
 <body>
-    <div class="guest-container">
-        <header>
-            <h1><a href="/guest">Dashboard</a></h1>
-            <nav>
-                <ul>
-                    <li><a href="/guest-rooms">Rooms</a></li>
-                    <li><a href="/guest-bookings">My Bookings</a></li>
-                    <li><a href="/guest-payments">My Payments</a></li>
-                    <li><a href="/guest-infos">Edit Info</a></li>
-                    <li><a href="/login">Logout</a></li>
-                </ul>
-            </nav>
-        </header>
-
-        <main>
-            <section id="rooms">
-                <h2>Available Rooms</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Room Number</th>
-                            <th>Type</th>
-                            <th>Capacity</th>
-                            <th>Price</th>
-                            <th>Availability</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% users.forEach(user => { %>
-                            <tr>
-                                <td><%= user.RoomNumber %></td>
-                                <td><%= user.Description %></td>
-                                <td><%= user.Capacity %></td>
-                                <td><%= user.PricePerNight %></td>
-                                <td><%= user.Status %></td>
-                                <td>
-                                    <form method="GET" action="/reservation">
-                                        <input type="hidden" name="RoomNumber" value="<%= user.RoomNumber %>">
-                                        <button type="submit">Book Now</button>
-                                    </form>
-                                </td>
-                            </tr>    
-                        <% }) %>  
-                        <!-- Add more available room rows as needed -->
-                    </tbody>
-                </table>
-            </section>
-        </main>
+    <header>
+        <h1>Sigma Hotel</h1>
+        <nav>
+            <ul>
+                <li><a href="/guest">Rooms</a></li>
+                <li><a href="/guest-bookings">My Bookings</a></li>
+                <li><a href="/guest-payments">My Payments</a></li>
+                <li><a href="/guest-infos">Edit Info</a></li>
+                <li><a href="/login">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <button class="filter-btn" id="filter-btn" onclick="FilterForm()">Filter</button>
+        <form id="FilterForm" action="/guest-rooms" method="GET" style="display:none;">
+            <h2> Filter </h2>
+            <div>
+                <label for="filterType">Type:</label>
+                <input type="text" id="filterType" name="filterType">
+            </div>
+            <div>
+                <label for="filterStatus">Status:</label>
+                <input type="text" id="filterStatus" name="filterStatus">
+            </div>
+            <div>
+                <label for="filterCapacity">Capacity:</label>
+                <input type="text" id="filterCapacity" name="filterCapacity">
+            </div>
+            <div>
+                <label for="filterPrice">Price:</label>
+                <input type="text" id="filterPrice" name="filterPrice">
+            </div>
+            <div>
+                <label for="orderBy">Order By:</label>
+                <select name="orderBy" id="orderBy" size="1">
+                    <option value="RoomNumber">Room Number</option>
+                    <option value="Description">Type</option>
+                    <option value="Status">Status</option>
+                    <option value="Capacity">Capacity</option>
+                    <option value="PricePerNight">Price</option>
+                </select>
+            </div>
+            <div>
+                <label for="desc">Sort:</label>
+                <select name="desc" id="desc" size="1">
+                    <option value="ASC">ASC</option>
+                    <option value="DESC">DESC</option>
+                </select>
+            </div>
+            <div>
+                <button type="submit">Apply Filter</button>
+            </div>
+        </form>
+    <div class="room-cards">
+        <% users.forEach(user => { %>
+            <div class="room-card">
+                <img src="/img/<%= user.TypeID %>.jpg" alt="<%= user.RoomNumber %>">
+                <h2><%= user.RoomNumber %></h2>
+                <p>Type: <%= user.Description %></p>
+                <p>Capacity: <%= user.Capacity %></p>
+                <div class="price-booking">
+                    <span class="price">$<%= user.PricePerNight %> per night</span>
+                    <button class="book-now">Book Now</button>
+                </div>
+            </div>
+        <% }); %>
     </div>
 </body>
 </html>
