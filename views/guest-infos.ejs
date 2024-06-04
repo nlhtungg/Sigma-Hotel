@@ -66,105 +66,134 @@
                 </div>
             </div>
         </div>
-        <main>
+        <main class="container">
             <form action="/guest-infos" method="POST">
                 <div>
                     <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" value="<%= user.Name %>">
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value="<%= user.Name %>"
+                    />
                 </div>
                 <div>
                     <label for="dob">Date of Birth:</label>
-                    <input type="date" id="dob" name="dob" value="<%= user.DOB %>">
+                    <input
+                        type="date"
+                        id="dob"
+                        name="dob"
+                        value="<%= user.DOB %>"
+                    />
                 </div>
                 <div>
                     <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" value="<%= user.Email %>">
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value="<%= user.Email %>"
+                    />
                 </div>
                 <div>
                     <label for="phone">Phone:</label>
-                    <input type="tel" id="phone" name="phone" value="<%= user.Phone %>">
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        value="<%= user.Phone %>"
+                    />
                 </div>
                 <div>
                     <label for="address">Address:</label>
-                    <input type="text" id="address" name="address" value="<%= user.Address %>">
+                    <input
+                        type="text"
+                        id="address"
+                        name="address"
+                        value="<%= user.Address %>"
+                    />
                 </div>
                 <div>
                     <label for="newpass">New Password:</label>
-                    <input type="password" id="newpass" name="newpass">
+                    <input type="password" id="newpass" name="newpass" />
                 </div>
                 <div>
                     <label for="password">Current Password:</label>
-                    <input type="password" id="password" name="password" required>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        required
+                    />
                 </div>
                 <div>
                     <button type="submit">Update Information</button>
                 </div>
             </form>
-            <form action="/guest" method="GET">
+            <form action="/guest-rooms" method="GET">
                 <button type="submit">Cancel</button>
             </form>
         </main>
-    </div>
-    <!-- Footer -->
-    <footer>
-        <div id="contact" class="container">
-            <h2 class="section-title footer-title">Get in Touch</h2>
-            <div class="footer-content">
-                <ul class="footer-left">
-                    <h3 class="subsection-title">Quick link</h3>
-                    <a href="#!" class="footer-link"
-                        ><li class="footer-item">Home</li></a
-                    >
-                    <a href="#!" class="footer-link"
-                        ><li class="footer-item">Services</li></a
-                    >
-                    <a href="#!" class="footer-link"
-                        ><li class="footer-item">About us</li></a
-                    >
-                    <a href="#!" class="footer-link"
-                        ><li class="footer-item">Contact</li></a
-                    >
-                </ul>
-                <div class="footer-middle">
-                    <p class="section-desc footer-desc">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing
-                        elit. Officia eaque incidunt ea aut iure.
-                        Blanditiis.
-                    </p>
-                    <form action="" class="footer-form">
-                        <div class="footer-input">
-                            <input
-                                type="text"
-                                name=""
-                                id=""
-                                placeholder="Enter Edging Email"
-                                class="footer-info"
-                            />
-                            <input
-                                type="submit"
-                                value="Submit"
-                                class="footer-info"
-                            />
-                        </div>
-                    </form>
+        <!-- Footer -->
+        <footer>
+            <div id="contact" class="container">
+                <h2 class="section-title footer-title">Get in Touch</h2>
+                <div class="footer-content">
+                    <ul class="footer-left">
+                        <h3 class="subsection-title">Quick link</h3>
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">Home</li></a
+                        >
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">Services</li></a
+                        >
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">About us</li></a
+                        >
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">Contact</li></a
+                        >
+                    </ul>
+                    <div class="footer-middle">
+                        <p class="section-desc footer-desc">
+                            Lorem ipsum, dolor sit amet consectetur adipisicing
+                            elit. Officia eaque incidunt ea aut iure.
+                            Blanditiis.
+                        </p>
+                        <form action="" class="footer-form">
+                            <div class="footer-input">
+                                <input
+                                    type="text"
+                                    name=""
+                                    id=""
+                                    placeholder="Enter Edging Email"
+                                    class="footer-info"
+                                />
+                                <input
+                                    type="submit"
+                                    value="Submit"
+                                    class="footer-info"
+                                />
+                            </div>
+                        </form>
+                    </div>
+                    <ul class="footer-right">
+                        <h3 class="subsection-title">Useful</h3>
+                        <a href="#!" class="footer-link">
+                            <li class="footer-item">Privacy policy</li>
+                        </a>
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">Legal</li></a
+                        >
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">FAQ</li></a
+                        >
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">Blogs</li></a
+                        >
+                    </ul>
                 </div>
-                <ul class="footer-right">
-                    <h3 class="subsection-title">Useful</h3>
-                    <a href="#!" class="footer-link">
-                        <li class="footer-item">Privacy policy</li>
-                    </a>
-                    <a href="#!" class="footer-link"
-                        ><li class="footer-item">Legal</li></a
-                    >
-                    <a href="#!" class="footer-link"
-                        ><li class="footer-item">FAQ</li></a
-                    >
-                    <a href="#!" class="footer-link"
-                        ><li class="footer-item">Blogs</li></a
-                    >
-                </ul>
             </div>
-        </div>
-    </footer>
-</body>
+        </footer>
+    </body>
 </html>
