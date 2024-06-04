@@ -1,51 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rooms</title>
-    <link rel="stylesheet" href="/css/guest-rooms.css">
-    <script>
-        function FilterForm() {
-            if(document.getElementById('FilterForm').style.display === 'none'){
-                document.getElementById('FilterForm').style.display = 'block';
-            } else {
-                document.getElementById('FilterForm').style.display = 'none';
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Rooms</title>
+
+        <!-- Embed fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+            rel="stylesheet"
+        />
+
+        <!-- Reset CSS -->
+        <link rel="stylesheet" href="/css/reset.css" />
+
+        <!-- Style CSS -->
+        <link rel="stylesheet" href="/css/guest-rooms.css" />
+        <link rel="stylesheet" href="/css/common.css" />
+        <script>
+            function FilterForm() {
+                if (
+                    document.getElementById("FilterForm").style.display ===
+                    "none"
+                ) {
+                    document.getElementById("FilterForm").style.display =
+                        "block";
+                } else {
+                    document.getElementById("FilterForm").style.display =
+                        "none";
+                }
             }
-        }
-    </script>
-</head>
-<body>
-    <header>
-        <h1>Sigma Hotel</h1>
-        <nav>
-            <ul>
-                <li><a href="/guest">Rooms</a></li>
-                <li><a href="/guest-bookings">My Bookings</a></li>
-                <li><a href="/guest-payments">My Payments</a></li>
-                <li><a href="/guest-infos">Edit Info</a></li>
-                <li><a href="/login">Logout</a></li>
-            </ul>
-        </nav>
-    </header>
-    <button class="filter-btn" id="filter-btn" onclick="FilterForm()">Filter</button>
-        <form id="FilterForm" action="/guest-rooms" method="GET" style="display:none;">
-            <h2> Filter </h2>
+        </script>
+    </head>
+    <body>
+        <!-- Header bar -->
+        <div class="header-bar">
+            <div class="header-bar__inner">
+                <!-- Logo -->
+                <a href="/">
+                    <div class="logo">
+                        <span class="sigma">Sigma</span>
+                        <br />
+                        Hotel
+                    </div>
+                </a>
+
+                <!-- Navbar -->
+                <nav class="navbar">
+                    <ul class="navbar__list">
+                        <li class="navbar__item">
+                            <a href="/guest-rooms" class="navbar__link">
+                                Rooms
+                            </a>
+                        </li>
+                        <li class="navbar__item">
+                            <a href="/guest-bookings" class="navbar__link">
+                                My Bookings
+                            </a>
+                        </li>
+                        <li class="navbar__item">
+                            <a href="/guest-payments" class="navbar__link">
+                                My Payments
+                            </a>
+                        </li>
+                        <li class="navbar__item">
+                            <a href="/guest-infos" class="navbar__link">
+                                Edit Info
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Action -->
+                <div class="navbar-action">
+                    <a href="/login" class="btn signup">Logout</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter -->
+        <button class="filter-btn" id="filter-btn" onclick="FilterForm()">
+            Filter
+        </button>
+        <form
+            id="FilterForm"
+            action="/guest-rooms"
+            method="GET"
+            style="display: none"
+        >
+            <h2>Filter</h2>
             <div>
                 <label for="filterType">Type:</label>
-                <input type="text" id="filterType" name="filterType">
+                <input type="text" id="filterType" name="filterType" />
             </div>
             <div>
                 <label for="filterStatus">Status:</label>
-                <input type="text" id="filterStatus" name="filterStatus">
+                <input type="text" id="filterStatus" name="filterStatus" />
             </div>
             <div>
                 <label for="filterCapacity">Capacity:</label>
-                <input type="text" id="filterCapacity" name="filterCapacity">
+                <input type="text" id="filterCapacity" name="filterCapacity" />
             </div>
             <div>
                 <label for="filterPrice">Price:</label>
-                <input type="text" id="filterPrice" name="filterPrice">
+                <input type="text" id="filterPrice" name="filterPrice" />
             </div>
             <div>
                 <label for="orderBy">Order By:</label>
@@ -68,19 +128,26 @@
                 <button type="submit">Apply Filter</button>
             </div>
         </form>
-    <div class="room-cards">
-        <% rooms.forEach(room => { %>
+
+        <!-- Room card -->
+        <div class="room-cards">
+            <% rooms.forEach(room => { %>
             <div class="room-card">
-                <img src="/img/<%= room.TypeID %>.jpg" alt="<%= room.RoomNumber %>">
+                <img
+                    src="/img/<%= room.TypeID %>.jpg"
+                    alt="<%= room.RoomNumber %>"
+                />
                 <h2>ROOM <%= room.RoomNumber %></h2>
                 <p>Type: <%= room.Description %></p>
                 <p>Capacity: <%= room.Capacity %></p>
                 <div class="price-booking">
-                    <span class="price">$<%= room.PricePerNight %> per night</span>
+                    <span class="price"
+                        >$<%= room.PricePerNight %> per night</span
+                    >
                     <button class="book-now">BOOK NOW</button>
                 </div>
             </div>
-        <% }); %>
-    </div>
-</body>
+            <% }); %>
+        </div>
+    </body>
 </html>
