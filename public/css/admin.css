@@ -30,6 +30,7 @@ header h1 {
     font-size: 24px;
     font-style: italic;
     color: #ff6b00;
+    padding-left: 21px;
 }
 
 nav ul {
@@ -37,6 +38,7 @@ nav ul {
     padding: 0;
     display: flex;
     gap: 20px;
+    padding-right: 20px;
 }
 
 nav ul li {
@@ -61,12 +63,14 @@ main h2 {
     font-size: 20px;
     margin-bottom: 20px;
     color: white;
+    padding-left: 21px;
 }
 
 .stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
+    padding: 20px;
 }
 
 .stat {
@@ -113,9 +117,11 @@ button {
     background-color: #ff6b00;
     color: white;
     border: none;
-    padding: 5px 10px;
+    padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 
 button:hover {

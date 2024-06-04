@@ -3,6 +3,8 @@
 <head>
     <title>Manage Users</title>
     <link rel="stylesheet" type="text/css" href="/css/manage-users.css">
+    <link rel="stylesheet" href="/css/reset.css" />
+    <link rel="stylesheet" href="/css/common.css" />
     <script>
         function addUserForm() {
             if(document.getElementById('addUserForm').style.display === 'none'){
@@ -21,20 +23,56 @@
     </script>
 </head>
 <body>
-    <div class="admin-container">
-        <header>
-            <h1>Manage Users</h1>
-            <nav>
-                <ul>
-                    <li><a href="/admin">Dashboard</a></li>
-                    <li><a href="/manage-users">Manage Users</a></li>
-                    <li><a href="/manage-staffs">Manage Staffs</a></li>
-                    <li><a href="/manage-rooms">Manage Rooms</a></li>
-                    <li><a href="/manage-bookings">Manage Bookings</a></li>
-                    <li><a href="/">Logout</a></li>
+    <!-- Header bar -->
+    <div class="header-bar">
+        <div class="header-bar__inner">
+            <!-- Logo -->
+            <a href="/">
+                <div class="logo">
+                    <span class="sigma">Sigma</span>
+                    <br />
+                    Hotel
+                </div>
+            </a>
+
+            <!-- Navbar -->
+            <nav class="navbar">
+                <ul class="navbar__list">
+                    <li class="navbar__item">
+                        <a href="/manage-users" class="navbar__link">
+                            Manage Users
+                        </a>
+                    </li>
+                    <li class="navbar__item">
+                        <a href="/manage-staffs" class="navbar__link">
+                            Manage Staffs
+                        </a>
+                    </li>
+                    <li class="navbar__item">
+                        <a href="/manage-rooms" class="navbar__link">
+                            Manage Rooms
+                        </a>
+                    </li>
+                    <li class="navbar__item">
+                        <a href="/manage-bookings" class="navbar__link">
+                            Manage Bookings
+                        </a>
+                    </li>
+                    <li class="navbar__item">
+                        <a href="/manage-payments" class="navbar__link">
+                            Manage Payments
+                        </a>
+                    </li>
                 </ul>
             </nav>
-        </header>
+
+            <!-- Action -->
+            <div class="navbar-action">
+                <a href="/login" class="btn signup">Logout</a>
+            </div>
+        </div>
+    </div>
+    <div class="admin-container">
         <button class="add-user-btn" id="addbtn" onclick="addUserForm()">Add User</button>
         <form id="addUserForm" method="POST" action="/add-user" style="display:none;">
             <h2>Add an User</h2>
