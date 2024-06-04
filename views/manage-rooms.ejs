@@ -1,56 +1,122 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Manage Users</title>
-    <link rel="stylesheet" type="text/css" href="/css/manage-rooms.css">
-    <script>
-        function showAddRoomForm() {
-            document.getElementById('addRoomForm').style.display = 'block';
-        }
-    </script>
-</head>
-<body>
-    <div class="admin-container">
-        <header>
-            <h1>Manage Rooms</h1>
-            <nav>
-                <ul>
-                    <li><a href="/admin">Dashboard</a></li>
-                    <li><a href="/manage-users">Manage Users</a></li>
-                    <li><a href="/manage-staffs">Manage Staffs</a></li>
-                    <li><a href="/manage-rooms">Manage Rooms</a></li>
-                    <li><a href="/manage-bookings">Manage Bookings</a></li>
-                    <li><a href="/">Logout</a></li>
-                </ul>
-            </nav>
-        </header>
-        <button class="add-room-btn" onclick="showAddRoomForm()">Add Room</button>
-        <form id="addRoomForm" method="POST" action="/add-room" style="display:none;">
-            <label for="RoomNumber">Room Number:</label>
-            <input type="number" id="RoomNumber" name="RoomNumber" required>
-            <label for="TypeID">Type ID:</label>
-            <input type="text" id="TypeID" name="TypeID" required>
-            <label for="Status">Status:</label>
-            <input type="text" id="Status" name="Status" required>
-            <button class="submit-add-btn" type="submit">Submit</button>
-        </form>
+    <head>
+        <title>Manage Users</title>
 
-        <main>
-            <h2>Rooms List</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Room Number</th>
-                        <th>Type</th>
-                        <th>Capacity</th>
-                        <th>Price</th>
-                        <th>Status</th>
-                        <th>Managed By</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% users.forEach(user => { %>
+        <!-- Embed fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+            rel="stylesheet"
+        />
+
+        <!-- Reset CSS -->
+        <link rel="stylesheet" href="/css/reset.css" />
+
+        <!-- Style -->
+        <link rel="stylesheet" href="/css/common.css" />
+        <link rel="stylesheet" href="/css/manage-users.css" />
+        <script>
+            function showAddRoomForm() {
+                document.getElementById("addRoomForm").style.display = "block";
+            }
+        </script>
+    </head>
+    <body>
+        <!-- Header bar -->
+        <div class="header-bar">
+            <div class="header-bar__inner">
+                <!-- Logo -->
+                <a href="/">
+                    <div class="logo">
+                        <span class="sigma">Sigma</span>
+                        <br />
+                        Hotel
+                    </div>
+                </a>
+
+                <!-- Navbar -->
+                <nav class="navbar">
+                    <ul class="navbar__list">
+                        <li class="navbar__item">
+                            <a href="/manage-users" class="navbar__link">
+                                Manage Users
+                            </a>
+                        </li>
+                        <li class="navbar__item">
+                            <a href="/manage-staffs" class="navbar__link">
+                                Manage Staffs
+                            </a>
+                        </li>
+                        <li class="navbar__item">
+                            <a href="/manage-rooms" class="navbar__link">
+                                Manage Rooms
+                            </a>
+                        </li>
+                        <li class="navbar__item">
+                            <a href="/manage-bookings" class="navbar__link">
+                                Manage Bookings
+                            </a>
+                        </li>
+                        <li class="navbar__item">
+                            <a href="#!" class="navbar__link">
+                                Manage Payments
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Action -->
+                <div class="header-action">
+                    <a href="login" class="btn signup">Logout</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-container">
+            <header>
+                <h1>Manage Rooms</h1>
+            </header>
+            <button class="add-room-btn" onclick="showAddRoomForm()">
+                Add Room
+            </button>
+            <form
+                id="addRoomForm"
+                method="POST"
+                action="/add-room"
+                style="display: none"
+            >
+                <label for="RoomNumber">Room Number:</label>
+                <input
+                    type="number"
+                    id="RoomNumber"
+                    name="RoomNumber"
+                    required
+                />
+                <label for="TypeID">Type ID:</label>
+                <input type="text" id="TypeID" name="TypeID" required />
+                <label for="Status">Status:</label>
+                <input type="text" id="Status" name="Status" required />
+                <button class="submit-add-btn" type="submit">Submit</button>
+            </form>
+
+            <main>
+                <h2>Rooms List</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Room Number</th>
+                            <th>Type</th>
+                            <th>Capacity</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Managed By</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% users.forEach(user => { %>
                         <tr>
                             <td><%= user.RoomNumber %></td>
                             <td><%= user.Description %></td>
@@ -60,20 +126,28 @@
                             <td><%= user.Name %></td>
                             <td>
                                 <form method="GET" action="/edit-room">
-                                    <input type="hidden" name="RoomNumber" value="<%= user.RoomNumber %>">
+                                    <input
+                                        type="hidden"
+                                        name="RoomNumber"
+                                        value="<%= user.RoomNumber %>"
+                                    />
                                     <button type="submit">Edit</button>
                                 </form>
                                 <form method="POST" action="/delete-room">
-                                    <input type="hidden" name="UserID" value="<%= user.RoomNumber %>">
+                                    <input
+                                        type="hidden"
+                                        name="UserID"
+                                        value="<%= user.RoomNumber %>"
+                                    />
                                     <button type="submit">Delete</button>
                                 </form>
                             </td>
-                        </tr>    
-                    <% }) %>  
-                    <!-- Add more rows as needed -->
-                </tbody>
-            </table>
-        </main>
-    </div>
-</body>
+                        </tr>
+                        <% }) %>
+                        <!-- Add more rows as needed -->
+                    </tbody>
+                </table>
+            </main>
+        </div>
+    </body>
 </html>

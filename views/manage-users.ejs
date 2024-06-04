@@ -1,180 +1,228 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Manage Users</title>
-    <link rel="stylesheet" type="text/css" href="/css/manage-users.css">
-    <link rel="stylesheet" href="/css/reset.css" />
-    <link rel="stylesheet" href="/css/common.css" />
-    <script>
-        function addUserForm() {
-            if(document.getElementById('addUserForm').style.display === 'none'){
-                document.getElementById('addUserForm').style.display = 'block';
-            } else {
-                document.getElementById('addUserForm').style.display = 'none';
+    <head>
+        <title>Manage Users</title>
+        <!-- Embed fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+            rel="stylesheet"
+        />
+
+        <!-- Reset CSS -->
+        <link rel="stylesheet" href="/css/reset.css" />
+
+        <!-- Style -->
+        <link rel="stylesheet" href="/css/common.css" />
+        <link rel="stylesheet" href="/css/manage-users.css" />
+        <script>
+            function addUserForm() {
+                if (
+                    document.getElementById("addUserForm").style.display ===
+                    "none"
+                ) {
+                    document.getElementById("addUserForm").style.display =
+                        "block";
+                } else {
+                    document.getElementById("addUserForm").style.display =
+                        "none";
+                }
             }
-        }
-        function FilterForm() {
-            if(document.getElementById('FilterForm').style.display === 'none'){
-                document.getElementById('FilterForm').style.display = 'block';
-            } else {
-                document.getElementById('FilterForm').style.display = 'none';
+            function FilterForm() {
+                if (
+                    document.getElementById("FilterForm").style.display ===
+                    "none"
+                ) {
+                    document.getElementById("FilterForm").style.display =
+                        "block";
+                } else {
+                    document.getElementById("FilterForm").style.display =
+                        "none";
+                }
             }
-        }
-    </script>
-</head>
-<body>
-    <!-- Header bar -->
-    <div class="header-bar">
-        <div class="header-bar__inner">
-            <!-- Logo -->
-            <a href="/">
-                <div class="logo">
-                    <span class="sigma">Sigma</span>
-                    <br />
-                    Hotel
+        </script>
+    </head>
+    <body>
+        <!-- Header bar -->
+        <div class="header-bar">
+            <div class="header-bar__inner">
+                <!-- Logo -->
+                <a href="/">
+                    <div class="logo">
+                        <span class="sigma">Sigma</span>
+                        <br />
+                        Hotel
+                    </div>
+                </a>
+
+                <!-- Navbar -->
+                <nav class="navbar">
+                    <ul class="navbar__list">
+                        <li class="navbar__item">
+                            <a href="/manage-users" class="navbar__link">
+                                Manage Users
+                            </a>
+                        </li>
+                        <li class="navbar__item">
+                            <a href="/manage-staffs" class="navbar__link">
+                                Manage Staffs
+                            </a>
+                        </li>
+                        <li class="navbar__item">
+                            <a href="/manage-rooms" class="navbar__link">
+                                Manage Rooms
+                            </a>
+                        </li>
+                        <li class="navbar__item">
+                            <a href="/manage-bookings" class="navbar__link">
+                                Manage Bookings
+                            </a>
+                        </li>
+                        <li class="navbar__item">
+                            <a href="/manage-payments" class="navbar__link">
+                                Manage Payments
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Action -->
+                <div class="navbar-action">
+                    <a href="/login" class="btn signup">Logout</a>
                 </div>
-            </a>
-
-            <!-- Navbar -->
-            <nav class="navbar">
-                <ul class="navbar__list">
-                    <li class="navbar__item">
-                        <a href="/manage-users" class="navbar__link">
-                            Manage Users
-                        </a>
-                    </li>
-                    <li class="navbar__item">
-                        <a href="/manage-staffs" class="navbar__link">
-                            Manage Staffs
-                        </a>
-                    </li>
-                    <li class="navbar__item">
-                        <a href="/manage-rooms" class="navbar__link">
-                            Manage Rooms
-                        </a>
-                    </li>
-                    <li class="navbar__item">
-                        <a href="/manage-bookings" class="navbar__link">
-                            Manage Bookings
-                        </a>
-                    </li>
-                    <li class="navbar__item">
-                        <a href="/manage-payments" class="navbar__link">
-                            Manage Payments
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-
-            <!-- Action -->
-            <div class="navbar-action">
-                <a href="/login" class="btn signup">Logout</a>
             </div>
         </div>
-    </div>
-    <div class="admin-container">
-        <button class="add-user-btn" id="addbtn" onclick="addUserForm()">Add User</button>
-        <form id="addUserForm" method="POST" action="/add-user" style="display:none;">
-            <h2>Add an User</h2>
-            <div>
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
-            </div>
-            <div>
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <div>
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
-            </div>
-            <div>
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div>
-                <label for="phone">Phone Number:</label>
-                <input type="tel" id="phone" name="phone" required>
-            </div>
-            <div>
-                <label for="address">Address:</label>
-                <input type="text" id="address" name="address" required>
-            </div>
-            <div>
-                <label for="dob">Date of Birth:</label>
-                <input type="date" id="dob" name="dob" required>
-            </div>
-            <button class="submit-add-btn" type="submit">Add</button>
-        </form>
+        <div class="admin-container">
+            <button class="add-user-btn" id="addbtn" onclick="addUserForm()">
+                Add User
+            </button>
+            <form
+                id="addUserForm"
+                method="POST"
+                action="/add-user"
+                style="display: none"
+            >
+                <h2>Add an User</h2>
+                <div>
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required />
+                </div>
+                <div>
+                    <label for="password">Password:</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        required
+                    />
+                </div>
+                <div>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required />
+                </div>
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required />
+                </div>
+                <div>
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" id="phone" name="phone" required />
+                </div>
+                <div>
+                    <label for="address">Address:</label>
+                    <input type="text" id="address" name="address" required />
+                </div>
+                <div>
+                    <label for="dob">Date of Birth:</label>
+                    <input type="date" id="dob" name="dob" required />
+                </div>
+                <button class="submit-add-btn" type="submit">Add</button>
+            </form>
 
-        <button class="filter-btn" id="filter-btn" onclick="FilterForm()">Filter</button>
-        <form id="FilterForm" action="/manage-users" method="GET" style="display:none;">
-            <h2> Filter </h2>
-            <div>
-                <label for="filterUsername">Username:</label>
-                <input type="text" id="filterUsername" name="filterUsername">
-            </div>
-            <div>
-                <label for="filterName">Name:</label>
-                <input type="text" id="filterName" name="filterName">
-            </div>
-            <div>
-                <label for="filterDOB">DOB:</label>
-                <input type="text" id="filterDOB" name="filterDOB">
-            </div>
-            <div>
-                <label for="filterAddress">Address:</label>
-                <input type="text" id="filterAddress" name="filterAddress">
-            </div>
-            <div>
-                <label for="filterPhone">Phone:</label>
-                <input type="text" id="filterPhone" name="filterPhone">
-            </div>
-            <div>
-                <label for="filterEmail">Email:</label>
-                <input type="text" id="filterEmail" name="filterEmail">
-            </div>
-            <div>
-                <label for="orderBy">Order By:</label>
-                <select name="orderBy" id="orderBy" size="1">
-                    <option value="GuestID">ID</option>
-                    <option value="Username">Username</option>
-                    <option value="Name">Name</option>
-                    <option value="DOB">DOB</option>
-                    <option value="Address">Address</option>
-                    <option value="Phone">Phone</option>
-                    <option value="Email">Email</option>
-                </select>
-            </div>
-            <div>
-                <label for="desc">Sort:</label>
-                <select name="desc" id="desc" size="1">
-                    <option value="ASC">ASC</option>
-                    <option value="DESC">DESC</option>
-                </select>
-            </div>
-            <div>
-                <button type="submit">Apply Filter</button>
-            </div>
-        </form>
+            <button class="filter-btn" id="filter-btn" onclick="FilterForm()">
+                Filter
+            </button>
+            <form
+                id="FilterForm"
+                action="/manage-users"
+                method="GET"
+                style="display: none"
+            >
+                <h2>Filter</h2>
+                <div>
+                    <label for="filterUsername">Username:</label>
+                    <input
+                        type="text"
+                        id="filterUsername"
+                        name="filterUsername"
+                    />
+                </div>
+                <div>
+                    <label for="filterName">Name:</label>
+                    <input type="text" id="filterName" name="filterName" />
+                </div>
+                <div>
+                    <label for="filterDOB">DOB:</label>
+                    <input type="text" id="filterDOB" name="filterDOB" />
+                </div>
+                <div>
+                    <label for="filterAddress">Address:</label>
+                    <input
+                        type="text"
+                        id="filterAddress"
+                        name="filterAddress"
+                    />
+                </div>
+                <div>
+                    <label for="filterPhone">Phone:</label>
+                    <input type="text" id="filterPhone" name="filterPhone" />
+                </div>
+                <div>
+                    <label for="filterEmail">Email:</label>
+                    <input type="text" id="filterEmail" name="filterEmail" />
+                </div>
+                <div>
+                    <label for="orderBy">Order By:</label>
+                    <select name="orderBy" id="orderBy" size="1">
+                        <option value="GuestID">ID</option>
+                        <option value="Username">Username</option>
+                        <option value="Name">Name</option>
+                        <option value="DOB">DOB</option>
+                        <option value="Address">Address</option>
+                        <option value="Phone">Phone</option>
+                        <option value="Email">Email</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="desc">Sort:</label>
+                    <select name="desc" id="desc" size="1">
+                        <option value="ASC">ASC</option>
+                        <option value="DESC">DESC</option>
+                    </select>
+                </div>
+                <div>
+                    <button type="submit">Apply Filter</button>
+                </div>
+            </form>
 
-        <main>
-            <h2>Users List</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Username</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>DOB</th>
-                        <th>Phone</th>
-                        <th>Address</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% users.forEach(user => { %>
+            <main>
+                <h2>Users List</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>DOB</th>
+                            <th>Phone</th>
+                            <th>Address</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% users.forEach(user => { %>
                         <tr>
                             <td><%= user.GuestID %></td>
                             <td><%= user.Username %></td>
@@ -185,20 +233,28 @@
                             <td><%= user.Address %></td>
                             <td>
                                 <form type="GET" action="/edit-user">
-                                    <input type="hidden" name="GuestID" value="<%= user.GuestID %>">
+                                    <input
+                                        type="hidden"
+                                        name="GuestID"
+                                        value="<%= user.GuestID %>"
+                                    />
                                     <button type="submit">Edit</button>
                                 </form>
                                 <form method="POST" action="/delete-user">
-                                    <input type="hidden" name="GuestID" value="<%= user.GuestID %>">
+                                    <input
+                                        type="hidden"
+                                        name="GuestID"
+                                        value="<%= user.GuestID %>"
+                                    />
                                     <button type="submit">Delete</button>
                                 </form>
                             </td>
-                        </tr>    
-                    <% }) %>  
-                    <!-- Add more rows as needed -->
-                </tbody>
-            </table>
-        </main>
-    </div>
-</body>
+                        </tr>
+                        <% }) %>
+                        <!-- Add more rows as needed -->
+                    </tbody>
+                </table>
+            </main>
+        </div>
+    </body>
 </html>
