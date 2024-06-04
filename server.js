@@ -480,27 +480,28 @@ app.get('/guest-rooms', async(req, res) => {
       from Room join RoomType on Room.TypeID = RoomType.TypeID
       where 1=1`;
       if (filterRoom) {
-        query += `and Room.RoomNumber like '%${filterRoom}%'`;
+        query += ` and Room.RoomNumber like '%${filterRoom}%'`;
       }
       if (filterStatus) {
-        query += `and Room.Status = %${filterStatus}`;
+        query += ` and Room.Status = '${filterStatus}'`;
       }
       if (filterType) {
-        query += `and RoomType.Description = %${filterType}`;
+        query += ` and RoomType.Description = '${filterType}'`;
       }
       if (filterPrice) {
-        query += `and RoomType.PricePerNight = ${filterPrice}`;
+        query += ` and RoomType.PricePerNight = ${filterPrice}`;
       }
       if (filterCapacity) {
-        query += `and RoomType.Capacity = ${filterCapacity}`;
+        query += ` and RoomType.Capacity = ${filterCapacity}`;
       }
       if (orderBy) {
-        query += `order by ${orderBy}`;
+        query += ` order by ${orderBy}`;
       }
       if (desc === 'DESC') {
         query += ` ${desc}`;
       }
       const result = await sql.query(query);
+      console.log(query);
       res.render('guest-rooms', { rooms: result.recordset});
   } catch (err) {
       console.error('SQL error', err);
