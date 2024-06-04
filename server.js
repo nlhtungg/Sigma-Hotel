@@ -41,7 +41,7 @@ app.post('/login', async (req, res) => {
       req.session.role = 'guest';
       res.redirect('/guest');
     } else {
-      req.session.message = 'Invalid username or password';
+      req.session.message = 'Invalid username or password!';
       res.redirect('/login');
     }
   } catch (err) {
