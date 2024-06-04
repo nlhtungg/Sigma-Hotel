@@ -68,8 +68,10 @@
         </div>
         <main class="container">
             <form action="/guest-infos" method="POST">
-                <div>
-                    <label for="name">Name:</label>
+                <div class="login-item">
+                    <label class="subsection-title login-label" for="name">
+                        Name:
+                    </label>
                     <input
                         type="text"
                         id="name"
@@ -77,8 +79,10 @@
                         value="<%= user.Name %>"
                     />
                 </div>
-                <div>
-                    <label for="dob">Date of Birth:</label>
+                <div class="login-item">
+                    <label class="subsection-title login-label" for="dob">
+                        Date of Birth:
+                    </label>
                     <input
                         type="date"
                         id="dob"
@@ -86,8 +90,10 @@
                         value="<%= user.DOB %>"
                     />
                 </div>
-                <div>
-                    <label for="email">Email:</label>
+                <div class="login-item">
+                    <label class="subsection-title login-label" for="email">
+                        Email:
+                    </label>
                     <input
                         type="email"
                         id="email"
@@ -95,8 +101,10 @@
                         value="<%= user.Email %>"
                     />
                 </div>
-                <div>
-                    <label for="phone">Phone:</label>
+                <div class="login-item">
+                    <label class="subsection-title login-label" for="phone">
+                        Phone:
+                    </label>
                     <input
                         type="tel"
                         id="phone"
@@ -104,8 +112,10 @@
                         value="<%= user.Phone %>"
                     />
                 </div>
-                <div>
-                    <label for="address">Address:</label>
+                <div class="login-item">
+                    <label class="subsection-title login-label" for="address">
+                        Address:
+                    </label>
                     <input
                         type="text"
                         id="address"
@@ -113,12 +123,16 @@
                         value="<%= user.Address %>"
                     />
                 </div>
-                <div>
-                    <label for="newpass">New Password:</label>
+                <div class="login-item">
+                    <label class="subsection-title login-label" for="newpass">
+                        New Password:
+                    </label>
                     <input type="password" id="newpass" name="newpass" />
                 </div>
-                <div>
-                    <label for="password">Current Password:</label>
+                <div class="login-item">
+                    <label class="subsection-title login-label" for="password">
+                        Current Password:
+                    </label>
                     <input
                         type="password"
                         id="password"
@@ -126,9 +140,10 @@
                         required
                     />
                 </div>
-                <div>
-                    <button type="submit">Update Information</button>
-                </div>
+
+                <button type="submit" class="login-btn btn">
+                    Update Information
+                </button>
             </form>
             <form action="/guest-rooms" method="GET">
                 <button type="submit">Cancel</button>
@@ -140,7 +155,7 @@
                 <h2 class="section-title footer-title">Get in Touch</h2>
                 <div class="footer-content">
                     <ul class="footer-left">
-                        <h3 class="subsection-title">Quick link</h3>
+                        <h3 class="subsection-title login-label">Quick link</h3>
                         <a href="#!" class="footer-link"
                             ><li class="footer-item">Home</li></a
                         >
@@ -178,7 +193,7 @@
                         </form>
                     </div>
                     <ul class="footer-right">
-                        <h3 class="subsection-title">Useful</h3>
+                        <h3 class="subsection-title login-label">Useful</h3>
                         <a href="#!" class="footer-link">
                             <li class="footer-item">Privacy policy</li>
                         </a>
