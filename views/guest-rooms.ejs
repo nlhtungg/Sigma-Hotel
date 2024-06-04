@@ -77,7 +77,10 @@
                 <p>Capacity: <%= room.Capacity %></p>
                 <div class="price-booking">
                     <span class="price">$<%= room.PricePerNight %> per night</span>
-                    <button class="book-now">BOOK NOW</button>
+                    <form action="/reservation" method="GET">
+                        <input type="hidden" name="RoomNumber" value="<%= room.RoomNumber %>">
+                        <button class="book-now">BOOK NOW</button>
+                    </form>
                 </div>
             </div>
         <% }); %>
