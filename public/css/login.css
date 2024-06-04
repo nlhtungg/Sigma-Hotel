@@ -4,63 +4,49 @@ body {
     background-color: #000;
 }
 
-.login-container {
+.login-wrap {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
 .login-title {
-    color: #fff;
     margin-bottom: 20px;
-    font-size: 2.4rem;
-    text-align: center;
 }
 
-.login-container form {
-    display: flex;
-    flex-direction: column;
+.login-item {
+    margin: 20px 0;
 }
 
-.login-container label {
-    color: #fff;
-    margin-bottom: 5px;
-}
-
-.login-container input {
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #fff;
-    border-radius: 4px;
+.login-img {
+    justify-items: self-end;
+    width: 50%;
+    height: 850px;
+    object-fit: cover;
 }
 
 .login-input {
+    padding: 8px;
+    margin-left: 2px;
+    border-radius: 5px;
     background-color: #3a3b3c;
-    color: #fff;
-}
-
-.btn {
-    padding: 10px;
     color: white;
-    background: var(--theme-color);
-    border-radius: 4px;
-    cursor: pointer;
-    transition: 0.25s;
+    border: solid #3a3b3c;
 }
 
-.btn:hover {
-    opacity: 0.8;
-    cursor: pointer;
-}
-
-.login-signup {
-    color: #fff;
-}
-
-.login-admin {
-    text-align: center;
+.login-btn {
+    margin: 10px;
+    font-size: 1.6rem;
+    padding: 20px 120px;
 }
 
 .login-link {
     color: var(--theme-color);
     text-decoration: underline;
+}
+
+.login-signup {
+    margin-top: 10px;
 }
 
 .message {
