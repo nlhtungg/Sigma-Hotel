@@ -10,6 +10,11 @@ body {
     align-items: center;
 }
 
+.login-action {
+    width: 50%;
+    text-align: center;
+}
+
 .login-title {
     margin-bottom: 20px;
 }
