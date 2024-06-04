@@ -501,7 +501,7 @@ app.get('/guest-rooms', async(req, res) => {
         query += ` ${desc}`;
       }
       const result = await sql.query(query);
-      res.render('guest-rooms', { users: result.recordset});
+      res.render('guest-rooms', { rooms: result.recordset});
   } catch (err) {
       console.error('SQL error', err);
       res.status(500).send('Internal Server Error');

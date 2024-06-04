@@ -69,15 +69,15 @@
             </div>
         </form>
     <div class="room-cards">
-        <% users.forEach(user => { %>
+        <% rooms.forEach(room => { %>
             <div class="room-card">
-                <img src="/img/<%= user.TypeID %>.jpg" alt="<%= user.RoomNumber %>">
-                <h2><%= user.RoomNumber %></h2>
-                <p>Type: <%= user.Description %></p>
-                <p>Capacity: <%= user.Capacity %></p>
+                <img src="/img/<%= room.TypeID %>.jpg" alt="<%= room.RoomNumber %>">
+                <h2>ROOM <%= room.RoomNumber %></h2>
+                <p>Type: <%= room.Description %></p>
+                <p>Capacity: <%= room.Capacity %></p>
                 <div class="price-booking">
-                    <span class="price">$<%= user.PricePerNight %> per night</span>
-                    <button class="book-now">Book Now</button>
+                    <span class="price">$<%= room.PricePerNight %> per night</span>
+                    <button class="book-now">BOOK NOW</button>
                 </div>
             </div>
         <% }); %>

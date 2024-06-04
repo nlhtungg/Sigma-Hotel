@@ -25,6 +25,10 @@ header h1 {
     color: white;
 }
 
+nav {
+    padding-right: 30px;
+}
+
 nav ul {
     list-style: none;
     padding: 0;
@@ -42,14 +46,13 @@ nav ul li a {
     text-decoration: none;
     color: #ff6b00;
     font-weight: bold;
-}
-
-nav ul li a.logout {
-    color: red; /* Optional: differentiate logout button */
+    padding: 14.8px 2px;
 }
 
 nav ul li a:hover {
-    text-decoration: underline;
+    text-decoration: none;
+    color: black;
+    background-color: #ff6b00;
 }
 
 .room-cards {
@@ -80,12 +83,13 @@ nav ul li a:hover {
     object-fit: cover;
 }
 
-room-card h2 {
+.room-card h2 {
     margin: 12px 0;
     color: #ff6b00;
+    font-weight: lighter;
 }
 
-room-card p {
+.room-card p {
     margin: 0 20px 12px;
     font-size: 14px;
     color: #ccc;
