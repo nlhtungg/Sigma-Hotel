@@ -486,7 +486,7 @@ app.get('/guest-rooms', async(req, res) => {
         query += ` and Room.Status = '${filterStatus}'`;
       }
       if (filterType) {
-        query += ` and RoomType.Description = '${filterType}'`;
+        query += ` and RoomType.TypeID = '${filterType}'`;
       }
       if (filterPrice) {
         query += ` and RoomType.PricePerNight = ${filterPrice}`;
@@ -496,9 +496,9 @@ app.get('/guest-rooms', async(req, res) => {
       }
       if (orderBy) {
         query += ` order by ${orderBy}`;
-      }
-      if (desc === 'DESC') {
-        query += ` ${desc}`;
+        if (desc === 'DESC') {
+          query += ` desc`;
+        }
       }
       const result = await sql.query(query);
       console.log(query);
@@ -512,7 +512,7 @@ app.get('/guest-rooms', async(req, res) => {
   }
 });
 
-app.get('/reservation', async (req, res) => {
+app.get('/guest-reservation', async (req, res) => {
   if (req.session.role === 'guest') {
     try {
       const roomnumber = req.query.RoomNumber;
@@ -521,7 +521,7 @@ app.get('/reservation', async (req, res) => {
       from Room join RoomType on Room.TypeID = RoomType.TypeID
       where RoomNumber = ${roomnumber}`;
       if (result.recordset.length > 0) {
-        res.render('reservation', { room: result.recordset[0], user: req.session.user });
+        res.render('guest-reservation', { room: result.recordset[0], user: req.session.user });
       } else {
         res.status(404).send('Room not found');
       }

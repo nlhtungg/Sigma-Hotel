@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="/css/reset.css" />
 
         <!-- Style CSS -->
-        <link rel="stylesheet" href="/css/guest-rooms.css" />
+        <link rel="stylesheet" href="/css/guest-reservation.css" />
         <link rel="stylesheet" href="/css/common.css" />
         <script>
             function FilterForm() {
@@ -80,120 +80,32 @@
                 </div>
             </div>
         </div>
-
-        <!-- Filter -->
-        <button class="filter-btn" id="filter-btn" onclick="FilterForm()">
-            Filter
-        </button>
-        <form
-            id="FilterForm"
-            action="/guest-rooms"
-            method="GET"
-            style="display: none"
-        >
-            <h2>Filter</h2>
-            <div>
-                <label for="filterRoom">Room Number:</label>
-                <input type="number" id="filterRoom" name="filterRoom" />
-            </div>
-            <div>
-                <label for="filterType">Type:</label>
-                <select name="filterType" id="filterType" size="1">
-                    <option value="" selected disabled hidden></option>
-                    <option value="RT001">RT001</option>
-                    <option value="RT002">RT002</option>
-                    <option value="RT003">RT003</option>
-                    <option value="RT004">RT004</option>
-                    <option value="RT005">RT005</option>
-                    <option value="RT006">RT006</option>
-                    <option value="RT007">RT007</option>
-                    <option value="RT008">RT008</option>
-                    <option value="RT009">RT009</option>
-                    <option value="RT010">RT010</option>
-                    <option value="RT011">RT011</option>
-                    <option value="RT012">RT012</option>
-                    <option value="RT013">RT013</option>
-                    <option value="RT014">RT014</option>
-                    <option value="RT015">RT015</option>
-                    <option value="RT016">RT016</option>
-                    <option value="RT017">RT017</option>
-                    <option value="RT018">RT018</option>
-                    <option value="RT019">RT019</option>
-                    <option value="RT020">RT020</option>
-                </select>
-            </div>
-            <div>
-                <label for="filterStatus">Status:</label>
-                <select name="filterStatus" id="filterStatus" size="1">
-                    <option value="" selected disabled hidden></option>
-                    <option value="Available">Available</option>
-                    <option value="Occupied">Occupied</option>
-                    <option value="Maintainance">Maintainance</option>
-                </select>
-            </div>
-            <div>
-                <label for="filterCapacity">Capacity:</label>
-                <input type="number" id="filterCapacity" name="filterCapacity" />
-            </div>
-            <div>
-                <label for="filterPrice">Price:</label>
-                <input type="number" id="filterPrice" name="filterPrice" />
-            </div>
-            <div>
-                <label for="orderBy">Order By:</label>
-                <select name="orderBy" id="orderBy" size="1">
-                    <option value="" selected disabled hidden></option>
-                    <option value="RoomNumber">Room Number</option>
-                    <option value="Description">Type</option>
-                    <option value="Status">Status</option>
-                    <option value="Capacity">Capacity</option>
-                    <option value="PricePerNight">Price</option>
-                </select>
-            </div>
-            <div>
-                <label for="desc">Sort:</label>
-                <select name="desc" id="desc" size="1">
-                    <option value="" selected disabled hidden></option>
-                    <option value="ASC">ASC</option>
-                    <option value="DESC">DESC</option>
-                </select>
-            </div>
-            <div>
-                <button type="submit">Apply Filter</button>
-            </div>
-        </form>
-
-        <!-- Room card -->
-        <div class="room-cards">
-            <% rooms.forEach(room => { %>
-            <div class="room-card">
-                <img
-                    src="/img/<%= room.TypeID %>.jpg"
-                    alt="<%= room.RoomNumber %>"
-                />
-                <h2 class="subsection-title room-number">
-                    ROOM <%= room.RoomNumber %>
-                </h2>
-                <p class="subsection-desc room-desc">
-                    Type: <%= room.Description %>
-                    <br />
-                    Capacity: <%= room.Capacity %>
-                </p>
-                <div class="price-booking">
-                    <span class="price"
-                        >$<%= room.PricePerNight %> per night</span
-                    >
-                    <form action="/guest-reservation" method="GET">
-                        <input type="hidden" name="RoomNumber" value="<%= room.RoomNumber %>">
-                        <button class="book-now">BOOK NOW</button>
-                    </form>
-                </div>
-            </div>
-            <% }); %>
-        </div>
-
-        <!-- Footer -->
-        <footer>
+    <main>
+        <section>
+            <h2>Room Details</h2>
+            <p><strong>Room Number:</strong> <%= room.RoomNumber %></p>
+            <p><strong>Type:</strong> <%= room.Description %></p>
+            <p><strong>Status:</strong> <%= room.Status %></p>
+            <p><strong>Price per Night:</strong> $<%= room.PricePerNight %></p>
+        </section>
+        
+        <section>
+            <h2>Reservation Details</h2>
+            <form action="/make-reservation" method="POST">
+                <input type="hidden" name="roomNumber" value="<%= room.RoomNumber %>">
+                
+                <label for="checkInDate">Check-In Date:</label>
+                <input type="date" id="checkInDate" name="checkInDate" required>
+                
+                <label for="checkOutDate">Check-Out Date:</label>
+                <input type="date" id="checkOutDate" name="checkOutDate" required>
+                <button type="button" onclick="checkAvailability()">Check Availability</button>
+                <button type="submit">Make Reservation</button>
+            </form>
+        </section>
+    </main>
+           <!-- Footer -->
+           <footer>
             <div id="contact" class="container">
                 <h2 class="section-title footer-title">Get in Touch</h2>
                 <div class="footer-content">
@@ -253,5 +165,5 @@
                 </div>
             </div>
         </footer>
-    </body>
+</body>
 </html>

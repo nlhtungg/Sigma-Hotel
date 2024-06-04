@@ -1,14 +1,71 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Edit Your Information</title>
-    <link rel="stylesheet" type="text/css" href="/css/guest-infos.css">
-</head>
-<body>
-    <div class="guest-container">
-        <header>
-            <h1>Edit Your Information</h1>
-        </header>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Rooms</title>
+
+        <!-- Embed fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+            rel="stylesheet"
+        />
+
+        <!-- Reset CSS -->
+        <link rel="stylesheet" href="/css/reset.css" />
+
+        <!-- Style CSS -->
+        <link rel="stylesheet" href="/css/guest-infos.css" />
+        <link rel="stylesheet" href="/css/common.css" />
+    </head>
+
+    <body>
+        <!-- Header bar -->
+        <div class="header-bar">
+            <div class="header-bar__inner">
+                <!-- Logo -->
+                <a href="/">
+                    <div class="logo">
+                        <span class="sigma">Sigma</span>
+                        <br />
+                        Hotel
+                    </div>
+                </a>
+
+                <!-- Navbar -->
+                <nav class="navbar">
+                    <ul class="navbar__list">
+                        <li class="navbar__item">
+                            <a href="/guest-rooms" class="navbar__link">
+                                Rooms
+                            </a>
+                        </li>
+                        <li class="navbar__item">
+                            <a href="/guest-bookings" class="navbar__link">
+                                My Bookings
+                            </a>
+                        </li>
+                        <li class="navbar__item">
+                            <a href="/guest-payments" class="navbar__link">
+                                My Payments
+                            </a>
+                        </li>
+                        <li class="navbar__item">
+                            <a href="/guest-infos" class="navbar__link">
+                                Edit Info
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Action -->
+                <div class="navbar-action">
+                    <a href="/login" class="btn signup">Logout</a>
+                </div>
+            </div>
+        </div>
         <main>
             <form action="/guest-infos" method="POST">
                 <div>
@@ -48,5 +105,66 @@
             </form>
         </main>
     </div>
+    <!-- Footer -->
+    <footer>
+        <div id="contact" class="container">
+            <h2 class="section-title footer-title">Get in Touch</h2>
+            <div class="footer-content">
+                <ul class="footer-left">
+                    <h3 class="subsection-title">Quick link</h3>
+                    <a href="#!" class="footer-link"
+                        ><li class="footer-item">Home</li></a
+                    >
+                    <a href="#!" class="footer-link"
+                        ><li class="footer-item">Services</li></a
+                    >
+                    <a href="#!" class="footer-link"
+                        ><li class="footer-item">About us</li></a
+                    >
+                    <a href="#!" class="footer-link"
+                        ><li class="footer-item">Contact</li></a
+                    >
+                </ul>
+                <div class="footer-middle">
+                    <p class="section-desc footer-desc">
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Officia eaque incidunt ea aut iure.
+                        Blanditiis.
+                    </p>
+                    <form action="" class="footer-form">
+                        <div class="footer-input">
+                            <input
+                                type="text"
+                                name=""
+                                id=""
+                                placeholder="Enter Edging Email"
+                                class="footer-info"
+                            />
+                            <input
+                                type="submit"
+                                value="Submit"
+                                class="footer-info"
+                            />
+                        </div>
+                    </form>
+                </div>
+                <ul class="footer-right">
+                    <h3 class="subsection-title">Useful</h3>
+                    <a href="#!" class="footer-link">
+                        <li class="footer-item">Privacy policy</li>
+                    </a>
+                    <a href="#!" class="footer-link"
+                        ><li class="footer-item">Legal</li></a
+                    >
+                    <a href="#!" class="footer-link"
+                        ><li class="footer-item">FAQ</li></a
+                    >
+                    <a href="#!" class="footer-link"
+                        ><li class="footer-item">Blogs</li></a
+                    >
+                </ul>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
