@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    scroll-behavior: smooth;
 }
 
 html {
@@ -103,11 +104,15 @@ a {
     font-weight: 300;
     color: white;
     transition: 0.25;
+    padding: 2px 3px;
 }
 
 .navbar__link:hover {
     cursor: pointer;
-    text-decoration: underline;
+    padding: 2px 3px;
+    color: #000;
+    background-color: var(--theme-color);
+    border-radius: 5px;
 }
 
 .navbar-action {
