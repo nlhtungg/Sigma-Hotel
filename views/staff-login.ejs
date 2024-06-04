@@ -10,42 +10,108 @@
             href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
             rel="stylesheet"
         />
+
+        <!-- Reset CSS -->
+        <link rel="stylesheet" href="/css/reset.css" />
+
         <!-- Style -->
-        <link rel="stylesheet" type="text/css" href="/css/login.css" />
+        <link rel="stylesheet" href="/css/common.css" />
+        <link rel="stylesheet" href="/css/login.css" />
     </head>
     <body>
-        <div class="login-container">
-            <h1 class="login-title">Staff Log In</h1>
-            <form action="/staff-login" method="POST">
-                <label for="username" class="login-label">Username:</label>
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    placeholder="Enter username"
-                    class="login-input"
-                    required
-                />
-                <br />
-                <label for="password" class="login-label">Password:</label>
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Enter password"
-                    class="login-input"
-                    required
-                />
-                <br />
-                <button type="submit" class="btn">Login</button>
-            </form>
-            <p class="login-signup">
-                Don't have an account?
-                <a href="/signup" class="login-link">Sign Up</a>
-            </p>
-            <p class="login-admin">
-                <a href="/login" class="login-link">Log in as a Guest</a>
-            </p>
+        <!-- Header bar -->
+        <div class="header-bar">
+            <div class="header-bar__inner">
+                <!-- Logo -->
+                <a href="/">
+                    <div class="logo">
+                        <span class="sigma">Sigma</span>
+                        <br />
+                        Hotel
+                    </div>
+                </a>
+
+                <!-- Navbar -->
+                <nav class="navbar">
+                    <ul class="navbar__list">
+                        <li class="navbar__item">
+                            <a href="/guest-rooms" class="navbar__link">
+                                Rooms
+                            </a>
+                        </li>
+                        <li class="navbar__item">
+                            <a href="/guest-bookings" class="navbar__link">
+                                My Bookings
+                            </a>
+                        </li>
+                        <li class="navbar__item">
+                            <a href="/guest-payments" class="navbar__link">
+                                My Payments
+                            </a>
+                        </li>
+                        <li class="navbar__item">
+                            <a href="/guest-infos" class="navbar__link">
+                                Edit Info
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Action -->
+                <div class="navbar-action">
+                    <a href="/login" class="btn signup">Logout</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="login-wrap">
+            <div class="login-action">
+                <h1 class="section-title login-title">Staff Log In</h1>
+                <form action="/staff-login" method="POST">
+                    <div class="login-item">
+                        <label for="username" class="subsection-title">
+                            Staff's username:
+                        </label>
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Enter username"
+                            class="login-input"
+                            required
+                        />
+                    </div>
+
+                    <div class="login-item">
+                        <label
+                            for="password"
+                            class="subsection-title login-label"
+                        >
+                            Staff's password:
+                        </label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter password"
+                            class="login-input"
+                            required
+                        />
+                    </div>
+
+                    <button type="submit" class="login-btn btn">Login</button>
+                </form>
+                <p class="login-signup">
+                    Don't have an account?
+                    <a href="/signup" class="login-link">Sign Up</a>
+                </p>
+                <p class="login-signup">
+                    <a href="/staff-login" class="login-link">
+                        Log in as a Guest
+                    </a>
+                </p>
+            </div>
+            <img class="login-img" src="/img/login-img.jpg" alt="hotel" />
         </div>
     </body>
 </html>
