@@ -119,3 +119,80 @@ a {
     display: flex;
     align-items: center;
 }
+
+/* Footer */
+footer {
+    background-color: #000;
+    color: #fff;
+    padding: 30px 0;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-title,
+.footer-desc {
+    text-align: center;
+}
+
+.footer-link {
+    display: block;
+    margin-top: 20px;
+    color: #fff;
+}
+.footer-link:hover {
+    text-decoration: underline;
+}
+
+.footer-middle {
+    width: 500px;
+}
+
+.footer-input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.footer-info {
+    padding: 12px 20px;
+}
+
+.footer-info:first-child {
+    background-color: transparent;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+}
+
+.footer-info:first-child:focus {
+    color: #fff;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+}
+
+.footer-info:last-child {
+    color: #fff;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    background: var(--theme-color);
+}
+
+.footer-info:last-child:focus {
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+}
+
+.footer-right {
+    text-align: end;
+}

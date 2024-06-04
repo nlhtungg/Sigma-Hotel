@@ -1,49 +1,9 @@
-header {
-    background-color: black;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+body {
+    background-color: #000;
+    color: #fff;
 }
 
-header h1 {
-    margin: 0;
-    font-size: 24px;
-    color: white;
-}
-
-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    gap: 20px;
-    align-items: center; /* Ensure alignment of all items */
-}
-
-nav ul li {
-    display: inline;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: #ff6b00;
-    font-weight: bold;
-}
-
-nav ul li a.logout {
-    color: red; /* Optional: differentiate logout button */
-}
-
-nav ul li a:hover {
-    text-decoration: underline;
-}
-
+/* Room card */
 .room-cards {
     display: flex;
     flex-wrap: wrap;
@@ -87,7 +47,7 @@ room-card p {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px 12px;
+    padding: 10px 12px 20px;
 }
 
 .price {
