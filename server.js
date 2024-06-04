@@ -516,7 +516,9 @@ app.get('/reservation', async (req, res) => {
     try {
       const roomnumber = req.query.RoomNumber;
       await sql.connect(sqlConfig);
-      const result = await sql.query`SELECT * FROM AvailableRooms WHERE RoomNumber = ${roomnumber}`;
+      const result = await sql.query`select Room.RoomNumber, Room.Status, RoomType.*
+      from Room join RoomType on Room.TypeID = RoomType.TypeID
+      where RoomNumber = ${roomnumber}`;
       if (result.recordset.length > 0) {
         res.render('reservation', { room: result.recordset[0], user: req.session.user });
       } else {

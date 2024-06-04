@@ -1,36 +1,34 @@
-/* guest-dashboard.css */
+/* public/css/admin.css */
 
-/* General styles */
 body {
-    font-family: Arial, sans-serif;
-    background-color: black;
+    font-family: "Montserrat", sans-serif;
+    background: linear-gradient(34deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    height: 100vh;
 }
 
-.guest-container {
-    width: 100%;
-    background-color: black;
+.admin-container {
+    width: 80%;
+    background-color: #272727;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Header styles */
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
 }
 
 header h1 {
     margin: 0;
     font-size: 24px;
+    font-style: italic;
     color: #ff6b00;
 }
 
@@ -55,17 +53,41 @@ nav ul li a:hover {
     text-decoration: underline;
 }
 
-/* Section styles */
-main section {
+main {
     margin-top: 20px;
 }
 
 main h2 {
     font-size: 20px;
     margin-bottom: 20px;
+    color: white;
 }
 
-/* Table styles */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.stat {
+    background-color: #ff6b00;
+    color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.stat h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.stat p {
+    margin: 5px 0 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -83,45 +105,19 @@ table th {
     color: white;
 }
 
-table tr:nth-child(odd) {
-    color: white;
-}
-
 table tr:nth-child(even) {
-    background-color: #ddd;
-    color: white;
+    background-color: #f2f2f2;
 }
 
-/* Form styles */
-form#editInfoForm {
-    margin-top: 20px;
-}
-
-form#editInfoForm label {
-    display: block;
-    margin-top: 10px;
-}
-
-form#editInfoForm input[type="text"],
-form#editInfoForm input[type="email"],
-form#editInfoForm input[type="date"] {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-form#editInfoForm input[type="submit"] {
+button {
     background-color: #ff6b00;
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
+    padding: 5px 10px;
+    border-radius: 5px;
     cursor: pointer;
-    margin-top: 20px;
 }
 
-form#editInfoForm input[type="submit"]:hover {
-    background-color: #ff8c00;
+button:hover {
+    background-color: darkorange;
 }
