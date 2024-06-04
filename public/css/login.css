@@ -6,13 +6,13 @@ body {
 
 .login-wrap {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
 }
 
 .login-action {
-    width: 50%;
-    text-align: center;
+    margin: 0 auto;
+    text-align: left;
 }
 
 .login-title {
