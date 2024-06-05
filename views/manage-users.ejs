@@ -18,16 +18,14 @@
 
         <link rel="stylesheet" href="/css/table.css" />
         <script>
-            // Add User Open Function
-            function AddUserOpen() {
-                document.getElementById("add-form-users").style.display =
-                    "block";
+            // Add Open Function
+            function AddOpen() {
+                document.getElementById("add-form").style.display = "block";
                 document.getElementById("overlay").style.display = "block";
             }
-            // Add User Close Function
-            function AddUserClose() {
-                document.getElementById("add-form-users").style.display =
-                    "none";
+            // Add Close Function
+            function AddClose() {
+                document.getElementById("add-form").style.display = "none";
                 document.getElementById("overlay").style.display = "none";
             }
         </script>
@@ -88,7 +86,7 @@
 
         <!-- Add form -->
         <form
-            id="add-form-users"
+            id="add-form"
             class="popUp-form"
             method="POST"
             action="/add-user"
@@ -171,7 +169,7 @@
                 </button>
                 <button
                     class="table-btn table-btn__delete"
-                    onclick="AddUserClose()"
+                    onclick="AddClose()"
                 >
                     Cancel
                 </button>
@@ -288,7 +286,7 @@
                     <button
                         class="top-btn table-btn"
                         id="add-btn"
-                        onclick="AddUserOpen()"
+                        onclick="AddOpen()"
                     >
                         Add User
                     </button>
