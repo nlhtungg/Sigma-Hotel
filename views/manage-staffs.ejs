@@ -28,17 +28,15 @@
                 document.getElementById("overlay").style.display = "none";
             }
 
-            function FilterForm() {
-                if (
-                    document.getElementById("FilterForm").style.display ===
-                    "none"
-                ) {
-                    document.getElementById("FilterForm").style.display =
-                        "block";
-                } else {
-                    document.getElementById("FilterForm").style.display =
-                        "none";
-                }
+            // Filter Open Function
+            function FilterOpen() {
+                document.getElementById("filter-form").style.display = "block";
+                document.getElementById("overlay").style.display = "block";
+            }
+            // Filter Close Function
+            function FilterClose() {
+                document.getElementById("filter-form").style.display = "none";
+                document.getElementById("overlay").style.display = "none";
             }
         </script>
     </head>
@@ -208,7 +206,7 @@
 
         <!-- Filter form -->
         <form
-            id="FilterForm"
+            id="filter-form"
             class="popUp-form"
             action="/manage-staffs"
             method="GET"
@@ -233,6 +231,7 @@
                     name="filterName"
                 />
             </div>
+
             <div class="form-item">
                 <label for="filterDOB">DOB:</label>
                 <input
@@ -242,6 +241,7 @@
                     name="filterDOB"
                 />
             </div>
+
             <div class="form-item">
                 <label for="filterPhone">Phone:</label>
                 <input
@@ -251,6 +251,7 @@
                     name="filterPhone"
                 />
             </div>
+
             <div class="form-item">
                 <label for="filterEmail">Email:</label>
                 <input
@@ -260,6 +261,7 @@
                     name="filterEmail"
                 />
             </div>
+
             <div class="form-item">
                 <label for="filterPosition">Position:</label>
                 <input
@@ -269,6 +271,7 @@
                     name="filterPosition"
                 />
             </div>
+
             <div class="form-item">
                 <label for="orderBy">Order By:</label>
                 <select name="orderBy" id="orderBy" size="1">
@@ -282,6 +285,7 @@
                     <option value="Salary">Salary</option>
                 </select>
             </div>
+
             <div class="form-item">
                 <label for="desc">Sort:</label>
                 <select name="desc" id="desc" size="1">
@@ -289,6 +293,7 @@
                     <option value="DESC">DESC</option>
                 </select>
             </div>
+
             <div>
                 <button type="submit">Apply</button>
             </div>
@@ -302,8 +307,8 @@
                 <!-- Filter button -->
                 <button
                     class="top-btn table-btn"
-                    id="filter-btn"
-                    onclick="FilterForm()"
+                    id="filter-form"
+                    onclick="FilterOpen()"
                 >
                     Filter
                 </button>
