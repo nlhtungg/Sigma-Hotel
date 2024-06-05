@@ -26,7 +26,8 @@ app.get('/', (req, res) => {
 
 // Log in - Sign up
 app.get('/login', (req, res) => {
-    res.render('login', { message: req.session.message });
+    res.render('login', { loginfail: req.session.message });
+    req.session.message = null;
 });
 
 app.post('/login', async (req, res) => {
@@ -513,7 +514,6 @@ app.get('/guest-rooms', async(req, res) => {
 });
 
 app.get('/guest-reservation', async (req, res) => {
-  const message = req.session.message;
   if (req.session.role === 'guest') {
     try {
       const roomnumber = req.query.RoomNumber;
@@ -522,7 +522,8 @@ app.get('/guest-reservation', async (req, res) => {
       from Room join RoomType on Room.TypeID = RoomType.TypeID
       where RoomNumber = ${roomnumber}`;
       if (result.recordset.length > 0) {
-        res.render('guest-reservation', { room: result.recordset[0], user: req.session.user });
+        req.session.message = null;
+        res.render('guest-reservation', { room: result.recordset[0], user: req.session.user, checkres: req.session.message});
       } else {
         res.status(404).send('Room not found');
       }
@@ -549,16 +550,16 @@ app.post('/check-availability', async (req, res) => {
           )
       `;
       console.log(query);
-      // Execute the query
-      const result = await sql.query(query);
-
-      if (result.recordset.length === 0) {
+      const result1 = await sql.query(query);
+      const result = await sql.query`select Room.RoomNumber, Room.Status, RoomType.*
+      from Room join RoomType on Room.TypeID = RoomType.TypeID
+      where RoomNumber = ${roomnumber}`;
+      if (result1.recordset.length === 0) {
         req.session.message = 'Room is Available';
-        res.redirect('/guest-reservation',{message: req.session.message});
       } else {
         req.session.message = 'Room is not Available';
-        res.redirect('/guest-reservation',{message: req.session.message});
       }
+      res.render('guest-reservation', { room: result.recordset[0], user: req.session.user, checkres: req.session.message});
   } catch (error) {
       console.error('Error checking availability:', error);
       res.status(500).json({ error: 'An error occurred while checking availability' });
