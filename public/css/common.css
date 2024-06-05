@@ -41,7 +41,7 @@ button {
 }
 .table-btn {
     background-color: var(--theme-color);
-    padding: 8px 12px;
+    padding: 10px 12px;
     margin: 5px;
     color: white;
     cursor: pointer;
