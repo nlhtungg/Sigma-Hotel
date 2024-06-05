@@ -4,53 +4,44 @@ body {
     background-color: #000;
 }
 
-.login-wrap {
+.form-wrap {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.login-action {
+.form-action {
     margin: 0 auto;
     text-align: left;
 }
 
-.login-title {
+.form-title {
     margin-bottom: 20px;
 }
 
-.login-item {
+.form-item {
     margin: 20px 0;
 }
 
-.login-img {
+.form-img {
     justify-items: self-end;
     width: 50%;
     height: 850px;
     object-fit: cover;
 }
 
-.login-input {
-    padding: 8px;
-    margin-left: 2px;
-    border-radius: 5px;
-    background-color: #3a3b3c;
-    color: white;
-    border: solid #3a3b3c;
-}
-
-.login-btn {
+.form-btn {
     margin: 10px;
     font-size: 1.6rem;
     padding: 20px 120px;
 }
 
-.login-link {
+.form-link {
     color: var(--theme-color);
     text-decoration: underline;
 }
 
-.login-signup {
+.form-signup {
     margin-top: 10px;
 }
 

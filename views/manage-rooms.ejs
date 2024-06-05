@@ -16,7 +16,7 @@
 
         <!-- Style -->
         <link rel="stylesheet" href="/css/common.css" />
-        <link rel="stylesheet" href="/css/manage-users.css" />
+        <link rel="stylesheet" href="/css/table.css" />
         <script>
             function showAddRoomForm() {
                 document.getElementById("addRoomForm").style.display = "block";
@@ -75,9 +75,8 @@
         </div>
 
         <div class="admin-container">
-            <header>
-                <h1>Manage Rooms</h1>
-            </header>
+            <h1 class="section-title">Manage Rooms</h1>
+
             <button class="add-room-btn" onclick="showAddRoomForm()">
                 Add Room
             </button>
@@ -102,7 +101,7 @@
             </form>
 
             <main>
-                <h2>Rooms List</h2>
+                <h2 class="subsection-title">Rooms List</h2>
                 <table>
                     <thead>
                         <tr>

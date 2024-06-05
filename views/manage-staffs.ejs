@@ -15,7 +15,7 @@
 
         <!-- Style -->
         <link rel="stylesheet" href="/css/common.css" />
-        <link rel="stylesheet" href="/css/manage-users.css" />
+        <link rel="stylesheet" href="/css/table.css" />
         <script>
             function addStaffForm() {
                 if (
@@ -95,9 +95,9 @@
         </div>
 
         <div class="admin-container">
-            <header>
-                <h1>Manage Users</h1>
-            </header>
+            <h1 class="section-title">Manage Staffs</h1>
+
+            <!-- Add button -->
             <button
                 class="add-user-btn"
                 id="add-user-btnn"
@@ -151,6 +151,7 @@
                 <button class="submit-add-btn" type="submit">Submit</button>
             </form>
 
+            <!-- Filter button -->
             <button class="filter-btn" id="filter-btn" onclick="FilterForm()">
                 Filter
             </button>
@@ -216,8 +217,9 @@
                     <button type="submit">Apply</button>
                 </div>
             </form>
+
             <main>
-                <h2>Staff List</h2>
+                <h2 class="subsection-title">Staff List</h2>
                 <table>
                     <thead>
                         <tr>

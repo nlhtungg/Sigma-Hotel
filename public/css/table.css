@@ -1,0 +1,90 @@
+/* General styles */
+body {
+    background-color: #000;
+    color: #fff;
+}
+
+.subsection-title {
+    text-align: center;
+}
+
+/* Button styles */
+
+.top-btn__wrap {
+    display: flex;
+    justify-content: space-between;
+}
+
+.top-btn {
+    padding: 15px 20px;
+    margin-top: 30px;
+}
+
+.table-btn__delete {
+    background: red;
+}
+
+/* Form pop up styles */
+.popUp-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #000;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.form-item {
+    margin-top: 10px;
+}
+
+.form-input {
+    padding: 8px;
+    margin-left: 2px;
+    border-radius: 5px;
+    background-color: #3a3b3c;
+    color: white;
+    border: solid #3a3b3c;
+}
+.form-input {
+    padding: 8px;
+    margin-left: 2px;
+    border-radius: 5px;
+    background-color: #3a3b3c;
+    color: white;
+    border: solid #3a3b3c;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 5%;
+}
+
+table th,
+table td {
+    padding: 10px;
+    border: 1px solid black;
+    text-align: left;
+}
+
+table th {
+    background-color: var(--theme-color);
+    color: white;
+}
+
+table tr:nth-child(even) {
+    background-color: #3a3b3c;
+}
+
+.submit-add-btn,
+.close-add-btn {
+    background-color: var(--theme-color);
+}
+
+.submit-add-btn:hover,
+.close-add-btn:hover {
+    background-color: var(--theme-color);
+}

@@ -5,7 +5,7 @@ body {
     color: #fff;
 }
 
-.login-item {
+.form-item {
     margin-bottom: 20px;
 }
 
@@ -25,7 +25,7 @@ input[type="password"] {
     border: solid #3a3b3c;
 }
 
-.login-btn {
+.form-btn {
     margin: 0 29px;
     font-size: 1.6rem;
     padding: 20px 500px;
