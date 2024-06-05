@@ -15,30 +15,23 @@
 
         <!-- Style -->
         <link rel="stylesheet" href="/css/common.css" />
+
         <link rel="stylesheet" href="/css/table.css" />
         <script>
-            function addUserForm() {
+            // PopUp Function
+            function PopUp() {
                 if (
-                    document.getElementById("addUserForm").style.display ===
-                    "none"
+                    document.getElementById("form-id").style.display === "none"
                 ) {
-                    document.getElementById("addUserForm").style.display =
-                        "block";
-                } else {
-                    document.getElementById("addUserForm").style.display =
-                        "none";
+                    document.getElementById("form-id").style.display = "block";
                 }
             }
-            function FilterForm() {
+            // ClosePopUp Function
+            function ClosePopup() {
                 if (
-                    document.getElementById("FilterForm").style.display ===
-                    "none"
+                    document.getElementById("form-id").style.display === "block"
                 ) {
-                    document.getElementById("FilterForm").style.display =
-                        "block";
-                } else {
-                    document.getElementById("FilterForm").style.display =
-                        "none";
+                    document.getElementById("form-id").style.display = "none";
                 }
             }
         </script>
@@ -94,97 +87,182 @@
             </div>
         </div>
 
-        <div class="admin-container">
+        <div class="container">
             <h1 class="section-title">Manage Users</h1>
-            <button class="add-user-btn" id="addbtn" onclick="addUserForm()">
-                Add User
-            </button>
+
+            <!-- Add button -->
+            <div class="top-btn__wrap">
+                <!-- Filter button -->
+                <button
+                    class="top-btn table-btn"
+                    id="filter-btn"
+                    onclick="PopUp()"
+                >
+                    Filter
+                </button>
+
+                <!-- Add button -->
+                <button
+                    class="top-btn table-btn"
+                    id="add-btn"
+                    onclick="PopUp()"
+                >
+                    Add User
+                </button>
+            </div>
+
+            <!-- Add form -->
             <form
-                id="addUserForm"
+                id="form-id"
+                class="popUp-form"
                 method="POST"
                 action="/add-user"
                 style="display: none"
             >
-                <h2>Add an User</h2>
-                <div>
+                <h2 class="subsection-title">Add an User</h2>
+                <div class="form-item">
                     <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" required />
+                    <input
+                        class="form-input"
+                        type="text"
+                        id="username"
+                        name="username"
+                        required
+                    />
                 </div>
-                <div>
+                <div class="form-item">
                     <label for="password">Password:</label>
                     <input
+                        class="form-input"
                         type="password"
                         id="password"
                         name="password"
                         required
                     />
                 </div>
-                <div>
+                <div class="form-item">
                     <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required />
+                    <input
+                        class="form-input"
+                        type="text"
+                        id="name"
+                        name="name"
+                        required
+                    />
                 </div>
-                <div>
+                <div class="form-item">
                     <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required />
+                    <input
+                        class="form-input"
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                    />
                 </div>
-                <div>
+                <div class="form-item">
                     <label for="phone">Phone Number:</label>
-                    <input type="tel" id="phone" name="phone" required />
+                    <input
+                        class="form-input"
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        required
+                    />
                 </div>
-                <div>
+                <div class="form-item">
                     <label for="address">Address:</label>
-                    <input type="text" id="address" name="address" required />
+                    <input
+                        class="form-input"
+                        type="text"
+                        id="address"
+                        name="address"
+                        required
+                    />
                 </div>
-                <div>
+                <div class="form-item">
                     <label for="dob">Date of Birth:</label>
-                    <input type="date" id="dob" name="dob" required />
+                    <input
+                        class="form-input"
+                        type="date"
+                        id="dob"
+                        name="dob"
+                        required
+                    />
                 </div>
-                <button class="submit-add-btn" type="submit">Add</button>
+                <button class="table-btn" type="submit">Add</button>
+                <button
+                    class="table-btn table-btn__delete"
+                    onclick="ClosePopup()"
+                >
+                    Cancel
+                </button>
             </form>
 
-            <button class="filter-btn" id="filter-btn" onclick="FilterForm()">
-                Filter
-            </button>
+            <!-- Filter form -->
             <form
-                id="FilterForm"
+                id="form-id"
+                class="popUp-form"
                 action="/manage-users"
                 method="GET"
                 style="display: none"
             >
                 <h2>Filter</h2>
-                <div>
+                <div class="form-item">
                     <label for="filterUsername">Username:</label>
                     <input
+                        class="form-input"
                         type="text"
                         id="filterUsername"
                         name="filterUsername"
                     />
                 </div>
-                <div>
+                <div class="form-item">
                     <label for="filterName">Name:</label>
-                    <input type="text" id="filterName" name="filterName" />
+                    <input
+                        class="form-input"
+                        type="text"
+                        id="filterName"
+                        name="filterName"
+                    />
                 </div>
-                <div>
+                <div class="form-item">
                     <label for="filterDOB">DOB:</label>
-                    <input type="text" id="filterDOB" name="filterDOB" />
+                    <input
+                        class="form-input"
+                        type="text"
+                        id="filterDOB"
+                        name="filterDOB"
+                    />
                 </div>
-                <div>
+                <div class="form-item">
                     <label for="filterAddress">Address:</label>
                     <input
+                        class="form-input"
                         type="text"
                         id="filterAddress"
                         name="filterAddress"
                     />
                 </div>
-                <div>
+                <div class="form-item">
                     <label for="filterPhone">Phone:</label>
-                    <input type="text" id="filterPhone" name="filterPhone" />
+                    <input
+                        class="form-input"
+                        type="text"
+                        id="filterPhone"
+                        name="filterPhone"
+                    />
                 </div>
-                <div>
+                <div class="form-item">
                     <label for="filterEmail">Email:</label>
-                    <input type="text" id="filterEmail" name="filterEmail" />
+                    <input
+                        class="form-input"
+                        type="text"
+                        id="filterEmail"
+                        name="filterEmail"
+                    />
                 </div>
-                <div>
+                <div class="form-item">
                     <label for="orderBy">Order By:</label>
                     <select name="orderBy" id="orderBy" size="1">
                         <option value="GuestID">ID</option>
@@ -196,7 +274,7 @@
                         <option value="Email">Email</option>
                     </select>
                 </div>
-                <div>
+                <div class="form-item">
                     <label for="desc">Sort:</label>
                     <select name="desc" id="desc" size="1">
                         <option value="ASC">ASC</option>
@@ -206,10 +284,16 @@
                 <div>
                     <button type="submit">Apply Filter</button>
                 </div>
+                <button
+                    class="table-btn table-btn__delete"
+                    onclick="ClosePopup()"
+                >
+                    Cancel
+                </button>
             </form>
 
             <main>
-                <h2>Users List</h2>
+                <h2 class="subsection-title">Users List</h2>
                 <table>
                     <thead>
                         <tr>
@@ -240,7 +324,9 @@
                                         name="GuestID"
                                         value="<%= user.GuestID %>"
                                     />
-                                    <button type="submit">Edit</button>
+                                    <button class="table-btn" type="submit">
+                                        Edit
+                                    </button>
                                 </form>
                                 <form method="POST" action="/delete-user">
                                     <input
@@ -248,7 +334,12 @@
                                         name="GuestID"
                                         value="<%= user.GuestID %>"
                                     />
-                                    <button type="submit">Delete</button>
+                                    <button
+                                        class="table-btn table-btn__delete"
+                                        type="submit"
+                                    >
+                                        Delete
+                                    </button>
                                 </form>
                             </td>
                         </tr>

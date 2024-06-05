@@ -4,52 +4,56 @@ body {
     color: #fff;
 }
 
-.admin-container {
-    width: 100%;
-    background-color: black;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: flexbox;
+.subsection-title {
+    text-align: center;
 }
 
 /* Button styles */
-.add-user-btn,
-.filter-btn {
-    background-color: var(--theme-color);
-    color: white;
+
+.top-btn__wrap {
+    display: flex;
+    justify-content: space-between;
+}
+
+.top-btn {
+    padding: 15px 20px;
     margin-top: 30px;
-    padding: 15px 25px;
-    cursor: pointer;
 }
 
-.add-user-btn:hover,
-.filter-btn:hover {
-    background-color: var(--theme-color);
+.table-btn__delete {
+    background: red;
 }
 
-button {
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 5px 10px;
+/* Form pop up styles */
+.popUp-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #000;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.form-item {
+    margin-top: 10px;
+}
+
+.form-input {
+    padding: 8px;
+    margin-left: 2px;
     border-radius: 5px;
-    cursor: pointer;
+    background-color: #3a3b3c;
+    color: white;
+    border: solid #3a3b3c;
 }
-
-button:hover {
-    background-color: darkred;
-}
-
-main {
-    width: 100%;
-}
-
-main h2 {
-    padding: 20px 0px;
-    font-size: large;
-    font-weight: bold;
-    text-align: center;
+.form-input {
+    padding: 8px;
+    margin-left: 2px;
+    border-radius: 5px;
+    background-color: #3a3b3c;
+    color: white;
+    border: solid #3a3b3c;
 }
 
 /* Table styles */

@@ -16,7 +16,7 @@
 
         <!-- Style -->
         <link rel="stylesheet" href="/css/common.css" />
-        <link rel="stylesheet" href="/css/login.css" />
+        <link rel="stylesheet" href="/css/form.css" />
     </head>
     <body>
         <!-- Header bar -->
@@ -63,11 +63,11 @@
             </div>
         </div>
 
-        <div class="login-wrap">
-            <div class="login-action">
-                <h1 class="section-title login-title">Log In</h1>
+        <div class="form-wrap">
+            <div class="form-action">
+                <h1 class="section-title form-title">Log In</h1>
                 <form action="/login" method="POST">
-                    <div class="login-item">
+                    <div class="form-item">
                         <label for="username" class="subsection-title">
                             Username:
                         </label>
@@ -76,15 +76,15 @@
                             id="username"
                             name="username"
                             placeholder="Enter username"
-                            class="login-input"
+                            class="form-input"
                             required
                         />
                     </div>
 
-                    <div class="login-item">
+                    <div class="form-item">
                         <label
                             for="password"
-                            class="subsection-title login-label"
+                            class="subsection-title form-label"
                         >
                             Password:
                         </label>
@@ -93,24 +93,24 @@
                             id="password"
                             name="password"
                             placeholder="Enter password"
-                            class="login-input"
+                            class="form-input"
                             required
                         />
                     </div>
 
-                    <button type="submit" class="login-btn btn">Login</button>
+                    <button type="submit" class="form-btn btn">Login</button>
                 </form>
-                <p class="login-signup">
+                <p class="form-signup">
                     Don't have an account?
-                    <a href="/signup" class="login-link">Sign Up</a>
+                    <a href="/signup" class="form-link">Sign Up</a>
                 </p>
-                <p class="login-signup">
-                    <a href="/staff-login" class="login-link">
+                <p class="form-signup">
+                    <a href="/staff-login" class="form-link">
                         Log in as an Admin/Staff
                     </a>
                 </p>
             </div>
-            <img class="login-img" src="/img/login-img.jpg" alt="hotel" />
+            <img class="form-img" src="/img/form-img.jpg" alt="hotel" />
         </div>
     </body>
 </html>
