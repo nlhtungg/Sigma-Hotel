@@ -18,12 +18,22 @@
         <link rel="stylesheet" href="/css/common.css" />
         <link rel="stylesheet" href="/css/table.css" />
         <script>
-            function showAddRoomForm() {
-                document.getElementById("addRoomForm").style.display = "block";
+            // Add Open Function
+            function AddOpen() {
+                document.getElementById("add-form").style.display = "block";
+                document.getElementById("overlay").style.display = "block";
+            }
+            // Add Close Function
+            function AddClose() {
+                document.getElementById("add-form").style.display = "none";
+                document.getElementById("overlay").style.display = "none";
             }
         </script>
     </head>
     <body>
+        <!-- Overlay -->
+        <div id="overlay" class="overlay" style="display: none"></div>
+
         <!-- Header bar -->
         <div class="header-bar">
             <div class="header-bar__inner">
@@ -74,31 +84,74 @@
             </div>
         </div>
 
-        <div class="admin-container">
-            <h1 class="section-title">Manage Rooms</h1>
+        <!-- Add form -->
+        <form
+            id="add-form"
+            class="popUp-form"
+            method="POST"
+            action="/add-room"
+            style="display: none"
+        >
+            <h2 class="subsection-title">Add a Room</h2>
 
-            <button class="add-room-btn" onclick="showAddRoomForm()">
-                Add Room
-            </button>
-            <form
-                id="addRoomForm"
-                method="POST"
-                action="/add-room"
-                style="display: none"
-            >
+            <div class="form-item">
                 <label for="RoomNumber">Room Number:</label>
                 <input
+                    class="form-input"
                     type="number"
                     id="RoomNumber"
                     name="RoomNumber"
                     required
                 />
+            </div>
+
+            <div class="form-item">
                 <label for="TypeID">Type ID:</label>
-                <input type="text" id="TypeID" name="TypeID" required />
+                <input
+                    class="form-input"
+                    type="text"
+                    id="TypeID"
+                    name="TypeID"
+                    required
+                />
+            </div>
+
+            <div class="form-item">
                 <label for="Status">Status:</label>
-                <input type="text" id="Status" name="Status" required />
-                <button class="submit-add-btn" type="submit">Submit</button>
-            </form>
+                <input
+                    class="form-input"
+                    type="text"
+                    id="Status"
+                    name="Status"
+                    required
+                />
+            </div>
+
+            <div class="form-item">
+                <button class="table-btn table-btn__add" type="submit">
+                    Add Room
+                </button>
+                <button
+                    class="table-btn table-btn__delete"
+                    onclick="AddClose()"
+                >
+                    Cancel
+                </button>
+            </div>
+        </form>
+        <div class="container">
+            <h1 class="section-title">Manage Rooms</h1>
+
+            <div class="top-btn__wrap">
+                <div></div>
+                <button
+                    class="top-btn table-btn"
+                    id="add-form"
+                    onclick="AddOpen()"
+                >
+                    Add Room
+                </button>
+            </div>
 
             <main>
                 <h2 class="subsection-title">Rooms List</h2>
@@ -130,7 +183,9 @@
                                         name="RoomNumber"
                                         value="<%= user.RoomNumber %>"
                                     />
-                                    <button type="submit">Edit</button>
+                                    <button class="table-btn" type="submit">
+                                        Edit
+                                    </button>
                                 </form>
                                 <form method="POST" action="/delete-room">
                                     <input
@@ -138,7 +193,12 @@
                                         name="UserID"
                                         value="<%= user.RoomNumber %>"
                                     />
-                                    <button type="submit">Delete</button>
+                                    <button
+                                        class="table-btn table-btn__delete"
+                                        type="submit"
+                                    >
+                                        Delete
+                                    </button>
                                 </form>
                             </td>
                         </tr>

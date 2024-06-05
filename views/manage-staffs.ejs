@@ -17,18 +17,17 @@
         <link rel="stylesheet" href="/css/common.css" />
         <link rel="stylesheet" href="/css/table.css" />
         <script>
-            function addStaffForm() {
-                if (
-                    document.getElementById("addStaffForm").style.display ===
-                    "none"
-                ) {
-                    document.getElementById("addStaffForm").style.display =
-                        "block";
-                } else {
-                    document.getElementById("addStaffForm").style.display =
-                        "none";
-                }
+            // Add Open Function
+            function AddOpen() {
+                document.getElementById("add-form").style.display = "block";
+                document.getElementById("overlay").style.display = "block";
             }
+            // Add Close Function
+            function AddClose() {
+                document.getElementById("add-form").style.display = "none";
+                document.getElementById("overlay").style.display = "none";
+            }
+
             function FilterForm() {
                 if (
                     document.getElementById("FilterForm").style.display ===
@@ -44,6 +43,9 @@
         </script>
     </head>
     <body>
+        <!-- Overlay -->
+        <div id="overlay" class="overlay" style="display: none"></div>
+
         <!-- Header bar -->
         <div class="header-bar">
             <div class="header-bar__inner">
@@ -94,129 +96,227 @@
             </div>
         </div>
 
-        <div class="admin-container">
+        <!-- Add form -->
+        <form
+            id="add-form"
+            class="popUp-form"
+            method="POST"
+            action="/add-staff"
+            style="display: none"
+        >
+            <h2 class="subsection-title">Add a Staff</h2>
+            <div class="form-item">
+                <label for="username">Username:</label>
+                <input
+                    class="form-input"
+                    type="text"
+                    id="username"
+                    name="username"
+                    required
+                />
+            </div>
+
+            <div class="form-item">
+                <label for="password">Password:</label>
+                <input
+                    class="form-input"
+                    type="password"
+                    id="password"
+                    name="password"
+                    required
+                />
+            </div>
+
+            <div class="form-item">
+                <label for="name">Name:</label>
+                <input
+                    class="form-input"
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                />
+            </div>
+
+            <div class="form-item">
+                <label for="dob">Date of Birth:</label>
+                <input
+                    class="form-input"
+                    type="date"
+                    id="dob"
+                    name="dob"
+                    required
+                />
+            </div>
+
+            <div class="form-item">
+                <label for="email">Email:</label>
+                <input
+                    class="form-input"
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                />
+            </div>
+
+            <div class="form-item">
+                <label for="phone">Phone Number:</label>
+                <input
+                    class="form-input"
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    required
+                />
+            </div>
+
+            <div class="form-item">
+                <label for="position">Position:</label>
+                <input
+                    class="form-input"
+                    type="text"
+                    id="position"
+                    name="position"
+                    required
+                />
+            </div>
+
+            <div class="form-item">
+                <label for="salary">Salary:</label>
+                <input
+                    class="form-input"
+                    type="number"
+                    id="salary"
+                    name="salary"
+                    required
+                />
+            </div>
+
+            <div class="form-item">
+                <button class="table-btn table-btn__add" type="submit">
+                    Add Staff
+                </button>
+                <button
+                    class="table-btn table-btn__delete"
+                    onclick="AddClose()"
+                >
+                    Cancel
+                </button>
+            </div>
+        </form>
+
+        <!-- Filter form -->
+        <form
+            id="FilterForm"
+            class="popUp-form"
+            action="/manage-staffs"
+            method="GET"
+            style="display: none"
+        >
+            <h2 class="subsection-title">Add a Staff</h2>
+            <div class="form-item">
+                <label for="filterUsername">Username:</label>
+                <input
+                    class="form-input"
+                    type="text"
+                    id="filterUsername"
+                    name="filterUsername"
+                />
+            </div>
+            <div class="form-item">
+                <label for="filterName">Name:</label>
+                <input
+                    class="form-input"
+                    type="text"
+                    id="filterName"
+                    name="filterName"
+                />
+            </div>
+            <div class="form-item">
+                <label for="filterDOB">DOB:</label>
+                <input
+                    class="form-input"
+                    type="text"
+                    id="filterDOB"
+                    name="filterDOB"
+                />
+            </div>
+            <div class="form-item">
+                <label for="filterPhone">Phone:</label>
+                <input
+                    class="form-input"
+                    type="text"
+                    id="filterPhone"
+                    name="filterPhone"
+                />
+            </div>
+            <div class="form-item">
+                <label for="filterEmail">Email:</label>
+                <input
+                    class="form-input"
+                    type="text"
+                    id="filterEmail"
+                    name="filterEmail"
+                />
+            </div>
+            <div class="form-item">
+                <label for="filterPosition">Position:</label>
+                <input
+                    class="form-input"
+                    type="text"
+                    id="filterPosition"
+                    name="filterPosition"
+                />
+            </div>
+            <div class="form-item">
+                <label for="orderBy">Order By:</label>
+                <select name="orderBy" id="orderBy" size="1">
+                    <option value="StaffID">ID</option>
+                    <option value="Username">Username</option>
+                    <option value="Name">Name</option>
+                    <option value="DOB">DOB</option>
+                    <option value="Phone">Phone</option>
+                    <option value="Email">Email</option>
+                    <option value="Position">Position</option>
+                    <option value="Salary">Salary</option>
+                </select>
+            </div>
+            <div class="form-item">
+                <label for="desc">Sort:</label>
+                <select name="desc" id="desc" size="1">
+                    <option value="ASC">ASC</option>
+                    <option value="DESC">DESC</option>
+                </select>
+            </div>
+            <div>
+                <button type="submit">Apply</button>
+            </div>
+        </form>
+
+        <div class="container">
             <h1 class="section-title">Manage Staffs</h1>
 
-            <!-- Add button -->
-            <button
-                class="add-user-btn"
-                id="add-user-btnn"
-                onclick="addStaffForm()"
-            >
-                Add Staff
-            </button>
-            <form
-                id="addStaffForm"
-                method="POST"
-                action="/add-staff"
-                style="display: none"
-            >
-                <div>
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" required />
-                </div>
-                <div>
-                    <label for="password">Password:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        required
-                    />
-                </div>
-                <div>
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required />
-                </div>
-                <div>
-                    <label for="dob">Date of Birth:</label>
-                    <input type="date" id="dob" name="dob" required />
-                </div>
-                <div>
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required />
-                </div>
-                <div>
-                    <label for="phone">Phone Number:</label>
-                    <input type="tel" id="phone" name="phone" required />
-                </div>
-                <div>
-                    <label for="position">Position:</label>
-                    <input type="text" id="position" name="position" required />
-                </div>
-                <div>
-                    <label for="salary">Salary:</label>
-                    <input type="number" id="salary" name="salary" required />
-                </div>
-                <button class="submit-add-btn" type="submit">Submit</button>
-            </form>
+            <!-- Top button -->
+            <div class="top-btn__wrap">
+                <!-- Filter button -->
+                <button
+                    class="top-btn table-btn"
+                    id="filter-btn"
+                    onclick="FilterForm()"
+                >
+                    Filter
+                </button>
 
-            <!-- Filter button -->
-            <button class="filter-btn" id="filter-btn" onclick="FilterForm()">
-                Filter
-            </button>
-            <form
-                id="FilterForm"
-                action="/manage-staffs"
-                method="GET"
-                style="display: none"
-            >
-                <div>
-                    <label for="filterUsername">Username:</label>
-                    <input
-                        type="text"
-                        id="filterUsername"
-                        name="filterUsername"
-                    />
-                </div>
-                <div>
-                    <label for="filterName">Name:</label>
-                    <input type="text" id="filterName" name="filterName" />
-                </div>
-                <div>
-                    <label for="filterDOB">DOB:</label>
-                    <input type="text" id="filterDOB" name="filterDOB" />
-                </div>
-                <div>
-                    <label for="filterPhone">Phone:</label>
-                    <input type="text" id="filterPhone" name="filterPhone" />
-                </div>
-                <div>
-                    <label for="filterEmail">Email:</label>
-                    <input type="text" id="filterEmail" name="filterEmail" />
-                </div>
-                <div>
-                    <label for="filterPosition">Position:</label>
-                    <input
-                        type="text"
-                        id="filterPosition"
-                        name="filterPosition"
-                    />
-                </div>
-                <div>
-                    <label for="orderBy">Order By:</label>
-                    <select name="orderBy" id="orderBy" size="1">
-                        <option value="StaffID">ID</option>
-                        <option value="Username">Username</option>
-                        <option value="Name">Name</option>
-                        <option value="DOB">DOB</option>
-                        <option value="Phone">Phone</option>
-                        <option value="Email">Email</option>
-                        <option value="Position">Position</option>
-                        <option value="Salary">Salary</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="desc">Sort:</label>
-                    <select name="desc" id="desc" size="1">
-                        <option value="ASC">ASC</option>
-                        <option value="DESC">DESC</option>
-                    </select>
-                </div>
-                <div>
-                    <button type="submit">Apply</button>
-                </div>
-            </form>
+                <!-- Add button -->
+                <button
+                    class="top-btn table-btn"
+                    id="add-form"
+                    onclick="AddOpen()"
+                >
+                    Add Staff
+                </button>
+            </div>
 
             <main>
                 <h2 class="subsection-title">Staff List</h2>
@@ -252,7 +352,9 @@
                                         name="StaffID"
                                         value="<%= user.StaffID %>"
                                     />
-                                    <button type="submit">Edit</button>
+                                    <button class="table-btn" type="submit">
+                                        Edit
+                                    </button>
                                 </form>
                                 <form method="POST" action="/delete-staff">
                                     <input
@@ -260,7 +362,12 @@
                                         name="StaffID"
                                         value="<%= user.StaffID %>"
                                     />
-                                    <button type="submit">Delete</button>
+                                    <button
+                                        class="table-btn table-btn__delete"
+                                        type="submit"
+                                    >
+                                        Delete
+                                    </button>
                                 </form>
                             </td>
                         </tr>
