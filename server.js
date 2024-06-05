@@ -513,6 +513,7 @@ app.get('/guest-rooms', async(req, res) => {
 });
 
 app.get('/guest-reservation', async (req, res) => {
+  const message = req.session.message;
   if (req.session.role === 'guest') {
     try {
       const roomnumber = req.query.RoomNumber;
@@ -531,6 +532,36 @@ app.get('/guest-reservation', async (req, res) => {
     }
   } else {
     res.redirect('/login');
+  }
+});
+
+app.post('/check-availability', async (req, res) => {
+  try {
+      const { roomnumber, startDate, endDate } = req.body;
+      await sql.connect(sqlConfig);
+      const query = `
+          SELECT * FROM Booking
+          WHERE RoomNumber = ${roomnumber}
+          AND (
+              (checkinDate <= '${endDate}' AND checkinDate >= '${startDate}')
+              OR (checkoutDate <= '${endDate}' AND checkoutDate >= '${startDate}')
+              OR (checkinDate <= '${startDate}' AND checkoutDate >= '${endDate}')
+          )
+      `;
+      console.log(query);
+      // Execute the query
+      const result = await sql.query(query);
+
+      if (result.recordset.length === 0) {
+        req.session.message = 'Room is Available';
+        res.redirect('/guest-reservation',{message: req.session.message});
+      } else {
+        req.session.message = 'Room is not Available';
+        res.redirect('/guest-reservation',{message: req.session.message});
+      }
+  } catch (error) {
+      console.error('Error checking availability:', error);
+      res.status(500).json({ error: 'An error occurred while checking availability' });
   }
 });
 
