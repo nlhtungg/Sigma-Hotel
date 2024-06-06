@@ -274,7 +274,7 @@
 
             <div class="form-item">
                 <label for="orderBy">Order By:</label>
-                <select name="orderBy" id="orderBy" size="1">
+                <select class="form-input" name="orderBy" id="orderBy" size="1">
                     <option value="StaffID">ID</option>
                     <option value="Username">Username</option>
                     <option value="Name">Name</option>
@@ -288,21 +288,29 @@
 
             <div class="form-item">
                 <label for="desc">Sort:</label>
-                <select name="desc" id="desc" size="1">
+                <select class="form-input" name="desc" id="desc" size="1">
                     <option value="ASC">ASC</option>
                     <option value="DESC">DESC</option>
                 </select>
             </div>
 
-            <div>
-                <button type="submit">Apply</button>
+            <div class="form-item">
+                <button class="table-btn table-btn__add" type="submit">
+                    Apply
+                </button>
+                <button
+                    class="table-btn table-btn__delete"
+                    onclick="ClosePopup()"
+                >
+                    Cancel
+                </button>
             </div>
         </form>
 
         <div class="container">
             <h1 class="section-title">Manage Staffs</h1>
 
-            <!-- Top button -->
+            <!-- Top button Open-->
             <div class="top-btn__wrap">
                 <!-- Filter button -->
                 <button

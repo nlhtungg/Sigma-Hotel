@@ -26,7 +26,7 @@ body {
 .form-img {
     justify-items: self-end;
     width: 50%;
-    height: 850px;
+    height: 100%;
     object-fit: cover;
 }
 
