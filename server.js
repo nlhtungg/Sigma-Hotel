@@ -610,7 +610,8 @@ app.get('/guest-infos', async (req, res) => {
       await sql.connect(sqlConfig);
       let query = `SELECT * FROM MyInfo(${guestID}) WHERE 1=1`;
       const result = await sql.query(query);
-      res.render('guest-infos', { user: result.recordset[0]});
+      res.render('guest-infos', { user: result.recordset[0], wrongpass: req.session.message });
+      req.session.message = null;
   } catch (err) {
       console.error('SQL error', err);
       res.status(500).send('Internal Server Error');
@@ -628,7 +629,8 @@ app.post('/guest-infos', async (req, res) => {
           await sql.connect(sqlConfig);
           const result = await sql.query`SELECT * FROM Guest WHERE GuestID = ${guestID} and Password = ${password}`;
           if (result.recordset.length === 0) {
-            return res.status(404).send('Wrong password');
+            req.session.message = 'Wrong password';
+            res.redirect('/guest-infos');
           } else {
             if(name) {
               await sql.query`UPDATE Guest SET Name = ${name} WHERE GuestID = ${guestID}`;
