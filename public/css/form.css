@@ -2,14 +2,12 @@
 body {
     color: #fff;
     background-color: #000;
-    overflow: hidden;
 }
 
 .form-wrap {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 100vh;
 }
 
 .form-action {

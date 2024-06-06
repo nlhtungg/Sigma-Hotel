@@ -29,12 +29,12 @@
                 document.getElementById("overlay").style.display = "none";
             }
 
-            // Add Open Function
+            // Filter Open Function
             function FilterOpen() {
                 document.getElementById("filter-form").style.display = "block";
                 document.getElementById("overlay").style.display = "block";
             }
-            // Add Close Function
+            // Filter Close Function
             function FilterClose() {
                 document.getElementById("filter-form").style.display = "none";
                 document.getElementById("overlay").style.display = "none";
@@ -287,7 +287,7 @@
                 </button>
                 <button
                     class="table-btn table-btn__delete"
-                    onclick="ClosePopup()"
+                    onclick="FilterClose()"
                 >
                     Cancel
                 </button>
