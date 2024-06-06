@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Rooms</title>
+        <title>My Bookings</title>
 
         <!-- Embed fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -20,22 +20,23 @@
         <link rel="stylesheet" href="/css/common.css" />
         <link rel="stylesheet" href="/css/table.css" />
         <script>
-            function FilterForm() {
-                if (
-                    document.getElementById("FilterForm").style.display ===
-                    "none"
-                ) {
-                    document.getElementById("FilterForm").style.display =
-                        "block";
-                } else {
-                    document.getElementById("FilterForm").style.display =
-                        "none";
-                }
+            // Filter Open Function
+            function FilterOpen() {
+                document.getElementById("filter-form").style.display = "block";
+                document.getElementById("overlay").style.display = "block";
+            }
+            // Filter Close Function
+            function FilterClose() {
+                document.getElementById("filter-form").style.display = "none";
+                document.getElementById("overlay").style.display = "none";
             }
         </script>
     </head>
 
     <body>
+        <!-- Overlay -->
+        <div id="overlay" class="overlay" style="display: none"></div>
+
         <!-- Header bar -->
         <div class="header-bar">
             <div class="header-bar__inner">
@@ -57,7 +58,11 @@
                             </a>
                         </li>
                         <li class="navbar__item">
-                            <a href="/guest-bookings" class="navbar__link">
+                            <a
+                                href="/guest-bookings"
+                                class="navbar__link"
+                                style="text-decoration: underline"
+                            >
                                 My Bookings
                             </a>
                         </li>
@@ -81,178 +86,230 @@
             </div>
         </div>
 
-        <!-- Filter -->
-        <button class="filter-btn" id="filter-btn" onclick="FilterForm()">
-            Filter
-        </button>
-        <form
-            id="FilterForm"
-            action="/guest-rooms"
-            method="GET"
-            style="display: none"
-        >
-            <h2>Filter</h2>
-            <div>
-                <label for="filterRoom">Room Number:</label>
-                <input type="number" id="filterRoom" name="filterRoom" />
-            </div>
-            <div>
-                <label for="filterType">Type:</label>
-                <select name="filterType" id="filterType" size="1">
-                    <option value="" selected disabled hidden></option>
-                    <option value="RT001">RT001</option>
-                    <option value="RT002">RT002</option>
-                    <option value="RT003">RT003</option>
-                    <option value="RT004">RT004</option>
-                    <option value="RT005">RT005</option>
-                    <option value="RT006">RT006</option>
-                    <option value="RT007">RT007</option>
-                    <option value="RT008">RT008</option>
-                    <option value="RT009">RT009</option>
-                    <option value="RT010">RT010</option>
-                    <option value="RT011">RT011</option>
-                    <option value="RT012">RT012</option>
-                    <option value="RT013">RT013</option>
-                    <option value="RT014">RT014</option>
-                    <option value="RT015">RT015</option>
-                    <option value="RT016">RT016</option>
-                    <option value="RT017">RT017</option>
-                    <option value="RT018">RT018</option>
-                    <option value="RT019">RT019</option>
-                    <option value="RT020">RT020</option>
-                </select>
-            </div>
-            <div>
-                <label for="filterStatus">Status:</label>
-                <select name="filterStatus" id="filterStatus" size="1">
-                    <option value="" selected disabled hidden></option>
-                    <option value="Available">Available</option>
-                    <option value="Occupied">Occupied</option>
-                    <option value="Maintainance">Maintainance</option>
-                </select>
-            </div>
-            <div>
-                <label for="filterCapacity">Capacity:</label>
-                <input type="number" id="filterCapacity" name="filterCapacity" />
-            </div>
-            <div>
-                <label for="filterPrice">Price:</label>
-                <input type="number" id="filterPrice" name="filterPrice" />
-            </div>
-            <div>
-                <label for="orderBy">Order By:</label>
-                <select name="orderBy" id="orderBy" size="1">
-                    <option value="" selected disabled hidden></option>
-                    <option value="RoomNumber">Room Number</option>
-                    <option value="Description">Type</option>
-                    <option value="Status">Status</option>
-                    <option value="Capacity">Capacity</option>
-                    <option value="PricePerNight">Price</option>
-                </select>
-            </div>
-            <div>
-                <label for="desc">Sort:</label>
-                <select name="desc" id="desc" size="1">
-                    <option value="" selected disabled hidden></option>
-                    <option value="ASC">ASC</option>
-                    <option value="DESC">DESC</option>
-                </select>
-            </div>
-            <div>
-                <button type="submit">Apply Filter</button>
-            </div>
-        </form>
+        <div class="container">
+            <!-- Filter Button-->
+            <button
+                class="top-btn table-btn"
+                id="filter-btn"
+                onclick="FilterOpen()"
+            >
+                Filter
+            </button>
 
-        <main>
-            <section id="bookings">
-                <h2>My Bookings</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Booking ID</th>
-                            <th>Room Number</th>
-                            <th>Check-in Date</th>
-                            <th>Check-out Date</th>
-                            <th>Total Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% users.forEach(user => { %>
+            <form
+                class="popUp-form"
+                id="filter-form"
+                action="/guest-rooms"
+                method="GET"
+                style="display: none"
+            >
+                <h2 class="subsection-title">Filter</h2>
+                <div class="form-item">
+                    <label for="filterRoom">Room Number:</label>
+                    <input
+                        class="form-input"
+                        type="number"
+                        id="filterRoom"
+                        name="filterRoom"
+                    />
+                </div>
+
+                <div class="form-item">
+                    <label for="filterType">Type:</label>
+                    <select
+                        class="form-input"
+                        name="filterType"
+                        id="filterType"
+                        size="1"
+                    >
+                        <option value="" selected disabled hidden></option>
+                        <option value="RT001">RT001</option>
+                        <option value="RT002">RT002</option>
+                        <option value="RT003">RT003</option>
+                        <option value="RT004">RT004</option>
+                        <option value="RT005">RT005</option>
+                        <option value="RT006">RT006</option>
+                        <option value="RT007">RT007</option>
+                        <option value="RT008">RT008</option>
+                        <option value="RT009">RT009</option>
+                        <option value="RT010">RT010</option>
+                        <option value="RT011">RT011</option>
+                        <option value="RT012">RT012</option>
+                        <option value="RT013">RT013</option>
+                        <option value="RT014">RT014</option>
+                        <option value="RT015">RT015</option>
+                        <option value="RT016">RT016</option>
+                        <option value="RT017">RT017</option>
+                        <option value="RT018">RT018</option>
+                        <option value="RT019">RT019</option>
+                        <option value="RT020">RT020</option>
+                    </select>
+                </div>
+
+                <div class="form-item">
+                    <label for="filterStatus">Status:</label>
+                    <select
+                        class="form-input"
+                        name="filterStatus"
+                        id="filterStatus"
+                        size="1"
+                    >
+                        <option value="" selected disabled hidden></option>
+                        <option value="Available">Available</option>
+                        <option value="Occupied">Occupied</option>
+                        <option value="Maintainance">Maintainance</option>
+                    </select>
+                </div>
+
+                <div class="form-item">
+                    <label for="filterCapacity">Capacity:</label>
+                    <input
+                        class="form-input"
+                        type="number"
+                        id="filterCapacity"
+                        name="filterCapacity"
+                    />
+                </div>
+
+                <div class="form-item">
+                    <label for="filterPrice">Price:</label>
+                    <input
+                        class="form-input"
+                        type="number"
+                        id="filterPrice"
+                        name="filterPrice"
+                    />
+                </div>
+
+                <div class="form-item">
+                    <label for="orderBy">Order By:</label>
+                    <select
+                        class="form-input"
+                        name="orderBy"
+                        id="orderBy"
+                        size="1"
+                    >
+                        <option value="" selected disabled hidden></option>
+                        <option value="RoomNumber">Room Number</option>
+                        <option value="Description">Type</option>
+                        <option value="Status">Status</option>
+                        <option value="Capacity">Capacity</option>
+                        <option value="PricePerNight">Price</option>
+                    </select>
+                </div>
+
+                <div class="form-item">
+                    <label for="desc">Sort:</label>
+                    <select class="form-input" name="desc" id="desc" size="1">
+                        <option value="" selected disabled hidden></option>
+                        <option value="ASC">ASC</option>
+                        <option value="DESC">DESC</option>
+                    </select>
+                </div>
+
+                <div class="form-item">
+                    <button class="table-btn table-btn__add" type="submit">
+                        Apply Filter
+                    </button>
+                    <button
+                        class="table-btn table-btn__delete"
+                        onclick="FilterClose()"
+                    >
+                        Cancel
+                    </button>
+                </div>
+            </form>
+
+            <main>
+                <section id="bookings">
+                    <h2>My Bookings</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Booking ID</th>
+                                <th>Room Number</th>
+                                <th>Check-in Date</th>
+                                <th>Check-out Date</th>
+                                <th>Total Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% users.forEach(user => { %>
                             <tr>
                                 <td><%= user.BookingID %></td>
                                 <td><%= user.RoomNumber %></td>
                                 <td><%= user.inDate %></td>
                                 <td><%= user.outDate %></td>
                                 <td><%= user.TotalPrice %></td>
-                            </tr>    
-                        <% }) %>
-                        <!-- Add more bookings rows as needed -->
-                    </tbody>
-                </table>
-            </section>
-        </main>
-    </div>
+                            </tr>
+                            <% }) %>
+                            <!-- Add more bookings rows as needed -->
+                        </tbody>
+                    </table>
+                </section>
+            </main>
 
-           <!-- Footer -->
-           <footer>
-            <div id="contact" class="container">
-                <h2 class="section-title footer-title">Get in Touch</h2>
-                <div class="footer-content">
-                    <ul class="footer-left">
-                        <h3 class="subsection-title">Quick link</h3>
-                        <a href="#!" class="footer-link"
-                            ><li class="footer-item">Home</li></a
-                        >
-                        <a href="#!" class="footer-link"
-                            ><li class="footer-item">Services</li></a
-                        >
-                        <a href="#!" class="footer-link"
-                            ><li class="footer-item">About us</li></a
-                        >
-                        <a href="#!" class="footer-link"
-                            ><li class="footer-item">Contact</li></a
-                        >
-                    </ul>
-                    <div class="footer-middle">
-                        <p class="section-desc footer-desc">
-                            Lorem ipsum, dolor sit amet consectetur adipisicing
-                            elit. Officia eaque incidunt ea aut iure.
-                            Blanditiis.
-                        </p>
-                        <form action="" class="footer-form">
-                            <div class="footer-input">
-                                <input
-                                    type="text"
-                                    name=""
-                                    id=""
-                                    placeholder="Enter Edging Email"
-                                    class="footer-info"
-                                />
-                                <input
-                                    type="submit"
-                                    value="Submit"
-                                    class="footer-info"
-                                />
-                            </div>
-                        </form>
+            <!-- Footer -->
+            <footer>
+                <div id="contact" class="container">
+                    <h2 class="section-title footer-title">Get in Touch</h2>
+                    <div class="footer-content">
+                        <ul class="footer-left">
+                            <h3 class="subsection-title">Quick link</h3>
+                            <a href="#!" class="footer-link"
+                                ><li class="footer-item">Home</li></a
+                            >
+                            <a href="#!" class="footer-link"
+                                ><li class="footer-item">Services</li></a
+                            >
+                            <a href="#!" class="footer-link"
+                                ><li class="footer-item">About us</li></a
+                            >
+                            <a href="#!" class="footer-link"
+                                ><li class="footer-item">Contact</li></a
+                            >
+                        </ul>
+                        <div class="footer-middle">
+                            <p class="section-desc footer-desc">
+                                Lorem ipsum, dolor sit amet consectetur
+                                adipisicing elit. Officia eaque incidunt ea aut
+                                iure. Blanditiis.
+                            </p>
+                            <form action="" class="footer-form">
+                                <div class="footer-input">
+                                    <input
+                                        type="text"
+                                        name=""
+                                        id=""
+                                        placeholder="Enter Edging Email"
+                                        class="footer-info"
+                                    />
+                                    <input
+                                        type="submit"
+                                        value="Submit"
+                                        class="footer-info"
+                                    />
+                                </div>
+                            </form>
+                        </div>
+                        <ul class="footer-right">
+                            <h3 class="subsection-title">Useful</h3>
+                            <a href="#!" class="footer-link">
+                                <li class="footer-item">Privacy policy</li>
+                            </a>
+                            <a href="#!" class="footer-link"
+                                ><li class="footer-item">Legal</li></a
+                            >
+                            <a href="#!" class="footer-link"
+                                ><li class="footer-item">FAQ</li></a
+                            >
+                            <a href="#!" class="footer-link"
+                                ><li class="footer-item">Blogs</li></a
+                            >
+                        </ul>
                     </div>
-                    <ul class="footer-right">
-                        <h3 class="subsection-title">Useful</h3>
-                        <a href="#!" class="footer-link">
-                            <li class="footer-item">Privacy policy</li>
-                        </a>
-                        <a href="#!" class="footer-link"
-                            ><li class="footer-item">Legal</li></a
-                        >
-                        <a href="#!" class="footer-link"
-                            ><li class="footer-item">FAQ</li></a
-                        >
-                        <a href="#!" class="footer-link"
-                            ><li class="footer-item">Blogs</li></a
-                        >
-                    </ul>
                 </div>
-            </div>
-        </footer>
-</body>
+            </footer>
+        </div>
+    </body>
 </html>

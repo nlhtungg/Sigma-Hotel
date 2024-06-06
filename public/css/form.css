@@ -20,7 +20,16 @@ body {
 }
 
 .form-item {
-    margin: 20px 0;
+    margin: 15px 0;
+}
+
+.form-input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    background-color: #3a3b3c;
+    color: white;
+    border: solid #3a3b3c;
 }
 
 .form-img {
