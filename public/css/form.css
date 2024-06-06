@@ -24,8 +24,8 @@ body {
 }
 
 .form-input {
-    padding: 12px;
-    margin-left: 2px;
+    width: 100%;
+    padding: 8px;
     border-radius: 5px;
     background-color: #3a3b3c;
     color: white;

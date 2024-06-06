@@ -20,22 +20,23 @@
         <link rel="stylesheet" href="/css/common.css" />
         <link rel="stylesheet" href="/css/table.css" />
         <script>
-            function FilterForm() {
-                if (
-                    document.getElementById("FilterForm").style.display ===
-                    "none"
-                ) {
-                    document.getElementById("FilterForm").style.display =
-                        "block";
-                } else {
-                    document.getElementById("FilterForm").style.display =
-                        "none";
-                }
+            // Filter Open Function
+            function FilterOpen() {
+                document.getElementById("filter-form").style.display = "block";
+                document.getElementById("overlay").style.display = "block";
+            }
+            // Filter Close Function
+            function FilterClose() {
+                document.getElementById("filter-form").style.display = "none";
+                document.getElementById("overlay").style.display = "none";
             }
         </script>
     </head>
 
     <body>
+        <!-- Overlay -->
+        <div id="overlay" class="overlay" style="display: none"></div>
+
         <!-- Header bar -->
         <div class="header-bar">
             <div class="header-bar__inner">
@@ -82,6 +83,15 @@
         </div>
 
         <main>
+            <!-- Filter Button-->
+            <button
+                class="top-btn table-btn"
+                id="filter-btn"
+                onclick="FilterOpen()"
+            >
+                Filter
+            </button>
+            
             <section id="payments">
                 <h2>My Payments</h2>
                 <table>

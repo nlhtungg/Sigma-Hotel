@@ -47,23 +47,6 @@ body {
     z-index: 10;
 }
 
-.form-item {
-    margin-top: 10px;
-}
-
-.form-item:last-child {
-    margin: 10px;
-}
-
-.form-input {
-    padding: 8px;
-    margin-left: 2px;
-    border-radius: 5px;
-    background-color: #3a3b3c;
-    color: white;
-    border: solid #3a3b3c;
-}
-
 /* Table styles */
 table {
     width: 100%;
