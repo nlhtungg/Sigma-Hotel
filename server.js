@@ -555,8 +555,10 @@ app.post('/guest-reservation', async (req, res) => {
       from Room join RoomType on Room.TypeID = RoomType.TypeID
       where RoomNumber = ${roomnumber}`;
       if (result1.recordset.length === 0) {
+        const pricePerNight = result.recordset[0].PricePerNight;
+        const totalPrice = calculateTotalPrice(startDate, endDate, pricePerNight);
         req.session.bookingDetails = {
-          roomnumber, startDate, endDate, paymentMethod
+          roomnumber, startDate, endDate, paymentMethod, totalPrice
         }
         res.redirect('/confirm-booking');
       } else {
@@ -572,6 +574,14 @@ app.post('/guest-reservation', async (req, res) => {
   }
 });
 
+function calculateTotalPrice(checkinDate, checkoutDate, pricePerNight) {
+  const checkin = new Date(checkinDate);
+  const checkout = new Date(checkoutDate);
+  const differenceInTime = checkout.getTime() - checkin.getTime();
+  const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+  return differenceInDays * pricePerNight;
+}
+
 app.get('/confirm-booking', async (req, res) => {
   try {
     const bookingDetails = req.session.bookingDetails;
@@ -583,6 +593,7 @@ app.get('/confirm-booking', async (req, res) => {
       roomnumber: bookingDetails.roomnumber,
       startDate: bookingDetails.startDate,
       endDate: bookingDetails.endDate,
+      totalPrice: bookingDetails.totalPrice,
       paymentMethod: bookingDetails.paymentMethod,
     });
   } catch (error) {
