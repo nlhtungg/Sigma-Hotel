@@ -98,7 +98,7 @@ button {
 .header-bar__inner {
     margin: auto;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
     padding: 15px;
     width: 1350px;
