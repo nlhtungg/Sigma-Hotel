@@ -536,9 +536,9 @@ app.get('/guest-reservation', async (req, res) => {
   }
 });
 
-app.post('/check-availability', async (req, res) => {
+app.post('/guest-reservation', async (req, res) => {
   try {
-      const { roomnumber, startDate, endDate } = req.body;
+      const { roomnumber, startDate, endDate, paymentMethod } = req.body;
       await sql.connect(sqlConfig);
       const query = `
           SELECT * FROM Booking
@@ -555,16 +555,62 @@ app.post('/check-availability', async (req, res) => {
       from Room join RoomType on Room.TypeID = RoomType.TypeID
       where RoomNumber = ${roomnumber}`;
       if (result1.recordset.length === 0) {
-        req.session.message = 'Room is Available';
+        req.session.bookingDetails = {
+          roomnumber, startDate, endDate, paymentMethod
+        }
+        res.redirect('/confirm-booking');
       } else {
-        req.session.message = 'Room is not Available';
+        req.session.message = 'Room is not available at that time';
+        res.render('guest-reservation', 
+      { room: result.recordset[0], 
+        user: req.session.user, 
+        checkres: req.session.message});
       }
-      res.render('guest-reservation', { room: result.recordset[0], user: req.session.user, checkres: req.session.message});
   } catch (error) {
       console.error('Error checking availability:', error);
       res.status(500).json({ error: 'An error occurred while checking availability' });
   }
 });
+
+app.get('/confirm-booking', async (req, res) => {
+  try {
+    const bookingDetails = req.session.bookingDetails;
+    if (!bookingDetails) {
+      res.redirect('/guest-reservation');
+      return;
+    }
+    res.render('confirm-booking', {
+      roomnumber: bookingDetails.roomnumber,
+      startDate: bookingDetails.startDate,
+      endDate: bookingDetails.endDate,
+      paymentMethod: bookingDetails.paymentMethod,
+    });
+  } catch (error) {
+    console.error('Error loading confirmation page:', error);
+    res.status(500).json({ error: 'An error occurred while loading the confirmation page' });
+  }
+});
+
+app.post('/confirm-booking', async (req, res) => {
+  try {
+    const guestID = req.session.user.GuestID;
+    const bookingDetails = req.session.bookingDetails;
+    await sql.connect(sqlConfig);
+    const insertBooking = 
+    `EXEC CreateBookingAndPayment
+    @GuestID = ${guestID},
+    @RoomNumber = ${bookingDetails.roomnumber},
+    @CheckinDate = '${bookingDetails.startDate}',
+    @CheckoutDate = '${bookingDetails.endDate}',
+    @PaymentMethod = '${bookingDetails.paymentMethod}';`;
+    console.log(insertBooking);
+    await sql.query(insertBooking);
+    res.redirect('/guest-bookings');
+  } catch (error) {
+    console.error('Error confirming booking:', error);
+    res.status(500).json({ error: 'An error occurred while confirming the booking' });
+  }
+})
 
 app.get('/guest-bookings', async(req, res) => {
   if (req.session.role === 'guest') {
@@ -610,8 +656,8 @@ app.get('/guest-infos', async (req, res) => {
       await sql.connect(sqlConfig);
       let query = `SELECT * FROM MyInfo(${guestID}) WHERE 1=1`;
       const result = await sql.query(query);
-      res.render('guest-infos', { user: result.recordset[0], wrongpass: req.session.message });
-      req.session.message = null;
+      res.render('guest-infos', { user: result.recordset[0], wrongpass: req.session.wrongpass });
+      req.session.wrongpass = null;
   } catch (err) {
       console.error('SQL error', err);
       res.status(500).send('Internal Server Error');
@@ -629,7 +675,7 @@ app.post('/guest-infos', async (req, res) => {
           await sql.connect(sqlConfig);
           const result = await sql.query`SELECT * FROM Guest WHERE GuestID = ${guestID} and Password = ${password}`;
           if (result.recordset.length === 0) {
-            req.session.message = 'Wrong password';
+            req.session.wrongpass = 'Wrong password';
             res.redirect('/guest-infos');
           } else {
             if(name) {

@@ -41,8 +41,7 @@
 
     <!-- Main Content -->
     <main>
-        <h1>Check Room Availability</h1>
-        <form action="/check-availability" method="POST" id="availability-form">
+        <form action="/guest-reservation" method="POST" id="availability-form">
             <div class="form-group">
                 <label for="roomnumber">Room Number: <%=room.RoomNumber%></label>
                 <input type="hidden" id="roomnumber" name="roomnumber" value="<%= room.RoomNumber %>" required>
@@ -55,7 +54,14 @@
                 <label for="endDate">End Date:</label>
                 <input type="date" id="endDate" name="endDate" required>
             </div>
-            <button type="submit">Check Availability</button>
+            <div class="form-group">
+                <label for="paymentMethod">Payment Method:</label>
+                <select name="paymentMethod" id="paymentMethod" size="1">
+                    <option value="Credit Card">Credit Card</option>
+                    <option value="Cash">Cash</option>
+                </select>
+            </div>
+            <button type="submit">SUBMIT</button>
         </form>
         <p id="checkres" style="color: #ff8b00"><%= checkres %></p>
     </main>

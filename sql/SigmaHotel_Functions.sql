@@ -27,3 +27,71 @@ BEGIN
 
     RETURN @IsAvailable;
 END;
+
+
+// new Booking
+CREATE PROCEDURE dbo.CreateBookingAndPayment
+(
+    @GuestID INT,
+    @RoomNumber INT,
+    @CheckinDate DATE,
+    @CheckoutDate DATE,
+    @PaymentMethod VARCHAR(50)
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @TotalPrice DECIMAL(10, 2);
+    DECLARE @RoomTypeID VARCHAR(50);
+    DECLARE @PricePerNight DECIMAL(10, 2);
+    DECLARE @NumberOfNights INT;
+    DECLARE @BookingID INT;
+    DECLARE @PaymentID INT;
+
+    BEGIN TRY
+        -- Calculate total price
+        SET @NumberOfNights = DATEDIFF(DAY, @CheckinDate, @CheckoutDate);
+
+        SELECT @RoomTypeID = TypeID
+        FROM Room
+        WHERE RoomNumber = @RoomNumber;
+
+        SELECT @PricePerNight = PricePerNight
+        FROM RoomType
+        WHERE TypeID = @RoomTypeID;
+
+        SET @TotalPrice = @NumberOfNights * @PricePerNight;
+
+        -- Insert into Booking table
+        INSERT INTO Booking (GuestID, RoomNumber, CheckinDate, CheckoutDate, TotalPrice)
+        VALUES (@GuestID, @RoomNumber, @CheckinDate, @CheckoutDate, @TotalPrice);
+
+        -- Retrieve the newly inserted BookingID
+        SET @BookingID = SCOPE_IDENTITY();
+
+        -- Insert into Payment table
+        INSERT INTO Payment (BookingID, Amount, PaymentDate, PaymentMethod)
+        VALUES (@BookingID, @TotalPrice, GETDATE(), @PaymentMethod);
+
+        -- Retrieve the newly inserted PaymentID
+        SET @PaymentID = SCOPE_IDENTITY();
+
+        -- Return the result
+        SELECT @BookingID AS BookingID, @PaymentID AS PaymentID;
+    END TRY
+    BEGIN CATCH
+        -- Handle errors
+        DECLARE @ErrorMessage NVARCHAR(4000);
+        DECLARE @ErrorSeverity INT;
+        DECLARE @ErrorState INT;
+
+        SELECT 
+            @ErrorMessage = ERROR_MESSAGE(),
+            @ErrorSeverity = ERROR_SEVERITY(),
+            @ErrorState = ERROR_STATE();
+
+        RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState);
+        RETURN;
+    END CATCH;
+END;

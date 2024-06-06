@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Confirm Booking</title>
+</head>
+<body>
+  <h1>Confirm Booking</h1>
+  <form action="/confirm-booking" method="POST">
+    <div class="form-group">
+        <label for="roomnumber">Room Number: <%=roomnumber%></label>
+        <input type="hidden" id="roomnumber" name="roomnumber" value="<%= roomnumber %>" required>
+    </div>
+    <div class="form-group">
+        <label for="startDate">Start Date: <%=startDate%></label>
+        <input type="hidden" id="startDate" name="startDate" value="<%=startDate%>" required>
+    </div>
+    <div class="form-group">
+        <label for="endDate">End Date: <%=endDate%></label>
+        <input type="hidden" id="endDate" name="endDate" value="<%=endDate%>" required>
+    </div>
+    <div class="form-group">
+        <label for="paymentMethod">Payment Method: <%=paymentMethod%></label>
+        <input type="hidden" id="paymentMethod" name="paymentMethod" value="<%=paymentMethod%>" required>
+    </div>
+    <button type="submit">SUBMIT</button>
+  </form>
+</body>
+</html>
