@@ -548,23 +548,31 @@ app.post('/guest-reservation', async (req, res) => {
               OR (checkoutDate <= '${endDate}' AND checkoutDate >= '${startDate}')
               OR (checkinDate <= '${startDate}' AND checkoutDate >= '${endDate}')
           )
-      `;
-      console.log(query);
-      const result1 = await sql.query(query);
-      const result = await sql.query`select Room.RoomNumber, Room.Status, RoomType.*
-      from Room join RoomType on Room.TypeID = RoomType.TypeID
-      where RoomNumber = ${roomnumber}`;
-      if (result1.recordset.length === 0) {
+        `;
+        console.log(query);
+        const result1 = await sql.query(query);
+        const result = await sql.query`select Room.RoomNumber, Room.Status, RoomType.*
+        from Room join RoomType on Room.TypeID = RoomType.TypeID
+        where RoomNumber = ${roomnumber}`;
+      if(endDate > startDate) {
+        if (result1.recordset.length === 0) {
         const pricePerNight = result.recordset[0].PricePerNight;
         const totalPrice = calculateTotalPrice(startDate, endDate, pricePerNight);
         req.session.bookingDetails = {
           roomnumber, startDate, endDate, paymentMethod, totalPrice
         }
         res.redirect('/confirm-booking');
-      } else {
+        } else {
         req.session.message = 'Room is not available at that time';
         res.render('guest-reservation', 
-      { room: result.recordset[0], 
+        { room: result.recordset[0], 
+        user: req.session.user, 
+        checkres: req.session.message});
+        }
+      } else {
+        req.session.message = 'Invalid Dates';
+        res.render('guest-reservation', 
+        { room: result.recordset[0], 
         user: req.session.user, 
         checkres: req.session.message});
       }
