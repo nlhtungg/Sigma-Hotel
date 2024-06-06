@@ -96,12 +96,11 @@ button {
     z-index: 10;
 }
 .header-bar__inner {
-    margin: auto;
+    margin: 0 200px;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
     padding: 15px;
-    width: 1350px;
 }
 .logo {
     font-weight: 600;
@@ -111,7 +110,7 @@ button {
 
 .navbar__list {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -137,20 +136,6 @@ button {
 .navbar-action {
     display: flex;
     align-items: center;
-}
-
-/* Form */
-.form-item {
-    margin-top: 10px;
-}
-
-.form-input {
-    padding: 8px;
-    margin-left: 2px;
-    border-radius: 5px;
-    background-color: #3a3b3c;
-    color: white;
-    border: solid #3a3b3c;
 }
 
 /* Footer */

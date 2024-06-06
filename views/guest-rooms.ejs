@@ -18,8 +18,8 @@
 
         <!-- Style CSS -->
         <link rel="stylesheet" href="/css/common.css" />
-        <link rel="stylesheet" href="/css/guest-rooms.css" />
         <link rel="stylesheet" href="/css/table.css" />
+        <link rel="stylesheet" href="/css/guest-rooms.css" />
         <script>
             // Filter Open Function
             function FilterOpen() {
@@ -54,7 +54,11 @@
                 <nav class="navbar">
                     <ul class="navbar__list">
                         <li class="navbar__item">
-                            <a href="/guest-rooms" class="navbar__link">
+                            <a
+                                href="/guest-rooms"
+                                class="navbar__link"
+                                style="text-decoration: underline"
+                            >
                                 Rooms
                             </a>
                         </li>
@@ -84,10 +88,20 @@
         </div>
 
         <div class="container">
-            <!-- Filter -->
-            <button class="top-btn table-btn" id="filter-btn" onclick="FilterOpen()">
+            <h1 class="section-title">Rooms</h1>
+
+            <!-- Filter Button-->
+            <button
+                class="top-btn table-btn"
+                id="filter-btn"
+                onclick="FilterOpen()"
+            >
                 Filter
             </button>
+
+            <h2 class="subsection-title">All Rooms</h2>
+
+            <!-- Filter form -->
             <form
                 id="filter-form"
                 class="popUp-form"
@@ -136,7 +150,7 @@
                         <option value="RT020">RT020</option>
                     </select>
                 </div>
-    
+
                 <div class="form-item">
                     <label for="filterStatus">Status:</label>
                     <select
@@ -151,7 +165,7 @@
                         <option value="Maintainance">Maintainance</option>
                     </select>
                 </div>
-    
+
                 <div class="form-item">
                     <label for="filterCapacity">Capacity:</label>
                     <input
@@ -161,7 +175,7 @@
                         name="filterCapacity"
                     />
                 </div>
-    
+
                 <div class="form-item">
                     <label for="filterPrice">Price:</label>
                     <input
@@ -171,10 +185,15 @@
                         name="filterPrice"
                     />
                 </div>
-    
+
                 <div class="form-item">
                     <label for="orderBy">Order By:</label>
-                    <select class="form-input" name="orderBy" id="orderBy" size="1">
+                    <select
+                        class="form-input"
+                        name="orderBy"
+                        id="orderBy"
+                        size="1"
+                    >
                         <option value="" selected disabled hidden></option>
                         <option value="RoomNumber">Room Number</option>
                         <option value="Description">Type</option>
@@ -183,7 +202,7 @@
                         <option value="PricePerNight">Price</option>
                     </select>
                 </div>
-    
+
                 <div class="form-item">
                     <label for="desc">Sort:</label>
                     <select class="form-input" name="desc" id="desc" size="1">
@@ -192,8 +211,8 @@
                         <option value="DESC">DESC</option>
                     </select>
                 </div>
-    
-                <div>
+
+                <div class="form-item">
                     <button class="table-btn table-btn__add" type="submit">
                         Apply Filter
                     </button>
@@ -205,19 +224,20 @@
                     </button>
                 </div>
             </form>
-    
+
             <!-- Room card -->
-            <div class="room-cards">
+            <div class="room-card__wrap">
                 <% rooms.forEach(room => { %>
                 <div class="room-card">
                     <img
+                        class="room-img"
                         src="/img/<%= room.TypeID %>.jpg"
                         alt="<%= room.RoomNumber %>"
                     />
                     <h2 class="subsection-title room-number">
                         ROOM <%= room.RoomNumber %>
                     </h2>
-                    <p class="subsection-desc room-desc">
+                    <p class="subsection-desc">
                         Type: <%= room.Description %>
                         <br />
                         Capacity: <%= room.Capacity %>
@@ -232,13 +252,13 @@
                                 name="RoomNumber"
                                 value="<%= room.RoomNumber %>"
                             />
-                            <button class="book-now">BOOK NOW</button>
+                            <button class="table-btn">BOOK NOW</button>
                         </form>
                     </div>
                 </div>
                 <% }); %>
             </div>
-        </div c>
+        </div>
 
         <!-- Footer -->
         <footer>

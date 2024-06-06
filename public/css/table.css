@@ -4,10 +4,6 @@ body {
     color: #fff;
 }
 
-.subsection-title {
-    text-align: center;
-}
-
 /* Button styles */
 
 .top-btn__wrap {
@@ -89,14 +85,4 @@ table th {
 
 table tr:nth-child(even) {
     background-color: #3a3b3c;
-}
-
-.submit-add-btn,
-.close-add-btn {
-    background-color: var(--theme-color);
-}
-
-.submit-add-btn:hover,
-.close-add-btn:hover {
-    background-color: var(--theme-color);
 }

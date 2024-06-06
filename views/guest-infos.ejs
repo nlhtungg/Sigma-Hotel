@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Rooms</title>
+        <title>Edit Info</title>
 
         <!-- Embed fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -18,6 +18,7 @@
 
         <!-- Style CSS -->
         <link rel="stylesheet" href="/css/common.css" />
+        <link rel="stylesheet" href="/css/form.css" />
         <link rel="stylesheet" href="/css/guest-infos.css" />
     </head>
 
@@ -53,7 +54,11 @@
                             </a>
                         </li>
                         <li class="navbar__item">
-                            <a href="/guest-infos" class="navbar__link">
+                            <a
+                                href="/guest-infos"
+                                class="navbar__link"
+                                style="text-decoration: underline"
+                            >
                                 Edit Info
                             </a>
                         </li>
@@ -66,74 +71,92 @@
                 </div>
             </div>
         </div>
+
         <main class="container">
-            <form action="/guest-infos" method="POST">
+            <form class="form-change-info" action="/guest-infos" method="POST">
                 <div class="form-item">
                     <label class="subsection-title form-label" for="name">
                         Name:
                     </label>
                     <input
+                        class="form-input"
                         type="text"
                         id="name"
                         name="name"
                         value="<%= user.Name %>"
                     />
                 </div>
+
                 <div class="form-item">
                     <label class="subsection-title form-label" for="dob">
                         Date of Birth:
                     </label>
                     <input
+                        class="form-input"
                         type="date"
                         id="dob"
                         name="dob"
                         value="<%= user.DOB %>"
                     />
                 </div>
+
                 <div class="form-item">
                     <label class="subsection-title form-label" for="email">
                         Email:
                     </label>
                     <input
+                        class="form-input"
                         type="email"
                         id="email"
                         name="email"
                         value="<%= user.Email %>"
                     />
                 </div>
+
                 <div class="form-item">
                     <label class="subsection-title form-label" for="phone">
                         Phone:
                     </label>
                     <input
+                        class="form-input"
                         type="tel"
                         id="phone"
                         name="phone"
                         value="<%= user.Phone %>"
                     />
                 </div>
+
                 <div class="form-item">
                     <label class="subsection-title form-label" for="address">
                         Address:
                     </label>
                     <input
+                        class="form-input"
                         type="text"
                         id="address"
                         name="address"
                         value="<%= user.Address %>"
                     />
                 </div>
+
                 <div class="form-item">
                     <label class="subsection-title form-label" for="newpass">
                         New Password:
                     </label>
-                    <input type="password" id="newpass" name="newpass" />
+                    <input
+                        class="form-input"
+                        type="password"
+                        id="newpass"
+                        name="newpass"
+                    />
                 </div>
+
                 <div class="form-item">
                     <label class="subsection-title form-label" for="password">
                         Current Password:
                     </label>
                     <input
+                        class="form-input"
                         type="password"
                         id="password"
                         name="password"
@@ -141,21 +164,21 @@
                     />
                 </div>
 
-                <button type="submit" class="form-btn btn">
-                    Update Information
-                </button>
-            </form>
-            <form action="/guest-rooms" method="GET">
-                <button type="submit">Cancel</button>
+                <div class="form-item">
+                    <button type="submit" class="form-btn btn">
+                        Update Information
+                    </button>
+                </div>
             </form>
         </main>
+
         <!-- Footer -->
         <footer>
             <div id="contact" class="container">
                 <h2 class="section-title footer-title">Get in Touch</h2>
                 <div class="footer-content">
                     <ul class="footer-left">
-                        <h3 class="subsection-title form-label">Quick link</h3>
+                        <h3 class="subsection-title">Quick link</h3>
                         <a href="#!" class="footer-link"
                             ><li class="footer-item">Home</li></a
                         >
@@ -193,7 +216,7 @@
                         </form>
                     </div>
                     <ul class="footer-right">
-                        <h3 class="subsection-title form-label">Useful</h3>
+                        <h3 class="subsection-title">Useful</h3>
                         <a href="#!" class="footer-link">
                             <li class="footer-item">Privacy policy</li>
                         </a>
