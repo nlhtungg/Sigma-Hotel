@@ -522,8 +522,8 @@ app.get('/guest-reservation', async (req, res) => {
       from Room join RoomType on Room.TypeID = RoomType.TypeID
       where RoomNumber = ${roomnumber}`;
       if (result.recordset.length > 0) {
-        req.session.message = null;
-        res.render('guest-reservation', { room: result.recordset[0], user: req.session.user, checkres: req.session.message});
+        req.session.checkres = null;
+        res.render('guest-reservation', { room: result.recordset[0], user: req.session.user, checkres: req.session.checkres});
       } else {
         res.status(404).send('Room not found');
       }
@@ -554,7 +554,9 @@ app.post('/guest-reservation', async (req, res) => {
         const result = await sql.query`select Room.RoomNumber, Room.Status, RoomType.*
         from Room join RoomType on Room.TypeID = RoomType.TypeID
         where RoomNumber = ${roomnumber}`;
-      if(endDate > startDate) {
+        const today = await sql.query`select format(getdate(), 'yyyy-MM-dd') as date`;
+        console.log(today.recordset[0].date);
+      if(endDate > startDate && startDate >= today.recordset[0].date) {
         if (result1.recordset.length === 0) {
         const pricePerNight = result.recordset[0].PricePerNight;
         const totalPrice = calculateTotalPrice(startDate, endDate, pricePerNight);
@@ -567,14 +569,14 @@ app.post('/guest-reservation', async (req, res) => {
         res.render('guest-reservation', 
         { room: result.recordset[0], 
         user: req.session.user, 
-        checkres: req.session.message});
+        checkres: req.session.checkres});
         }
       } else {
-        req.session.message = 'Invalid Dates';
+        req.session.checkres = 'Invalid Dates';
         res.render('guest-reservation', 
         { room: result.recordset[0], 
         user: req.session.user, 
-        checkres: req.session.message});
+        checkres: req.session.checkres});
       }
   } catch (error) {
       console.error('Error checking availability:', error);
@@ -634,12 +636,30 @@ app.post('/confirm-booking', async (req, res) => {
 app.get('/guest-bookings', async(req, res) => {
   if (req.session.role === 'guest') {
     try { 
+      const { filterRoom, filterCheckin, filterCheckout, filterPrice, orderBy, desc } = req.query;
       const guestID = req.session.user.GuestID;
       await sql.connect(sqlConfig);
       let query = `SELECT BookingID, RoomNumber,
        FORMAT(CheckinDate, 'dd/MM/yyyy') AS inDate,
        FORMAT(CheckoutDate, 'dd/MM/yyyy') AS outDate,
-       TotalPrice FROM MyBookings(${guestID})`;
+       TotalPrice FROM MyBookings(${guestID})
+       WHERE 1=1`;
+       if (filterRoom) {
+        query += ` AND RoomNumber = ${filterRoom}`;
+       }
+       if (filterCheckin) {
+        query += ` AND CheckinDate = '${filterCheckin}'`;
+       }
+       if (filterCheckout) {
+        query += ` AND CheckoutDate = '${filterCheckout}'`;
+       }
+       if (filterPrice) {
+        query += ` AND TotalPrice <= ${filterPrice}`;
+       }
+       if (orderBy) {
+        query += ` ORDER BY ${orderBy}`;
+        if (desc === 'DESC') query += ` DESC`;
+       }
       const result = await sql.query(query);
       res.render('guest-bookings', { users: result.recordset});
   } catch (err) {

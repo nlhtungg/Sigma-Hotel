@@ -99,7 +99,7 @@
             <form
                 class="popUp-form"
                 id="filter-form"
-                action="/guest-rooms"
+                action="/guest-bookings"
                 method="GET"
                 style="display: none"
             >
@@ -115,59 +115,22 @@
                 </div>
 
                 <div class="form-item">
-                    <label for="filterType">Type:</label>
-                    <select
-                        class="form-input"
-                        name="filterType"
-                        id="filterType"
-                        size="1"
-                    >
-                        <option value="" selected disabled hidden></option>
-                        <option value="RT001">RT001</option>
-                        <option value="RT002">RT002</option>
-                        <option value="RT003">RT003</option>
-                        <option value="RT004">RT004</option>
-                        <option value="RT005">RT005</option>
-                        <option value="RT006">RT006</option>
-                        <option value="RT007">RT007</option>
-                        <option value="RT008">RT008</option>
-                        <option value="RT009">RT009</option>
-                        <option value="RT010">RT010</option>
-                        <option value="RT011">RT011</option>
-                        <option value="RT012">RT012</option>
-                        <option value="RT013">RT013</option>
-                        <option value="RT014">RT014</option>
-                        <option value="RT015">RT015</option>
-                        <option value="RT016">RT016</option>
-                        <option value="RT017">RT017</option>
-                        <option value="RT018">RT018</option>
-                        <option value="RT019">RT019</option>
-                        <option value="RT020">RT020</option>
-                    </select>
-                </div>
-
-                <div class="form-item">
-                    <label for="filterStatus">Status:</label>
-                    <select
-                        class="form-input"
-                        name="filterStatus"
-                        id="filterStatus"
-                        size="1"
-                    >
-                        <option value="" selected disabled hidden></option>
-                        <option value="Available">Available</option>
-                        <option value="Occupied">Occupied</option>
-                        <option value="Maintainance">Maintainance</option>
-                    </select>
-                </div>
-
-                <div class="form-item">
-                    <label for="filterCapacity">Capacity:</label>
+                    <label for="filterCheckin">Check-in Date:</label>
                     <input
                         class="form-input"
-                        type="number"
-                        id="filterCapacity"
-                        name="filterCapacity"
+                        type="date"
+                        id="filterCheckin"
+                        name="filterCheckin"
+                    />
+                </div>
+
+                <div class="form-item">
+                    <label for="filterCheckout">Check-out Date:</label>
+                    <input
+                        class="form-input"
+                        type="date"
+                        id="filterCheckout"
+                        name="filterCheckout"
                     />
                 </div>
 
@@ -190,11 +153,11 @@
                         size="1"
                     >
                         <option value="" selected disabled hidden></option>
+                        <option value="BookingID" default>Booking ID</option>
                         <option value="RoomNumber">Room Number</option>
-                        <option value="Description">Type</option>
-                        <option value="Status">Status</option>
-                        <option value="Capacity">Capacity</option>
-                        <option value="PricePerNight">Price</option>
+                        <option value="inDate">Check-in Date</option>
+                        <option value="outDate">Check-out Date</option>
+                        <option value="TotalPrice">Price</option>
                     </select>
                 </div>
 
