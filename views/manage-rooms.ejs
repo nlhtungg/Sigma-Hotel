@@ -29,6 +29,17 @@
                 document.getElementById("add-form").style.display = "none";
                 document.getElementById("overlay").style.display = "none";
             }
+
+            // Filter Open Function
+            function FilterOpen() {
+                document.getElementById("filter-form").style.display = "block";
+                document.getElementById("overlay").style.display = "block";
+            }
+            // Filter Close Function
+            function FilterClose() {
+                document.getElementById("filter-form").style.display = "none";
+                document.getElementById("overlay").style.display = "none";
+            }
         </script>
     </head>
     <body>
@@ -86,6 +97,108 @@
                 </div>
             </div>
         </div>
+
+        <!-- Filter form -->
+        <form
+            id="filter-form"
+            class="popUp-form"
+            action="/manage-rooms"
+            method="GET"
+            style="display: none"
+        >
+            <h2 class="subsection-title">Filter</h2>
+            <div class="form-item">
+                <label for="filterRoom">Room Number:</label>
+                <input
+                    class="form-input"
+                    type="number"
+                    id="filterRoom"
+                    name="filterRoom"
+                />
+            </div>
+
+            <div class="form-item">
+                <label for="filterType">Type:</label>
+                <input
+                    class="form-input"
+                    type="text"
+                    id="filterType"
+                    name="filterType"
+                />
+            </div>
+
+            <div class="form-item">
+                <label for="filterCapacity">Capacity:</label>
+                <input
+                    class="form-input"
+                    type="number"
+                    id="filterCapacity"
+                    name="filterCapacity"
+                />
+            </div>
+
+            <div class="form-item">
+                <label for="filterPrice">Price:</label>
+                <input
+                    class="form-input"
+                    type="number"
+                    id="filterPrice"
+                    name="filterPrice"
+                />
+            </div>
+
+            <div class="form-item">
+                <label for="filterStatus">Status:</label>
+                <input
+                    class="form-input"
+                    type="text"
+                    id="filterStatus"
+                    name="filterStatus"
+                />
+            </div>
+
+            <div class="form-item">
+                <label for="filterManage">Manage:</label>
+                <input
+                    class="form-input"
+                    type="text"
+                    id="filterManage"
+                    name="filterManage"
+                />
+            </div>
+
+            <div class="form-item">
+                <label for="orderBy">Order By:</label>
+                <select class="form-input" name="orderBy" id="orderBy" size="1">
+                    <option value="RoomNumber">Room Number</option>
+                    <option value="Description">Type</option>
+                    <option value="Capacity">Capacity</option>
+                    <option value="Price">Price</option>
+                    <option value="Status">Status</option>
+                    <option value="Managed">Managed by</option>
+                </select>
+            </div>
+
+            <div class="form-item">
+                <label for="desc">Sort:</label>
+                <select class="form-input" name="desc" id="desc" size="1">
+                    <option value="ASC">ASC</option>
+                    <option value="DESC">DESC</option>
+                </select>
+            </div>
+
+            <div class="form-item">
+                <button class="table-btn table-btn__add" type="submit">
+                    Apply Filter
+                </button>
+                <button
+                    class="table-btn table-btn__delete"
+                    onclick="FilterClose()"
+                >
+                    Cancel
+                </button>
+            </div>
+        </form>
 
         <!-- Add form -->
         <form
@@ -146,14 +259,24 @@
         <div class="container">
             <h1 class="section-title">Manage Rooms</h1>
 
+            <!-- Top button Open-->
             <div class="top-btn__wrap">
-                <div></div>
+                <!-- Filter button -->
                 <button
                     class="top-btn table-btn"
-                    id="add-form"
+                    id="filter-btn"
+                    onclick="FilterOpen()"
+                >
+                    Filter
+                </button>
+
+                <!-- Add button -->
+                <button
+                    class="top-btn table-btn"
+                    id="add-btn"
                     onclick="AddOpen()"
                 >
-                    Add Room
+                    Add User
                 </button>
             </div>
 

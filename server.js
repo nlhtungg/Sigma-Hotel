@@ -345,11 +345,35 @@ app.post('/edit-staff', async (req, res) => {
 app.get('/manage-rooms', async (req, res) => {
   if (req.session.role === 'admin') {
     try {
+        const {filterRoom, filterType, filterCapacity, filterPrice, filterStatus, filterManage, orderBy, desc} = req.query;
         await sql.connect(sqlConfig);
         let query = 
           `select Room.RoomNumber, Room.Status, RoomType.*, Staff.Name
           from Room left join RoomType on Room.TypeID = RoomType.TypeID
-                    left join (Staff left join Manage on Staff.StaffID = Manage.StaffID) on Room.RoomNumber = Manage.RoomNumber`;
+                    left join (Staff left join Manage on Staff.StaffID = Manage.StaffID) on Room.RoomNumber = Manage.RoomNumber
+          where 1=1`;
+        if (filterRoom) {
+          query += ` and Room.RoomNumber = ${filterRoom}`;
+        }
+        if (filterType) {
+          query += ` and RoomType.Description like '%${filterType}%'`;
+        }
+        if (filterCapacity) {
+          query += ` and RoomType.Capacity = ${filterCapacity}`;
+        }
+        if (filterPrice) {
+          query += ` and RoomType.PricePerNight <= ${filterPrice}`;
+        }
+        if (filterStatus) {
+          query += ` and Room.Status = '${filterStatus}'`;
+        }
+        if (filterManage) {
+          query += ` and Name like '%${filterManage}%'`;
+        }
+        if (orderBy) {
+          query += ` order by ${orderBy}`;
+          if (desc === 'DESC') query += ` DESC`;
+        }
         const result = await sql.query(query);
         res.render('manage-rooms', { users: result.recordset});
     } catch (err) {
