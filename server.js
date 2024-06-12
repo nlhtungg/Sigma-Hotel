@@ -477,6 +477,20 @@ app.post('/delete-booking', async (req, res) => {
   }
 });
 
+app.get('/manage-payments', async (req, res) => {
+  try {
+      await sql.connect(sqlConfig);
+      let query = `
+      select payment.*, FORMAT(Payment.PaymentDate, 'dd/MM/yyyy') as PDate, booking.GuestID 
+      from Payment join Booking on Payment.BookingID = Booking.BookingID`;
+      const result = await sql.query(query);
+      res.render('manage-payments', { payments: result.recordset});
+  } catch (error) {
+      console.error('Error fetching bookings:', error);
+      res.status(500).send('Error fetching bookings');
+  }
+});
+
 // Staff Session
 app.get('/staff', (req, res) => {
   if (req.session.role === 'staff') {

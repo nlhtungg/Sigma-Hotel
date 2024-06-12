@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Manage Bookings</title>
+        <title>Manage Payments</title>
         <!-- Embed fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -72,7 +72,10 @@
                             </a>
                         </li>
                         <li class="navbar__item">
-                            <a href="/manage-payments" class="navbar__link"> Payments </a>
+                            <a 
+                                href="/manage-payments" 
+                                class="navbar__link"
+                                style="text-decoration: underline;"> Payments </a>
                         </li>
                     </ul>
                 </nav>
@@ -85,7 +88,7 @@
         </div>
 
         <!-- Filter form -->
-        <form
+        <!--<form
             id="filter-form"
             class="popUp-form"
             action="/manage-bookings"
@@ -186,11 +189,11 @@
                     Cancel
                 </button>
             </div>
-        </form>
+        </form> -->
 
         <div class="container">
             <header>
-                <h1 class="section-title">Manage Bookings</h1>
+                <h1 class="section-title">Manage Payments</h1>
             </header>
 
             <!-- Top Button Open -->
@@ -205,45 +208,27 @@
             </div>
 
             <main>
-                <h2 class="subsection-title">Bookings List</h2>
+                <h2 class="subsection-title">Payments List</h2>
                 <table>
                     <thead>
                         <tr>
-                            <th>BookingID</th>
-                            <th>GuestID</th>
-                            <th>Room Number</th>
-                            <th>Check-in Date</th>
-                            <th>Check-out Date</th>
-                            <th>Total Price</th>
+                            <th>Payment ID</th>
+                            <th>Booking ID</th>
+                            <th>Guest ID</th>
+                            <th>Total Amount</th>
                             <th>Payment Method</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% bookings.forEach(booking => { %>
+                        <% payments.forEach(payment => { %>
                         <tr>
-                            <td><%= booking.BookingID %></td>
-                            <td><%= booking.GuestID %></td>
-                            <td><%= booking.RoomNumber %></td>
-                            <td><%= booking.inDate %></td>
-                            <td><%= booking.outDate %></td>
-                            <td><%= booking.TotalPrice %></td>
-                            <td><%= booking.PaymentMethod %></td>
-                            <td>
-                                <form method="POST" action="/delete-booking">
-                                    <input
-                                        type="hidden"
-                                        name="BookingID"
-                                        value="<%= booking.BookingID %>"
-                                    />
-                                    <button
-                                        class="table-btn table-btn__delete"
-                                        type="submit"
-                                    >
-                                        Delete
-                                    </button>
-                                </form>
-                            </td>
+                            <td><%= payment.PaymentID %></td>
+                            <td><%= payment.BookingID %></td>
+                            <td><%= payment.GuestID %></td>
+                            <td><%= payment.Amount %></td>
+                            <td><%= payment.PDate %></td>
+                            <td><%= payment.PaymentMethod %></td>
                         </tr>
                         <% }) %>
                         <!-- Add more rows as needed -->
