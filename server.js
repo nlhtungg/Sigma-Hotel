@@ -500,6 +500,37 @@ app.get('/staff', (req, res) => {
   }
 });
 
+app.get('/staff-rooms', async(req, res) => {
+  if (req.session.role === 'staff') {
+    await sql.connect(sqlConfig);
+    const staffID = req.session.user.StaffID;
+    const {filterRoom, filterType, filterStatus, orderBy, desc} = req.query;
+    let query = 
+    `select manage.StaffID, room.RoomNumber, Room.Status, RoomType.Description
+     from room join manage on manage.RoomNumber = room.RoomNumber
+               join RoomType on room.TypeID = RoomType.TypeID 
+    where manage.StaffID = ${staffID}`;
+    if(filterRoom) {
+      query += ` AND Room.RoomNumber = ${filterRoom}`;
+    }
+    if(filterType) {
+      query += ` AND RoomType.Description = '${filterType}'`;
+    }
+    if(filterStatus) {
+      query += ` AND Room.Status = '${filterStatus}'`;
+    }
+    if(orderBy) {
+      query += ` ORDER BY ${orderBy}`;
+    }
+    if(desc === 'DESC') {
+      query += ` desc`;
+    } 
+    const result = await sql.query(query);
+    console.log(query);
+    res.render('staff-rooms', {rooms: result.recordset});
+  }
+})
+
 // Guest Session
 app.get('/guest', (req, res) => {
   if (req.session.role === 'guest') {

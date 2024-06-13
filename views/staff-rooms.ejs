@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Manage Rooms</title>
+
+        <!-- Embed fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+            rel="stylesheet"
+        />
+
+        <!-- Reset CSS -->
+        <link rel="stylesheet" href="/css/reset.css" />
+
+        <!-- Style -->
+        <link rel="stylesheet" href="/css/common.css" />
+        <link rel="stylesheet" href="/css/form.css" />
+        <link rel="stylesheet" href="/css/table.css" />
+        <script>
+            // Filter Open Function
+            function FilterOpen() {
+                document.getElementById("filter-form").style.display = "block";
+                document.getElementById("overlay").style.display = "block";
+            }
+            // Filter Close Function
+            function FilterClose() {
+                document.getElementById("filter-form").style.display = "none";
+                document.getElementById("overlay").style.display = "none";
+            }
+        </script>
+    </head>
+    <body>
+        <!-- Overlay -->
+        <div id="overlay" class="overlay" style="display: none"></div>
+
+        <!-- Header bar -->
+        <div class="header-bar">
+            <div class="header-bar__inner">
+                <!-- Logo -->
+                <a href="/staff">
+                    <div class="logo">
+                        <span class="sigma">Sigma</span>
+                        <br />
+                        Hotel
+                    </div>
+                </a>
+
+                <!-- Navbar -->
+                <nav class="navbar">
+                    <ul class="navbar__list">
+                        <li class="navbar__item">
+                            <a
+                                href="/staff-rooms"
+                                class="navbar__link"
+                                style="text-decoration: underline"
+                            >
+                                Rooms
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Action -->
+                <div class="header-action">
+                    <a href="login" class="btn signup">Logout</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter form -->
+        <form
+            id="filter-form"
+            class="popUp-form"
+            action="/staff-rooms"
+            method="GET"
+            style="display: none"
+        >
+            <h2 class="subsection-title">Filter</h2>
+            <div class="form-item">
+                <label for="filterRoom">Room Number:</label>
+                <input
+                    class="form-input"
+                    type="number"
+                    id="filterRoom"
+                    name="filterRoom"
+                />
+            </div>
+
+            <div class="form-item">
+                <label for="filterType">Type:</label>
+                <input
+                    class="form-input"
+                    type="text"
+                    id="filterType"
+                    name="filterType"
+                />
+            </div>
+
+            <div class="form-item">
+                <label for="filterStatus">Status:</label>
+                <input
+                    class="form-input"
+                    type="text"
+                    id="filterStatus"
+                    name="filterStatus"
+                />
+            </div>
+
+            <div class="form-item">
+                <label for="orderBy">Order By:</label>
+                <select class="form-input" name="orderBy" id="orderBy" size="1">
+                    <option value="RoomNumber">Room Number</option>
+                    <option value="Description">Type</option>
+                    <option value="Status">Status</option>
+                </select>
+            </div>
+
+            <div class="form-item">
+                <label for="desc">Sort:</label>
+                <select class="form-input" name="desc" id="desc" size="1">
+                    <option value="ASC">ASC</option>
+                    <option value="DESC">DESC</option>
+                </select>
+            </div>
+
+            <div class="form-item">
+                <button class="table-btn table-btn__add" type="submit">
+                    Apply Filter
+                </button>
+                <button
+                    class="table-btn table-btn__delete"
+                    onclick="FilterClose()"
+                >
+                    Cancel
+                </button>
+            </div>
+        </form>
+
+        <div class="container">
+            <h1 class="section-title">Manage Rooms</h1>
+
+            <!-- Top button Open-->
+            <div class="top-btn__wrap">
+                <!-- Filter button -->
+                <button
+                    class="top-btn table-btn"
+                    id="filter-btn"
+                    onclick="FilterOpen()"
+                >
+                    Filter
+                </button>
+            </div>
+
+            <main>
+                <h2 class="subsection-title">Rooms List</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Room Number</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% rooms.forEach(room => { %>
+                        <tr>
+                            <td><%= room.RoomNumber %></td>
+                            <td><%= room.Description %></td>
+                            <td><%= room.Status %></td>
+                            <td>
+                                <form method="GET" action="/staff-edit-room">
+                                    <input
+                                        type="hidden"
+                                        name="RoomNumber"
+                                        value="<%= room.RoomNumber %>"
+                                    />
+                                    <button class="table-btn" type="submit">
+                                        Edit
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        <% }) %>
+                        <!-- Add more rows as needed -->
+                    </tbody>
+                </table>
+            </main>
+        </div>
+    </body>
+</html>
