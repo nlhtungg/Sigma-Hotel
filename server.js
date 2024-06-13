@@ -709,6 +709,20 @@ app.get('/guest-bookings', async(req, res) => {
   }
 });
 
+app.post('/cancel-booking', async (req, res) => {
+  const { BookingID } = req.body;
+  try {
+    await sql.connect(sqlConfig);
+    const noti = sql.query
+    `EXEC DeleteBooking @BookingID = ${BookingID}`;
+    await noti;
+    res.redirect('/guest-bookings');
+  } catch (err) {
+    console.error('SQL error', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 app.get('/guest-payments', async(req, res) => {
   if (req.session.role === 'guest') {
     try { 

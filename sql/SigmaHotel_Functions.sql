@@ -95,3 +95,32 @@ BEGIN
         RETURN;
     END CATCH;
 END;
+
+
+
+CREATE PROCEDURE DeleteBooking
+    @BookingID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @CheckinDate DATE;
+    DECLARE @Today DATE = GETDATE();
+    DECLARE @Result VARCHAR(100);
+
+    SELECT @CheckinDate = CheckinDate 
+    FROM Booking 
+    WHERE BookingID = @BookingID;
+
+    IF DATEDIFF(DAY, @Today, @CheckinDate) = 7
+    BEGIN
+        DELETE FROM Booking WHERE BookingID = @BookingID;
+        SET @Result = 'Booking is deleted.';
+    END
+    ELSE
+    BEGIN
+        SET @Result = 'Booking is not deleted. CheckinDate is not 7 days later from today.';
+    END
+
+    SELECT @Result AS Result;
+END;

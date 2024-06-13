@@ -194,6 +194,7 @@
                                 <th>Check-in Date</th>
                                 <th>Check-out Date</th>
                                 <th>Total Price</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -204,6 +205,21 @@
                                 <td><%= user.inDate %></td>
                                 <td><%= user.outDate %></td>
                                 <td><%= user.TotalPrice %></td>
+                                <td>
+                                    <form method="POST" action="/cancel-booking">
+                                        <input
+                                            type="hidden"
+                                            name="BookingID"
+                                            value="<%= user.BookingID %>"
+                                        />
+                                        <button
+                                            class="table-btn table-btn__delete"
+                                            type="submit"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                             <% }) %>
                             <!-- Add more bookings rows as needed -->
