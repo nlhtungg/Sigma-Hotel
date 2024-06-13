@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 
 // Log in - Sign up
 app.get('/login', (req, res) => {
-    res.render('login', { loginfail: req.session.message });
+    res.render('login', { loginfail: req.session.loginfail });
     req.session.message = null;
 });
 
@@ -42,7 +42,7 @@ app.post('/login', async (req, res) => {
       req.session.role = 'guest';
       res.redirect('/guest');
     } else {
-      req.session.message = 'Invalid username or password';
+      req.session.loginfail = 'Invalid username or password';
       res.redirect('/login');
     }
   } catch (err) {
@@ -634,7 +634,7 @@ app.post('/guest-reservation', async (req, res) => {
         }
         res.redirect('/confirm-booking');
         } else {
-        req.session.message = 'Room is not available at that time';
+        req.session.checkres = 'Room is not available at that time';
         res.render('guest-reservation', 
         { room: result.recordset[0], 
         user: req.session.user, 
@@ -707,6 +707,7 @@ app.get('/guest-bookings', async(req, res) => {
     try { 
       const { filterRoom, filterCheckin, filterCheckout, filterPrice, orderBy, desc } = req.query;
       const guestID = req.session.user.GuestID;
+      const cancelfail = null;
       await sql.connect(sqlConfig);
       let query = `SELECT BookingID, RoomNumber,
        FORMAT(CheckinDate, 'dd/MM/yyyy') AS inDate,
@@ -730,7 +731,7 @@ app.get('/guest-bookings', async(req, res) => {
         if (desc === 'DESC') query += ` DESC`;
        }
       const result = await sql.query(query);
-      res.render('guest-bookings', { users: result.recordset});
+      res.render('guest-bookings', { users: result.recordset, cancelfail});
   } catch (err) {
       console.error('SQL error', err);
       res.status(500).send('Internal Server Error');
@@ -743,11 +744,37 @@ app.get('/guest-bookings', async(req, res) => {
 app.post('/cancel-booking', async (req, res) => {
   const { BookingID } = req.body;
   try {
-    await sql.connect(sqlConfig);
-    const noti = sql.query
-    `EXEC DeleteBooking @BookingID = ${BookingID}`;
-    await noti;
-    res.redirect('/guest-bookings');
+      const { filterRoom, filterCheckin, filterCheckout, filterPrice, orderBy, desc } = req.query;
+      const guestID = req.session.user.GuestID;
+      await sql.connect(sqlConfig);
+      const query1 =
+      `EXEC DeleteBooking @BookingID = ${BookingID}`;
+      const noti = await sql.query(query1);
+      let query = `SELECT BookingID, RoomNumber,
+       FORMAT(CheckinDate, 'dd/MM/yyyy') AS inDate,
+       FORMAT(CheckoutDate, 'dd/MM/yyyy') AS outDate,
+       TotalPrice FROM MyBookings(${guestID})
+       WHERE 1=1`;
+       console.log(query);
+       if (filterRoom) {
+        query += ` AND RoomNumber = ${filterRoom}`;
+       }
+       if (filterCheckin) {
+        query += ` AND CheckinDate = '${filterCheckin}'`;
+       }
+       if (filterCheckout) {
+        query += ` AND CheckoutDate = '${filterCheckout}'`;
+       }
+       if (filterPrice) {
+        query += ` AND TotalPrice <= ${filterPrice}`;
+       }
+       if (orderBy) {
+        query += ` ORDER BY ${orderBy}`;
+        if (desc === 'DESC') query += ` DESC`;
+       }
+      const result = await sql.query(query);
+    console.log(query1);
+    res.render('guest-bookings', {users: result.recordset, cancelfail: noti.recordset[0].Result});
   } catch (err) {
     console.error('SQL error', err);
     res.status(500).send('Internal Server Error');
