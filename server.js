@@ -4,6 +4,7 @@ const session = require('express-session');
 const sql = require('mssql/msnodesqlv8');
 const path = require('path');
 const sqlConfig = require('./sqlConfig');
+const { isNull } = require('util');
 const app = express();
 
 // Middleware
@@ -801,13 +802,14 @@ app.get('/guest-payments', async(req, res) => {
 app.get('/guest-infos', async (req, res) => {
   if (req.session.role === 'guest') {
     try { 
+      req.session.wrongpass = null;
+      req.session.success = null;
       const guestID = req.session.user.GuestID;
       await sql.connect(sqlConfig);
       let query = `SELECT * FROM MyInfo(${guestID}) WHERE 1=1`;
       const result = await sql.query(query);
-      res.render('guest-infos', { user: result.recordset[0], wrongpass: req.session.wrongpass });
-      req.session.wrongpass = null;
-  } catch (err) {
+      res.render('guest-infos', { user: result.recordset[0], wrongpass: req.session.wrongpass, success: req.session.success });
+    } catch (err) {
       console.error('SQL error', err);
       res.status(500).send('Internal Server Error');
   }
@@ -822,10 +824,11 @@ app.post('/guest-infos', async (req, res) => {
       const guestID = req.session.user.GuestID;
       try {
           await sql.connect(sqlConfig);
-          const result = await sql.query`SELECT * FROM Guest WHERE GuestID = ${guestID} and Password = ${password}`;
+          let result = await sql.query`SELECT * FROM Guest WHERE GuestID = ${guestID} and Password = ${password}`;
           if (result.recordset.length === 0) {
+            result = await sql.query`SELECT * FROM Guest WHERE GuestID = ${guestID}`;
             req.session.wrongpass = 'Wrong password';
-            res.redirect('/guest-infos');
+            res.render('guest-infos', { user: result.recordset[0], wrongpass: req.session.wrongpass, success: null });
           } else {
             if(name) {
               await sql.query`UPDATE Guest SET Name = ${name} WHERE GuestID = ${guestID}`;
@@ -845,7 +848,8 @@ app.post('/guest-infos', async (req, res) => {
             if(newpass) {
               await sql.query`UPDATE Guest SET Password = ${newpass} WHERE GuestID = ${guestID}`;
             }
-            res.redirect('/guest');
+            req.session.success = 'Update successfully!'
+            res.render('guest-infos', { user: result.recordset[0], wrongpass: null, success: req.session.success });
           }
       } catch (err) {
           console.error('SQL error', err);

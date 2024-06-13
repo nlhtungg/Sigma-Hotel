@@ -27,7 +27,7 @@
         <div class="header-bar">
             <div class="header-bar__inner">
                 <!-- Logo -->
-                <a href="/">
+                <a href="/guest">
                     <div class="logo">
                         <span class="sigma">Sigma</span>
                         <br />
@@ -74,6 +74,7 @@
 
         <main class="container">
             <form class="form-change-info" action="/guest-infos" method="POST">
+                <p style="color:green"><%= success %></p>
                 <div class="form-item">
                     <label class="subsection-title form-label" for="name">
                         Name:
