@@ -13,14 +13,17 @@ body {
 
 .top-btn {
     padding: 15px 20px;
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 .table-btn__add {
-    padding: 10px 100px;
+    margin: 5px auto;
+    width: 100%;
 }
 
 .table-btn__delete {
+    margin: 5px auto;
+    width: 100%;
     background: red;
 }
 

@@ -22,7 +22,7 @@
         <link rel="stylesheet" href="/css/form.css" />
     </head>
     <body class="container">
-        <form class="popUp-form">
+        <div class="popUp-form">
             <h1 class="section-title">Edit User</h1>
             <form action="/edit-user" method="POST">
                 <input
@@ -96,19 +96,22 @@
                         class="form-input"
                     />
                 </div>
-                <div>
+                <div class="form-item">
                     <button class="table-btn table-btn__add" type="submit">
                         Save Changes
                     </button>
-                    <button
-                        class="table-btn table-btn__delete"
-                        type="submit"
-                        formaction="/manage-users"
-                    >
-                        Cancel
-                    </button>
                 </div>
             </form>
-        </form>
+            <form action="manage-staffs.ejs" method="get">
+                <button
+                    class="table-btn table-btn__delete"
+                    type="submit"
+                    formaction="/manage-users"
+                    formmethod="get"
+                >
+                    Cancel
+                </button>
+            </form>
+        </div>
     </body>
 </html>
