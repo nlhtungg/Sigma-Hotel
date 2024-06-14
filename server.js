@@ -532,6 +532,83 @@ app.get('/staff-rooms', async(req, res) => {
   }
 })
 
+app.post('/staff-update-room', async(res, req) => {
+    const {RoomNumber, Status} = req.body;
+    try{
+      let pool = await sql.connect(sqlConfig);
+      let result = await pool.request()
+            .input('RoomNumber', sql.Int, RoomNumber)
+            .input('Status', sql.VarChar, Status)
+            .query(`UPDATE Rooms SET Status = ${Status} WHERE RoomNumber = ${RoomNumber}`);
+      res.redirect('/staff-rooms');
+    } catch (err) {
+      console.error('Error: ', err);
+      res.status(500).send('Error updating room status');
+    }
+});
+
+app.get('/staff-infos', async(req, res) => {
+  if(req.session.role === 'staff') {
+    try {
+      req.session.wrongpass = null;
+      req.session.success = null;
+      const staffID = req.session.user.StaffID;
+      await sql.connect(sqlConfig);
+      let query = `SELECT * FROM Staff WHERE StaffID = ${staffID}`;
+      const result = await sql.query(query);
+      res.render('staff-infos', {staff: result.recordset[0], wrongpass: req.session.wrongpass, success: req.session.success});
+    } catch (err) {
+      console.error('SQL error', err);
+      res.status(500).send('Internal Server Error');
+    }
+  } else {
+    res.redirect('/staff');
+  }
+});
+
+app.post('/staff-infos', async (req, res) => {
+  if (req.session.role === 'staff') {
+      const { name, dob, position, email, phone, newpass, password } = req.body;
+      const staffID = req.session.user.StaffID;
+      try {
+          await sql.connect(sqlConfig);
+          let result = await sql.query`SELECT * FROM Staff WHERE StaffID = ${staffID} and Password = ${password}`;
+          if (result.recordset.length === 0) {
+            result = await sql.query`SELECT * FROM Staff WHERE StaffID = ${staffID}`;
+            req.session.wrongpass = 'Wrong password';
+            res.render('staff-infos', { staff: result.recordset[0], wrongpass: req.session.wrongpass, success: null });
+          } else {
+            if(name) {
+              await sql.query`UPDATE staff SET Name = ${name} WHERE staffID = ${staffID}`;
+            }
+            if(dob) {
+              await sql.query`UPDATE staff SET DOB = ${dob} WHERE staffID = ${staffID}`;
+            }
+            if(position) {
+              await sql.query`UPDATE staff SET Position = ${position} WHERE staffID = ${staffID}`;
+            }
+            if(email) {
+              await sql.query`UPDATE staff SET Email = ${email} WHERE staffID = ${staffID}`;
+            }
+            if(phone) {
+              await sql.query`UPDATE staff SET Phone = ${phone} WHERE staffID = ${staffID}`;
+            }
+            if(newpass) {
+              await sql.query`UPDATE staff SET Password = ${newpass} WHERE staffID = ${staffID}`;
+            }
+            req.session.success = 'Update successfully!'
+            result = await sql.query`SELECT * FROM Staff WHERE StaffID = ${staffID}`;
+            res.render('staff-infos', { staff: result.recordset[0], wrongpass: null, success: req.session.success });
+          }
+      } catch (err) {
+          console.error('SQL error', err);
+          res.status(500).send('Internal Server Error');
+      }
+  } else {
+      res.redirect('/login');
+  }
+});
+
 // Guest Session
 app.get('/guest', (req, res) => {
   if (req.session.role === 'guest') {
@@ -849,6 +926,7 @@ app.post('/guest-infos', async (req, res) => {
               await sql.query`UPDATE Guest SET Password = ${newpass} WHERE GuestID = ${guestID}`;
             }
             req.session.success = 'Update successfully!'
+            result = await sql.query`SELECT * FROM Guest WHERE GuestID =${guestID}`;
             res.render('guest-infos', { user: result.recordset[0], wrongpass: null, success: req.session.success });
           }
       } catch (err) {
