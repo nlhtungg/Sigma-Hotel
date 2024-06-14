@@ -1,101 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rooms</title>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Rooms</title>
 
-    <!-- Embed fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+        <!-- Embed fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+            rel="stylesheet"
+        />
 
-    <!-- Reset CSS -->
-    <link rel="stylesheet" href="/css/reset.css" />
+        <!-- Reset CSS -->
+        <link rel="stylesheet" href="/css/reset.css" />
 
-    <!-- Style CSS -->
-    <link rel="stylesheet" href="/css/guest-reservation.css" />
-    <link rel="stylesheet" href="/css/common.css" />
-</head>
-<body>
-    <!-- Header bar -->
-    <div class="header-bar">
-        <div class="header-bar__inner">
-            <!-- Logo -->
-            <a href="/">
-                <div class="logo">
-                    <span class="sigma">Sigma</span><br />Hotel
-                </div>
-            </a>
+        <!-- Style CSS -->
 
-            <!-- Navbar -->
-            <nav class="navbar">
-                <ul class="navbar__list">
-                    <li class="navbar__item"><a href="/guest-rooms" class="navbar__link">Rooms</a></li>
-                    <li class="navbar__item"><a href="/guest-bookings" class="navbar__link">My Bookings</a></li>
-                    <li class="navbar__item"><a href="/guest-payments" class="navbar__link">My Payments</a></li>
-                </ul>
-            </nav>
-        </div>
-    </div>
-
-    <!-- Main Content -->
-    <main>
-        <form action="/guest-reservation" method="POST" id="availability-form">
-            <div class="form-group">
-                <label for="roomnumber">Room Number: <%=room.RoomNumber%></label>
-                <input type="hidden" id="roomnumber" name="roomnumber" value="<%= room.RoomNumber %>" required>
-            </div>
-            <div class="form-group">
-                <label for="startDate">Start Date:</label>
-                <input type="date" id="startDate" name="startDate" required>
-            </div>
-            <div class="form-group">
-                <label for="endDate">End Date:</label>
-                <input type="date" id="endDate" name="endDate" required>
-            </div>
-            <div class="form-group">
-                <label for="paymentMethod">Payment Method:</label>
-                <select name="paymentMethod" id="paymentMethod" size="1">
-                    <option value="Credit Card">Credit Card</option>
-                    <option value="Cash">Cash</option>
-                </select>
-            </div>
-            <button type="submit">SUBMIT</button>
-        </form>
-        <p id="checkres" style="color: #ff8b00"><%= checkres %></p>
-    </main>
-
-    <!-- Footer -->
-    <footer>
-        <div class="footer-top">
-            <h1 class="section-title">Lorem Ipsum</h1>
-            <p class="section-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vel ultricies lectus, sit amet elementum purus. Sed viverra augue velit, non cursus elit gravida nec.</p>
-        </div>
-        <div class="footer-bottom">
-            <ul class="footer-left">
-                <h3 class="subsection-title">About</h3>
-                <a href="#!" class="footer-link"><li class="footer-item">Our Story</li></a>
-                <a href="#!" class="footer-link"><li class="footer-item">Company</li></a>
-                <a href="#!" class="footer-link"><li class="footer-item">Contact</li></a>
-            </ul>
-            <div class="footer-middle">
-                <p class="section-desc footer-desc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia eaque incidunt ea aut iure. Blanditiis.</p>
-                <form action="" class="footer-form">
-                    <div class="footer-input">
-                        <input type="text" placeholder="Enter Email" class="footer-info"/>
-                        <input type="submit" value="Submit" class="footer-info"/>
+        <link rel="stylesheet" href="/css/common.css" />
+        <link rel="stylesheet" href="/css/table.css" />
+        <link rel="stylesheet" href="/css/form.css" />
+    </head>
+    <body>
+        <!-- Header bar -->
+        <div class="header-bar">
+            <div class="header-bar__inner">
+                <!-- Logo -->
+                <a href="/">
+                    <div class="logo">
+                        <span class="sigma">Sigma</span><br />Hotel
                     </div>
-                </form>
+                </a>
+
+                <!-- Navbar -->
+                <nav class="navbar">
+                    <ul class="navbar__list">
+                        <li class="navbar__item">
+                            <a href="/guest-rooms" class="navbar__link"
+                                >Rooms</a
+                            >
+                        </li>
+                        <li class="navbar__item">
+                            <a href="/guest-bookings" class="navbar__link"
+                                >My Bookings</a
+                            >
+                        </li>
+                        <li class="navbar__item">
+                            <a href="/guest-payments" class="navbar__link"
+                                >My Payments</a
+                            >
+                        </li>
+                    </ul>
+                </nav>
             </div>
-            <ul class="footer-right">
-                <h3 class="subsection-title">Useful</h3>
-                <a href="#!" class="footer-link"><li class="footer-item">Privacy policy</li></a>
-                <a href="#!" class="footer-link"><li class="footer-item">Legal</li></a>
-                <a href="#!" class="footer-link"><li class="footer-item">FAQ</li></a>
-                <a href="#!" class="footer-link"><li class="footer-item">Blogs</li></a>
-            </ul>
         </div>
-    </footer>
-</body>
+
+        <!-- Main Content -->
+        <main class="container">
+            <form
+                action="/guest-reservation"
+                method="POST"
+                id="availability-form"
+            >
+                <div class="form-item">
+                    <label class="section-title" for="roomnumber"
+                        >Room Number: <%=room.RoomNumber%></label
+                    >
+                    <input
+                        class="form-input"
+                        type="hidden"
+                        id="roomnumber"
+                        name="roomnumber"
+                        value="<%= room.RoomNumber %>"
+                        required
+                    />
+                </div>
+                <div class="form-item">
+                    <label class="subsection-title" for="startDate"
+                        >Start Date:</label
+                    >
+                    <input
+                        class="form-input"
+                        type="date"
+                        id="startDate"
+                        name="startDate"
+                        required
+                    />
+                </div>
+                <div class="form-item">
+                    <label class="subsection-title" for="endDate"
+                        >End Date:</label
+                    >
+                    <input
+                        class="form-input"
+                        type="date"
+                        id="endDate"
+                        name="endDate"
+                        required
+                    />
+                </div>
+                <div class="form-item">
+                    <label class="subsection-title" for="paymentMethod"
+                        >Payment Method:</label
+                    >
+                    <select
+                        class="form-input"
+                        name="paymentMethod"
+                        id="paymentMethod"
+                        size="1"
+                    >
+                        <option value="Credit Card">Credit Card</option>
+                        <option value="Cash">Cash</option>
+                    </select>
+                </div>
+                <button class="table-btn table-btn__add" type="submit">
+                    SUBMIT
+                </button>
+            </form>
+            <p id="checkres" style="color: #ff8b00"><%= checkres %></p>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-top">
+                <h1 class="section-title">Lorem Ipsum</h1>
+                <p class="section-desc">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Proin vel ultricies lectus, sit amet elementum purus. Sed
+                    viverra augue velit, non cursus elit gravida nec.
+                </p>
+            </div>
+            <div class="footer-bottom">
+                <ul class="footer-left">
+                    <h3 class="subsection-title">About</h3>
+                    <a href="#!" class="footer-link"
+                        ><li class="footer-item">Our Story</li></a
+                    >
+                    <a href="#!" class="footer-link"
+                        ><li class="footer-item">Company</li></a
+                    >
+                    <a href="#!" class="footer-link"
+                        ><li class="footer-item">Contact</li></a
+                    >
+                </ul>
+                <div class="footer-middle">
+                    <p class="section-desc footer-desc">
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Officia eaque incidunt ea aut iure. Blanditiis.
+                    </p>
+                    <form action="" class="footer-form">
+                        <div class="footer-input">
+                            <input
+                                type="text"
+                                placeholder="Enter Email"
+                                class="footer-info"
+                            />
+                            <input
+                                type="submit"
+                                value="Submit"
+                                class="footer-info"
+                            />
+                        </div>
+                    </form>
+                </div>
+                <ul class="footer-right">
+                    <h3 class="subsection-title">Useful</h3>
+                    <a href="#!" class="footer-link"
+                        ><li class="footer-item">Privacy policy</li></a
+                    >
+                    <a href="#!" class="footer-link"
+                        ><li class="footer-item">Legal</li></a
+                    >
+                    <a href="#!" class="footer-link"
+                        ><li class="footer-item">FAQ</li></a
+                    >
+                    <a href="#!" class="footer-link"
+                        ><li class="footer-item">Blogs</li></a
+                    >
+                </ul>
+            </div>
+        </footer>
+    </body>
 </html>

@@ -63,7 +63,11 @@
                             </a>
                         </li>
                         <li class="navbar__item">
-                            <a href="/guest-payments" class="navbar__link" style="text-decoration: underline">
+                            <a
+                                href="/guest-payments"
+                                class="navbar__link"
+                                style="text-decoration: underline"
+                            >
                                 My Payments
                             </a>
                         </li>
@@ -82,8 +86,9 @@
             </div>
         </div>
 
-        <main>
-            <!-- Filter Button-->
+        <!-- Filter Button-->
+        <div class="container">
+            <h1 class="section-title">My Payments</h1>
             <button
                 class="top-btn table-btn"
                 id="filter-btn"
@@ -91,96 +96,95 @@
             >
                 Filter
             </button>
-            
-            <section id="payments">
-                <h2>My Payments</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Payment ID</th>
-                            <th>Booking ID</th>
-                            <th>Amount</th>
-                            <th>Date</th>
-                            <th>Method</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% users.forEach(user => { %>
+            <main>
+                    <h2 class="subsection-title">Payment History</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Payment ID</th>
+                                <th>Booking ID</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>Method</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% users.forEach(user => { %>
                             <tr>
                                 <td><%= user.PaymentID %></td>
                                 <td><%= user.BookingID %></td>
                                 <td><%= user.Amount %></td>
                                 <td><%= user.PDate %></td>
                                 <td><%= user.PaymentMethod %></td>
-                            </tr>    
-                        <% }) %>
-                        <!-- Add more payments rows as needed -->
-                    </tbody>
-                </table>
-            </section>
-        </main>
-    </div>
-
-    <!-- Footer -->
-    <footer>
-        <div id="contact" class="container">
-            <h2 class="section-title footer-title">Get in Touch</h2>
-            <div class="footer-content">
-                <ul class="footer-left">
-                    <h3 class="subsection-title">Quick link</h3>
-                    <a href="#!" class="footer-link"
-                        ><li class="footer-item">Home</li></a
-                    >
-                    <a href="#!" class="footer-link"
-                        ><li class="footer-item">Services</li></a
-                    >
-                    <a href="#!" class="footer-link"
-                        ><li class="footer-item">About us</li></a
-                    >
-                    <a href="#!" class="footer-link"
-                        ><li class="footer-item">Contact</li></a
-                    >
-                </ul>
-                <div class="footer-middle">
-                    <p class="section-desc footer-desc">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing
-                        elit. Officia eaque incidunt ea aut iure.
-                        Blanditiis.
-                    </p>
-                    <form action="" class="footer-form">
-                        <div class="footer-input">
-                            <input
-                                type="text"
-                                name=""
-                                id=""
-                                placeholder="Enter Edging Email"
-                                class="footer-info"
-                            />
-                            <input
-                                type="submit"
-                                value="Submit"
-                                class="footer-info"
-                            />
-                        </div>
-                    </form>
-                </div>
-                <ul class="footer-right">
-                    <h3 class="subsection-title">Useful</h3>
-                    <a href="#!" class="footer-link">
-                        <li class="footer-item">Privacy policy</li>
-                    </a>
-                    <a href="#!" class="footer-link"
-                        ><li class="footer-item">Legal</li></a
-                    >
-                    <a href="#!" class="footer-link"
-                        ><li class="footer-item">FAQ</li></a
-                    >
-                    <a href="#!" class="footer-link"
-                        ><li class="footer-item">Blogs</li></a
-                    >
-                </ul>
-            </div>
+                            </tr>
+                            <% }) %>
+                            <!-- Add more payments rows as needed -->
+                        </tbody>
+                    </table>
+                </section>
+            </main>
         </div>
-    </footer>
-</body>
+
+        <!-- Footer -->
+        <footer>
+            <div id="contact" class="container">
+                <h2 class="section-title footer-title">Get in Touch</h2>
+                <div class="footer-content">
+                    <ul class="footer-left">
+                        <h3 class="subsection-title">Quick link</h3>
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">Home</li></a
+                        >
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">Services</li></a
+                        >
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">About us</li></a
+                        >
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">Contact</li></a
+                        >
+                    </ul>
+                    <div class="footer-middle">
+                        <p class="section-desc footer-desc">
+                            Lorem ipsum, dolor sit amet consectetur adipisicing
+                            elit. Officia eaque incidunt ea aut iure.
+                            Blanditiis.
+                        </p>
+                        <form action="" class="footer-form">
+                            <div class="footer-input">
+                                <input
+                                    type="text"
+                                    name=""
+                                    id=""
+                                    placeholder="Enter Edging Email"
+                                    class="footer-info"
+                                />
+                                <input
+                                    type="submit"
+                                    value="Submit"
+                                    class="footer-info"
+                                />
+                            </div>
+                        </form>
+                    </div>
+                    <ul class="footer-right">
+                        <h3 class="subsection-title">Useful</h3>
+                        <a href="#!" class="footer-link">
+                            <li class="footer-item">Privacy policy</li>
+                        </a>
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">Legal</li></a
+                        >
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">FAQ</li></a
+                        >
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">Blogs</li></a
+                        >
+                    </ul>
+                </div>
+            </div>
+        </footer>
+    </body>
 </html>
