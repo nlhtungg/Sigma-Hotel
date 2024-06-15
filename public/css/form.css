@@ -39,9 +39,9 @@ body {
 }
 
 .form-img {
-    justify-items: self-end;
+    display: block;
     width: 50%;
-    height: 100vh;
+    height: calc(100vh - 87px);
     object-fit: cover;
 }
 
