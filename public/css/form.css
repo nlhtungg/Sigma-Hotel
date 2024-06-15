@@ -46,7 +46,8 @@ body {
 }
 
 .form-btn {
-    margin: 10px;
+    display: block;
+    margin: 10px auto;
     font-size: 1.6rem;
     padding: 20px 120px;
 }

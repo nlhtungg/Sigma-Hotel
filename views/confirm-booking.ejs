@@ -1,29 +1,215 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Confirm Booking</title>
-</head>
-<body>
-  <h1>Confirm Booking</h1>
-  <form action="/confirm-booking" method="POST">
-    <div class="form-group">
-        <label for="roomnumber">Room Number: <%=roomnumber%></label>
-        <input type="hidden" id="roomnumber" name="roomnumber" value="<%= roomnumber %>" required>
-    </div>
-    <div class="form-group">
-        <label for="startDate">Start Date: <%=startDate%></label>
-        <input type="hidden" id="startDate" name="startDate" value="<%=startDate%>" required>
-    </div>
-    <div class="form-group">
-        <label for="endDate">End Date: <%=endDate%></label>
-        <input type="hidden" id="endDate" name="endDate" value="<%=endDate%>" required>
-    </div>
-    <div class="form-group">
-        <label for="paymentMethod">Payment Method: <%=paymentMethod%></label>
-        <input type="hidden" id="paymentMethod" name="paymentMethod" value="<%=paymentMethod%>" required>
-    </div>
-    <h3>Total Price: <%=totalPrice%></h3>
-    <button type="submit">SUBMIT</button>
-  </form>
-</body>
+    <head>
+        <title>Confirm Booking</title>
+
+        <!-- Embed fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+            rel="stylesheet"
+        />
+
+        <!-- Reset CSS -->
+        <link rel="stylesheet" href="/css/reset.css" />
+
+        <!-- Style -->
+        <link rel="stylesheet" href="/css/common.css" />
+        <link rel="stylesheet" href="/css/table.css" />
+        <link rel="stylesheet" href="/css/form.css" />
+    </head>
+    <body>
+        <!-- Overlay -->
+        <div id="overlay" class="overlay" style="display: none"></div>
+
+        <!-- Header bar -->
+        <div class="header-bar">
+            <div class="header-bar__inner">
+                <!-- Logo -->
+                <a href="/">
+                    <div class="logo">
+                        <span class="sigma">Sigma</span>
+                        <br />
+                        Hotel
+                    </div>
+                </a>
+
+                <!-- Navbar -->
+                <nav class="navbar">
+                    <ul class="navbar__list">
+                        <li class="navbar__item">
+                            <a
+                                href="/guest-rooms"
+                                class="navbar__link"
+                                style="text-decoration: underline"
+                            >
+                                Rooms
+                            </a>
+                        </li>
+                        <li class="navbar__item">
+                            <a href="/guest-bookings" class="navbar__link">
+                                My Bookings
+                            </a>
+                        </li>
+                        <li class="navbar__item">
+                            <a href="/guest-payments" class="navbar__link">
+                                My Payments
+                            </a>
+                        </li>
+                        <li class="navbar__item">
+                            <a href="/guest-infos" class="navbar__link">
+                                Edit Info
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Action -->
+                <div class="navbar-action">
+                    <a href="/login" class="btn signup">Logout</a>
+                </div>
+            </div>
+        </div>
+
+        <main class="container">
+            <h1 class="section-title">
+                Confirm Booking for Room <%=roomnumber%>
+            </h1>
+            <!-- For view -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>Room Number</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Payment Method</th>
+                        <th class="subsection-title">Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><%=roomnumber%></td>
+                        <td><%=startDate%></td>
+                        <td><%=endDate%></td>
+                        <td><%=paymentMethod%></td>
+                        <td class="subsection-title"><%=totalPrice%></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- For send -->
+            <form class="form-change" action="/confirm-booking" method="POST">
+                <div class="form-item">
+                    <label for="roomnumber"></label>
+                    <input
+                        class="form-input"
+                        type="hidden"
+                        id="roomnumber"
+                        name="roomnumber"
+                        value="<%= roomnumber %>"
+                        required
+                    />
+                </div>
+                <div class="form-item">
+                    <label for="startDate"></label>
+                    <input
+                        class="form-input"
+                        type="hidden"
+                        id="startDate"
+                        name="startDate"
+                        value="<%=startDate%>"
+                        required
+                    />
+                </div>
+                <div class="form-item">
+                    <label for="endDate"></label>
+                    <input
+                        class="form-input"
+                        type="hidden"
+                        id="endDate"
+                        name="endDate"
+                        value="<%=endDate%>"
+                        required
+                    />
+                </div>
+                <div class="form-item">
+                    <label for="paymentMethod"></label>
+                    <input
+                        class="form-input"
+                        type="hidden"
+                        id="paymentMethod"
+                        name="paymentMethod"
+                        value="<%=paymentMethod%>"
+                        required
+                    />
+                </div>
+                <div class="form-item">
+                    <button class="btn form-btn" type="submit">SUBMIT</button>
+                </div>
+            </form>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <div id="contact" class="container">
+                <h2 class="section-title footer-title">Get in Touch</h2>
+                <div class="footer-content">
+                    <ul class="footer-left">
+                        <h3 class="subsection-title">Quick link</h3>
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">Home</li></a
+                        >
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">Services</li></a
+                        >
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">About us</li></a
+                        >
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">Contact</li></a
+                        >
+                    </ul>
+                    <div class="footer-middle">
+                        <p class="section-desc footer-desc">
+                            Lorem ipsum, dolor sit amet consectetur adipisicing
+                            elit. Officia eaque incidunt ea aut iure.
+                            Blanditiis.
+                        </p>
+                        <form action="" class="footer-form">
+                            <div class="footer-input">
+                                <input
+                                    type="text"
+                                    name=""
+                                    id=""
+                                    placeholder="Enter Edging Email"
+                                    class="footer-info"
+                                />
+                                <input
+                                    type="submit"
+                                    value="Submit"
+                                    class="footer-info"
+                                />
+                            </div>
+                        </form>
+                    </div>
+                    <ul class="footer-right">
+                        <h3 class="subsection-title">Useful</h3>
+                        <a href="#!" class="footer-link">
+                            <li class="footer-item">Privacy policy</li>
+                        </a>
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">Legal</li></a
+                        >
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">FAQ</li></a
+                        >
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">Blogs</li></a
+                        >
+                    </ul>
+                </div>
+            </div>
+        </footer>
+    </body>
 </html>
