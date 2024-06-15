@@ -50,7 +50,7 @@
                         id="dob"
                         name="dob"
                         class="form-input"
-                        value="<%= user.DOB %>"
+                        value="<%= user.DOB.toISOString().substring(0, 10) %>"
                     />
                 </div>
                 <div class="form-item">

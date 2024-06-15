@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Room</title>
+
+    <!-- Embed fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet"
+    />
+
+    <!-- Reset CSS -->
+    <link rel="stylesheet" href="/css/reset.css" />
+
+    <!-- Style -->
+    <link rel="stylesheet" href="/css/common.css" />
+    <link rel="stylesheet" href="/css/form.css" />
+    <link rel="stylesheet" href="/css/table.css" />
+</head>
+<body>
+    
+    <div class="popUp-form">
+        <form action="/staff-update-room" method="POST">
+            <h1 class="section-title">Edit Room <%= room.RoomNumber %></h1>
+            <input class="form-input" type="hidden" name="RoomNumber" id="RoomNumber" value="<%= room.RoomNumber %>">
+            <div class="form-item">
+                <label for="Status">Status:</label>
+                <select class="form-input" name="Status" id="Status" size="1">
+                    <option value="Available" <% if (room.Status == "Available") { %>selected<% } %>>Available</option>
+                    <option value="Occupied" <% if (room.Status == "Occupied") { %>selected<% } %>>Occupied</option>
+                    <option value="Maintenance" <% if (room.Status == "Maintenance") { %>selected<% } %>>Maintenance</option>
+                </select>
+            </div>
+            <div>
+                <button class="table-btn table-btn__add" type="submit">Save Changes</button>
+            </div>
+        </form>
+        <form action="/staff-rooms" method="GET">
+            <button class="table-btn table-btn__delete" type="submit">Cancel</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -528,18 +528,37 @@ app.get('/staff-rooms', async(req, res) => {
     } 
     const result = await sql.query(query);
     console.log(query);
-    res.render('staff-rooms', {rooms: result.recordset});
+    res.render('staff-rooms', {rooms: result.recordset, updatedStatus: null});
   }
 })
 
-app.post('/staff-update-room', async(res, req) => {
+app.get('/staff-update-room', async(req, res) => {
+  const RoomNumber = req.query.RoomNumber;
+  try {
+    await sql.connect(sqlConfig);
+    const result = await sql.query`
+    SELECT Room.RoomNumber, Room.Status, RoomType.Description
+    FROM Room Join RoomType ON Room.TypeID = RoomType.TypeID
+    WHERE Room.RoomNumber = ${RoomNumber}`;
+    if (result.recordset.length === 0 ) {
+      return res.status(404).send('Room not found');
+    }
+    console.log(result.recordset[0].RoomNumber);
+    res.render('staff-update-room', {room: result.recordset[0]});
+  } catch (err) {
+    console.error('SQL error', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.post('/staff-update-room', async(req, res) => {
     const {RoomNumber, Status} = req.body;
     try{
-      let pool = await sql.connect(sqlConfig);
-      let result = await pool.request()
-            .input('RoomNumber', sql.Int, RoomNumber)
-            .input('Status', sql.VarChar, Status)
-            .query(`UPDATE Rooms SET Status = ${Status} WHERE RoomNumber = ${RoomNumber}`);
+      await sql.connect(sqlConfig);
+      let query =
+      `UPDATE Room SET Status = '${Status}' WHERE RoomNumber = ${RoomNumber}`;
+      await sql.query(query);
+      console.log(query);
       res.redirect('/staff-rooms');
     } catch (err) {
       console.error('Error: ', err);

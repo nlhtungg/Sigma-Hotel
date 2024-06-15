@@ -87,7 +87,7 @@
                         type="date"
                         id="dob"
                         name="dob"
-                        value="<%= staff.DOB %>"
+                        value="<%= staff.DOB.toISOString().substring(0, 10) %>"
                     />
                 </div>
 

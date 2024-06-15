@@ -169,24 +169,18 @@
                         <tr>
                             <td><%= room.RoomNumber %></td>
                             <td><%= room.Description %></td>
+                            <td><%= room.Status %></td>
                             <td>
-                                <form method="POST" action="/staff-update-room">
-                                    <label for="Status"></label>
-                                    <select name="Status" id="Status" size="1">
-                                        <option value="Available">Available</option>
-                                        <option value="Occupied">Occupied</option>
-                                        <option value="Maintenance">Maintenance</option>
-                                    </select>
-                            </td>
-                            <td>
-                                    <label for="RoomNumber"></label>
-                                    <input
+                                <form method="get" action="staff-update-room">
+                                    <input 
                                         type="hidden"
                                         name="RoomNumber"
                                         value="<%= room.RoomNumber %>"
                                     />
-                                    <button class="table-btn" type="submit">
-                                        Save
+                                    <button
+                                        class="table-btn"
+                                        type="submit">
+                                        Edit
                                     </button>
                                 </form>
                             </td>

@@ -97,7 +97,7 @@
                         type="date"
                         id="dob"
                         name="dob"
-                        value="<%= user.DOB %>"
+                        value="<%= user.DOB.toISOString().substring(0, 10) %>"
                     />
                 </div>
 
