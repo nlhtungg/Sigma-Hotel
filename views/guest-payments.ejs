@@ -18,6 +18,7 @@
 
         <!-- Style CSS -->
         <link rel="stylesheet" href="/css/common.css" />
+        <link rel="stylesheet" href="/css/form.css" />
         <link rel="stylesheet" href="/css/table.css" />
         <script>
             // Filter Open Function
@@ -96,32 +97,107 @@
             >
                 Filter
             </button>
+
+            <form
+                class="popUp-form"
+                id="filter-form"
+                action="/guest-payments"
+                method="GET"
+                style="display: none"
+            >
+                <h2 class="subsection-title">Filter</h2>
+                <div class="form-item">
+                    <label for="filterRoom">Payment ID:</label>
+                    <input
+                        class="form-input"
+                        type="number"
+                        id="filterRoom"
+                        name="filterRoom"
+                    />
+                </div>
+
+                <div class="form-item">
+                    <label for="filterCheckin">Booking ID:</label>
+                    <input
+                        class="form-input"
+                        type="number"
+                        id="filterCheckin"
+                        name="filterCheckin"
+                    />
+                </div>
+
+                <div class="form-item">
+                    <label for="filterCheckout">Amount:</label>
+                    <input
+                        class="form-input"
+                        type="number"
+                        id="filterCheckout"
+                        name="filterCheckout"
+                    />
+                </div>
+
+                <div class="form-item">
+                    <label for="filterPrice">Date:</label>
+                    <input
+                        class="form-input"
+                        type="date"
+                        id="filterPrice"
+                        name="filterPrice"
+                    />
+                </div>
+
+                <div class="form-item">
+                    <label for="orderBy">Method:</label>
+                    <select
+                        class="form-input"
+                        name="orderBy"
+                        id="orderBy"
+                        size="1"
+                    >
+                        <option value="" selected disabled hidden></option>
+                        <option value="Credit Card" default>Credit card</option>
+                        <option value="Cash">Cash</option>
+                    </select>
+                </div>
+
+                <div class="form-item">
+                    <button class="table-btn table-btn__add" type="submit">
+                        Apply Filter
+                    </button>
+                    <button
+                        class="table-btn table-btn__delete"
+                        onclick="FilterClose()"
+                    >
+                        Cancel
+                    </button>
+                </div>
+            </form>
+
             <main>
-                    <h2 class="subsection-title">Payment History</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Payment ID</th>
-                                <th>Booking ID</th>
-                                <th>Amount</th>
-                                <th>Date</th>
-                                <th>Method</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% users.forEach(user => { %>
-                            <tr>
-                                <td><%= user.PaymentID %></td>
-                                <td><%= user.BookingID %></td>
-                                <td><%= user.Amount %></td>
-                                <td><%= user.PDate %></td>
-                                <td><%= user.PaymentMethod %></td>
-                            </tr>
-                            <% }) %>
-                            <!-- Add more payments rows as needed -->
-                        </tbody>
-                    </table>
-                </section>
+                <h2 class="subsection-title">Payment History</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Payment ID</th>
+                            <th>Booking ID</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Method</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% users.forEach(user => { %>
+                        <tr>
+                            <td><%= user.PaymentID %></td>
+                            <td><%= user.BookingID %></td>
+                            <td><%= user.Amount %></td>
+                            <td><%= user.PDate %></td>
+                            <td><%= user.PaymentMethod %></td>
+                        </tr>
+                        <% }) %>
+                        <!-- Add more payments rows as needed -->
+                    </tbody>
+                </table>
             </main>
         </div>
 
