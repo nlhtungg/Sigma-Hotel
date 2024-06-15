@@ -1,7 +1,9 @@
 CREATE TABLE [Room] (
   [RoomNumber] int PRIMARY KEY,
   [TypeID] varchar(50),
-  [Status] varchar(20)
+  [Status] varchar(20),
+  FOREIGN KEY ([TypeID]) REFERENCES [RoomType] ([TypeID]) 
+    ON DELETE CASCADE ON UPDATE CASCADE
 )
 GO
 
@@ -31,7 +33,11 @@ CREATE TABLE [Booking] (
   [RoomNumber] int,
   [CheckinDate] date,
   [CheckoutDate] date,
-  [TotalPrice] decimal(10,2)
+  [TotalPrice] decimal(10,2),
+  FOREIGN KEY ([GuestID]) REFERENCES [Guest] ([GuestID]) 
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY ([RoomNumber]) REFERENCES [Room] ([RoomNumber]) 
+    ON DELETE CASCADE ON UPDATE CASCADE
 )
 GO
 
@@ -53,30 +59,18 @@ CREATE TABLE [Payment] (
   [BookingID] int,
   [Amount] decimal(10,2),
   [PaymentDate] date,
-  [PaymentMethod] varchar(50)
+  [PaymentMethod] varchar(50),
+  FOREIGN KEY ([BookingID]) REFERENCES [Booking] ([BookingID]) 
+    ON DELETE CASCADE ON UPDATE CASCADE
 )
 GO
 
 CREATE TABLE [Manage] (
   [RoomNumber] int,
-  [StaffID] int
+  [StaffID] int,
+  FOREIGN KEY ([RoomNumber]) REFERENCES [Room] ([RoomNumber]) 
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY ([StaffID]) REFERENCES [Staff] ([StaffID]) 
+    ON DELETE CASCADE ON UPDATE CASCADE
 )
-GO
-
-ALTER TABLE [Room] ADD FOREIGN KEY ([TypeID]) REFERENCES [RoomType] ([TypeID]) ON DELETE CASCADE ON UPDATE CASCADE
-GO
-
-ALTER TABLE [Booking] ADD FOREIGN KEY ([GuestID]) REFERENCES [Guest] ([GuestID]) ON DELETE CASCADE ON UPDATE CASCADE
-GO
-
-ALTER TABLE [Booking] ADD FOREIGN KEY ([RoomNumber]) REFERENCES [Room] ([RoomNumber]) ON DELETE CASCADE ON UPDATE CASCADE
-GO
-
-ALTER TABLE [Payment] ADD FOREIGN KEY ([BookingID]) REFERENCES [Booking] ([BookingID]) ON DELETE CASCADE ON UPDATE CASCADE
-GO
-
-ALTER TABLE [Manage] ADD FOREIGN KEY ([StaffID]) REFERENCES [Staff] ([StaffID]) ON DELETE CASCADE ON UPDATE CASCADE
-GO
-
-ALTER TABLE [Manage] ADD FOREIGN KEY ([RoomNumber]) REFERENCES [Room] ([RoomNumber]) ON DELETE CASCADE ON UPDATE CASCADE
 GO
