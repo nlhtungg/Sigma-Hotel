@@ -73,17 +73,25 @@
         </div>
 
         <!-- Main Content -->
-        <main class="container">
+        <main class="container form-change">
+            <h1 class="section-title">Room Number: <%=room.RoomNumber%></h1>
+            <p class="section-desc">Type: <%= room.Description %></p>
+            <p class="section-desc">Capacity: <%= room.Capacity %></p>
+            <p class="section-desc">
+                Price Per Night: <%= room.PricePerNight %>$
+            </p>
+            <img
+                class="form-preview"
+                src="/img/<%= room.TypeID %>.jpg"
+                alt="room image"
+            />
             <form
-                class="form-change"
                 action="/guest-reservation"
                 method="POST"
                 id="availability-form"
             >
                 <div class="form-item">
-                    <label class="section-title" for="roomnumber"
-                        >Room Number: <%=room.RoomNumber%></label
-                    >
+                    <label for="roomnumber"></label>
                     <input
                         class="form-input"
                         type="hidden"
