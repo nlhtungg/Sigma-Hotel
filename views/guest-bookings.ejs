@@ -18,6 +18,7 @@
 
         <!-- Style CSS -->
         <link rel="stylesheet" href="/css/common.css" />
+        <link rel="stylesheet" href="/css/form.css" />
         <link rel="stylesheet" href="/css/table.css" />
         <script>
             // Filter Open Function
@@ -87,6 +88,8 @@
         </div>
 
         <div class="container">
+            <h1 class="section-title">My Bookings</h1>
+
             <!-- Filter Button-->
             <button
                 class="top-btn table-btn"
@@ -185,7 +188,7 @@
 
             <main>
                 <section id="bookings">
-                    <h2>My Bookings</h2>
+                    <h2 class="subsection-title">My Bookings</h2>
                     <p><%= cancelfail %></p>
                     <table>
                         <thead>
@@ -207,7 +210,10 @@
                                 <td><%= user.outDate %></td>
                                 <td><%= user.TotalPrice %></td>
                                 <td>
-                                    <form method="POST" action="/cancel-booking">
+                                    <form
+                                        method="POST"
+                                        action="/cancel-booking"
+                                    >
                                         <input
                                             type="hidden"
                                             name="BookingID"
@@ -228,68 +234,67 @@
                     </table>
                 </section>
             </main>
-
-            <!-- Footer -->
-            <footer>
-                <div id="contact" class="container">
-                    <h2 class="section-title footer-title">Get in Touch</h2>
-                    <div class="footer-content">
-                        <ul class="footer-left">
-                            <h3 class="subsection-title">Quick link</h3>
-                            <a href="#!" class="footer-link"
-                                ><li class="footer-item">Home</li></a
-                            >
-                            <a href="#!" class="footer-link"
-                                ><li class="footer-item">Services</li></a
-                            >
-                            <a href="#!" class="footer-link"
-                                ><li class="footer-item">About us</li></a
-                            >
-                            <a href="#!" class="footer-link"
-                                ><li class="footer-item">Contact</li></a
-                            >
-                        </ul>
-                        <div class="footer-middle">
-                            <p class="section-desc footer-desc">
-                                Lorem ipsum, dolor sit amet consectetur
-                                adipisicing elit. Officia eaque incidunt ea aut
-                                iure. Blanditiis.
-                            </p>
-                            <form action="" class="footer-form">
-                                <div class="footer-input">
-                                    <input
-                                        type="text"
-                                        name=""
-                                        id=""
-                                        placeholder="Enter Edging Email"
-                                        class="footer-info"
-                                    />
-                                    <input
-                                        type="submit"
-                                        value="Submit"
-                                        class="footer-info"
-                                    />
-                                </div>
-                            </form>
-                        </div>
-                        <ul class="footer-right">
-                            <h3 class="subsection-title">Useful</h3>
-                            <a href="#!" class="footer-link">
-                                <li class="footer-item">Privacy policy</li>
-                            </a>
-                            <a href="#!" class="footer-link"
-                                ><li class="footer-item">Legal</li></a
-                            >
-                            <a href="#!" class="footer-link"
-                                ><li class="footer-item">FAQ</li></a
-                            >
-                            <a href="#!" class="footer-link"
-                                ><li class="footer-item">Blogs</li></a
-                            >
-                        </ul>
-                    </div>
-                </div>
-            </footer>
         </div>
+        <!-- Footer -->
+        <footer>
+            <div id="contact" class="container">
+                <h2 class="section-title footer-title">Get in Touch</h2>
+                <div class="footer-content">
+                    <ul class="footer-left">
+                        <h3 class="subsection-title">Quick link</h3>
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">Home</li></a
+                        >
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">Services</li></a
+                        >
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">About us</li></a
+                        >
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">Contact</li></a
+                        >
+                    </ul>
+                    <div class="footer-middle">
+                        <p class="section-desc footer-desc">
+                            Lorem ipsum, dolor sit amet consectetur adipisicing
+                            elit. Officia eaque incidunt ea aut iure.
+                            Blanditiis.
+                        </p>
+                        <form action="" class="footer-form">
+                            <div class="footer-input">
+                                <input
+                                    type="text"
+                                    name=""
+                                    id=""
+                                    placeholder="Enter Edging Email"
+                                    class="footer-info"
+                                />
+                                <input
+                                    type="submit"
+                                    value="Submit"
+                                    class="footer-info"
+                                />
+                            </div>
+                        </form>
+                    </div>
+                    <ul class="footer-right">
+                        <h3 class="subsection-title">Useful</h3>
+                        <a href="#!" class="footer-link">
+                            <li class="footer-item">Privacy policy</li>
+                        </a>
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">Legal</li></a
+                        >
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">FAQ</li></a
+                        >
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">Blogs</li></a
+                        >
+                    </ul>
+                </div>
+            </div>
+        </footer>
     </body>
 </html>
