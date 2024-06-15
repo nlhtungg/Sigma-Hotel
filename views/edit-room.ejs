@@ -22,8 +22,60 @@
     <link rel="stylesheet" href="/css/table.css" />
 </head>
 <body>
-    
-    <div class="popUp-form">
+    <!-- Header bar -->
+    <div class="header-bar">
+        <div class="header-bar__inner">
+            <!-- Logo -->
+            <a href="/admin">
+                <div class="logo">
+                    <span class="sigma">Sigma</span>
+                    <br />
+                    Hotel
+                </div>
+            </a>
+
+            <!-- Navbar -->
+            <nav class="navbar">
+                <ul class="navbar__list">
+                    <li class="navbar__item">
+                        <a href="/manage-users" class="navbar__link">
+                            Users
+                        </a>
+                    </li>
+                    <li class="navbar__item">
+                        <a
+                            href="/manage-staffs"
+                            class="navbar__link"
+                        >
+                            Staffs
+                        </a>
+                    </li>
+                    <li class="navbar__item">
+                        <a href="/manage-rooms" class="navbar__link" style="text-decoration: underline">
+                            Rooms
+                        </a>
+                    </li>
+                    <li class="navbar__item">
+                        <a href="/manage-bookings" class="navbar__link">
+                            Bookings
+                        </a>
+                    </li>
+                    <li class="navbar__item">
+                        <a href="/manage-payments" class="navbar__link">
+                            Payments
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Action -->
+            <div class="navbar-action">
+                <a href="/login" class="btn signup">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-change">
         <form action="/edit-room" method="POST">
             <h1 class="section-title">Edit Room <%= user.RoomNumber %></h1>
             <input class="form-input" type="hidden" name="roomnumber" value="<%= user.RoomNumber %>">

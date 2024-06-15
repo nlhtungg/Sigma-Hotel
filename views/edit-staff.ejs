@@ -21,8 +21,62 @@
         <link rel="stylesheet" href="/css/table.css" />
         <link rel="stylesheet" href="/css/form.css" />
     </head>
-    <body class="container">
-        <div class="popUp-form">
+    <body>
+        <!-- Header bar -->
+        <div class="header-bar">
+            <div class="header-bar__inner">
+                <!-- Logo -->
+                <a href="/admin">
+                    <div class="logo">
+                        <span class="sigma">Sigma</span>
+                        <br />
+                        Hotel
+                    </div>
+                </a>
+
+                <!-- Navbar -->
+                <nav class="navbar">
+                    <ul class="navbar__list">
+                        <li class="navbar__item">
+                            <a href="/manage-users" class="navbar__link">
+                                Users
+                            </a>
+                        </li>
+                        <li class="navbar__item">
+                            <a
+                                href="/manage-staffs"
+                                class="navbar__link"
+                                style="text-decoration: underline"
+                            >
+                                Staffs
+                            </a>
+                        </li>
+                        <li class="navbar__item">
+                            <a href="/manage-rooms" class="navbar__link">
+                                Rooms
+                            </a>
+                        </li>
+                        <li class="navbar__item">
+                            <a href="/manage-bookings" class="navbar__link">
+                                Bookings
+                            </a>
+                        </li>
+                        <li class="navbar__item">
+                            <a href="/manage-payments" class="navbar__link">
+                                Payments
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Action -->
+                <div class="navbar-action">
+                    <a href="/login" class="btn signup">Logout</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-change">
             <form action="/edit-staff" method="POST">
                 <h1 class="section-title">Edit Staff</h1>
                 <input
