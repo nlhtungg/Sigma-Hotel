@@ -1,10 +1,5 @@
 /* File path: /css/guest-dashboard.css */
 
-.form-change-info {
-    width: 500px;
-    margin: auto;
-}
-
 .form-input {
     margin-top: 10px;
     width: 100%;
@@ -14,10 +9,4 @@
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.form-btn {
-    font-size: 1.6rem;
-    padding: 20px;
-    margin: auto;
 }

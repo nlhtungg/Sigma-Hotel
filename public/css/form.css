@@ -10,6 +10,11 @@ body {
     align-items: center;
 }
 
+.form-change {
+    width: 500px;
+    margin: auto;
+}
+
 .form-action {
     margin: 0 auto;
     text-align: left;

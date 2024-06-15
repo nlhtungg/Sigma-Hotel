@@ -29,7 +29,9 @@
                 <!-- Logo -->
                 <a href="/">
                     <div class="logo">
-                        <span class="sigma">Sigma</span><br />Hotel
+                        <span class="sigma">Sigma</span>
+                        <br />
+                        Hotel
                     </div>
                 </a>
 
@@ -37,28 +39,43 @@
                 <nav class="navbar">
                     <ul class="navbar__list">
                         <li class="navbar__item">
-                            <a href="/guest-rooms" class="navbar__link"
-                                >Rooms</a
+                            <a
+                                href="/guest-rooms"
+                                class="navbar__link"
+                                style="text-decoration: underline"
                             >
+                                Rooms
+                            </a>
                         </li>
                         <li class="navbar__item">
-                            <a href="/guest-bookings" class="navbar__link"
-                                >My Bookings</a
-                            >
+                            <a href="/guest-bookings" class="navbar__link">
+                                My Bookings
+                            </a>
                         </li>
                         <li class="navbar__item">
-                            <a href="/guest-payments" class="navbar__link"
-                                >My Payments</a
-                            >
+                            <a href="/guest-payments" class="navbar__link">
+                                My Payments
+                            </a>
+                        </li>
+                        <li class="navbar__item">
+                            <a href="/guest-infos" class="navbar__link">
+                                Edit Info
+                            </a>
                         </li>
                     </ul>
                 </nav>
+
+                <!-- Action -->
+                <div class="navbar-action">
+                    <a href="/login" class="btn signup">Logout</a>
+                </div>
             </div>
         </div>
 
         <!-- Main Content -->
         <main class="container">
             <form
+                class="form-change"
                 action="/guest-reservation"
                 method="POST"
                 id="availability-form"
@@ -123,62 +140,63 @@
 
         <!-- Footer -->
         <footer>
-            <div class="footer-top">
-                <h1 class="section-title">Lorem Ipsum</h1>
-                <p class="section-desc">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Proin vel ultricies lectus, sit amet elementum purus. Sed
-                    viverra augue velit, non cursus elit gravida nec.
-                </p>
-            </div>
-            <div class="footer-bottom">
-                <ul class="footer-left">
-                    <h3 class="subsection-title">About</h3>
-                    <a href="#!" class="footer-link"
-                        ><li class="footer-item">Our Story</li></a
-                    >
-                    <a href="#!" class="footer-link"
-                        ><li class="footer-item">Company</li></a
-                    >
-                    <a href="#!" class="footer-link"
-                        ><li class="footer-item">Contact</li></a
-                    >
-                </ul>
-                <div class="footer-middle">
-                    <p class="section-desc footer-desc">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing
-                        elit. Officia eaque incidunt ea aut iure. Blanditiis.
-                    </p>
-                    <form action="" class="footer-form">
-                        <div class="footer-input">
-                            <input
-                                type="text"
-                                placeholder="Enter Email"
-                                class="footer-info"
-                            />
-                            <input
-                                type="submit"
-                                value="Submit"
-                                class="footer-info"
-                            />
-                        </div>
-                    </form>
+            <div id="contact" class="container">
+                <h2 class="section-title footer-title">Get in Touch</h2>
+                <div class="footer-content">
+                    <ul class="footer-left">
+                        <h3 class="subsection-title">Quick link</h3>
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">Home</li></a
+                        >
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">Services</li></a
+                        >
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">About us</li></a
+                        >
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">Contact</li></a
+                        >
+                    </ul>
+                    <div class="footer-middle">
+                        <p class="section-desc footer-desc">
+                            Lorem ipsum, dolor sit amet consectetur adipisicing
+                            elit. Officia eaque incidunt ea aut iure.
+                            Blanditiis.
+                        </p>
+                        <form action="" class="footer-form">
+                            <div class="footer-input">
+                                <input
+                                    type="text"
+                                    name=""
+                                    id=""
+                                    placeholder="Enter Edging Email"
+                                    class="footer-info"
+                                />
+                                <input
+                                    type="submit"
+                                    value="Submit"
+                                    class="footer-info"
+                                />
+                            </div>
+                        </form>
+                    </div>
+                    <ul class="footer-right">
+                        <h3 class="subsection-title">Useful</h3>
+                        <a href="#!" class="footer-link">
+                            <li class="footer-item">Privacy policy</li>
+                        </a>
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">Legal</li></a
+                        >
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">FAQ</li></a
+                        >
+                        <a href="#!" class="footer-link"
+                            ><li class="footer-item">Blogs</li></a
+                        >
+                    </ul>
                 </div>
-                <ul class="footer-right">
-                    <h3 class="subsection-title">Useful</h3>
-                    <a href="#!" class="footer-link"
-                        ><li class="footer-item">Privacy policy</li></a
-                    >
-                    <a href="#!" class="footer-link"
-                        ><li class="footer-item">Legal</li></a
-                    >
-                    <a href="#!" class="footer-link"
-                        ><li class="footer-item">FAQ</li></a
-                    >
-                    <a href="#!" class="footer-link"
-                        ><li class="footer-item">Blogs</li></a
-                    >
-                </ul>
             </div>
         </footer>
     </body>
