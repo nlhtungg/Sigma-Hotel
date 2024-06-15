@@ -112,7 +112,7 @@ BEGIN
     FROM Booking 
     WHERE BookingID = @BookingID;
 
-    IF DATEDIFF(DAY, @Today, @CheckinDate) = 7
+    IF DATEDIFF(DAY, @Today, @CheckinDate) >= 7
     BEGIN
         DELETE FROM Booking WHERE BookingID = @BookingID;
         SET @Result = 'Booking is deleted.';
