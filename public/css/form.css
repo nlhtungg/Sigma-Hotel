@@ -39,14 +39,15 @@ body {
 }
 
 .form-img {
-    justify-items: self-end;
+    display: block;
     width: 50%;
-    height: 100vh;
+    height: calc(100vh - 87px);
     object-fit: cover;
 }
 
 .form-btn {
-    margin: 10px;
+    display: block;
+    margin: 10px auto;
     font-size: 1.6rem;
     padding: 20px 120px;
 }
