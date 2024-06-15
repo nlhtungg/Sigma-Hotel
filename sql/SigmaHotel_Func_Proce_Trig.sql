@@ -124,3 +124,28 @@ BEGIN
 
     SELECT @Result AS Result;
 END;
+
+
+CREATE PROCEDURE UpdateRoomStatus
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Update rooms to "Occupied" if the current date is within the booking period
+    UPDATE Room
+    SET Status = 'Occupied'
+    WHERE RoomNumber IN (
+        SELECT RoomNumber
+        FROM Booking
+        WHERE GETDATE() BETWEEN CheckinDate AND CheckoutDate
+    );
+
+    -- Update rooms to "Available" if the current date is not within any booking period
+    UPDATE Room
+    SET Status = 'Available'
+    WHERE RoomNumber NOT IN (
+        SELECT RoomNumber
+        FROM Booking
+        WHERE GETDATE() BETWEEN CheckinDate AND CheckoutDate
+    );
+END;

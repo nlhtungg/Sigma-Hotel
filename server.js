@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const sql = require('mssql/msnodesqlv8');
+const cron = require('node-cron');
 const path = require('path');
 const sqlConfig = require('./sqlConfig');
 const { isNull } = require('util');
@@ -19,6 +20,37 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Setting up the view engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
+// Function to update room statuses
+async function updateRoomStatus() {
+  try {
+      await sql.connect(sqlConfig);
+      await sql.query`
+          UPDATE Room
+          SET Status = 'Occupied'
+          WHERE RoomNumber IN (
+              SELECT RoomNumber
+              FROM Booking
+              WHERE GETDATE() BETWEEN CheckinDate AND CheckoutDate
+          );
+          UPDATE Room
+          SET Status = 'Available'
+          WHERE RoomNumber NOT IN (
+              SELECT RoomNumber
+              FROM Booking
+              WHERE GETDATE() BETWEEN CheckinDate AND CheckoutDate
+          )`;
+      console.log('Room statuses updated successfully.');
+  } catch (err) {
+      console.error('Error updating room statuses: ', err);
+  }
+}
+
+// Schedule the task to run every day at midnight
+cron.schedule('0 0 * * *', () => {
+  console.log('Running scheduled task to update room statuses...');
+  updateRoomStatus();
+});
 
 // Main page
 app.get('/', (req, res) => {
