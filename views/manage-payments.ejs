@@ -32,6 +32,9 @@
         </script>
     </head>
     <body>
+        <!-- Overlay -->
+        <div id="overlay" class="overlay" style="display: none"></div>
+
         <!-- Header bar -->
         <div class="header-bar">
             <div class="header-bar__inner">
@@ -87,93 +90,65 @@
         </div>
 
         <!-- Filter form -->
-        <!--<form
+        <form
             id="filter-form"
             class="popUp-form"
-            action="/manage-bookings"
+            action="/manage-payments"
             method="GET"
             style="display: none"
         >
             <h2 class="subsection-title">Filter</h2>
 
             <div class="form-item">
-                <label for="filterUsername">Username:</label>
+                <label for="filterUsername">Payment ID:</label>
                 <input
                     class="form-input"
-                    type="text"
+                    type="number"
                     id="filterUsername"
                     name="filterUsername"
                 />
             </div>
 
             <div class="form-item">
-                <label for="filterName">Name:</label>
+                <label for="filterName">Booking ID:</label>
                 <input
                     class="form-input"
-                    type="text"
+                    type="number"
                     id="filterName"
                     name="filterName"
                 />
             </div>
 
             <div class="form-item">
-                <label for="filterDOB">DOB:</label>
+                <label for="filterDOB">Guest ID:</label>
                 <input
                     class="form-input"
-                    type="text"
+                    type="number"
                     id="filterDOB"
                     name="filterDOB"
                 />
             </div>
 
             <div class="form-item">
-                <label for="filterAddress">Address:</label>
+                <label for="filterAddress">Total Amount:</label>
                 <input
                     class="form-input"
-                    type="text"
+                    type="number"
                     id="filterAddress"
                     name="filterAddress"
                 />
             </div>
 
             <div class="form-item">
-                <label for="filterPhone">Phone:</label>
-                <input
+                <label for="PaymentMethod">Payment Method:</label>
+                <select
                     class="form-input"
-                    type="text"
-                    id="filterPhone"
-                    name="filterPhone"
-                />
-            </div>
-
-            <div class="form-item">
-                <label for="filterEmail">Email:</label>
-                <input
-                    class="form-input"
-                    type="text"
-                    id="filterEmail"
-                    name="filterEmail"
-                />
-            </div>
-
-            <div class="form-item">
-                <label for="orderBy">Order By:</label>
-                <select class="form-input" name="orderBy" id="orderBy" size="1">
-                    <option value="GuestID">ID</option>
-                    <option value="Username">Username</option>
-                    <option value="Name">Name</option>
-                    <option value="DOB">DOB</option>
-                    <option value="Address">Address</option>
-                    <option value="Phone">Phone</option>
-                    <option value="Email">Email</option>
-                </select>
-            </div>
-
-            <div class="form-item">
-                <label for="desc">Sort:</label>
-                <select class="form-input" name="desc" id="desc" size="1">
-                    <option value="ASC">ASC</option>
-                    <option value="DESC">DESC</option>
+                    name="PaymentMethod"
+                    id="PaymentMethod"
+                    size="1"
+                >
+                    <option value="Credit Card">Credit Card</option>
+                    <option value="Cash">Cash</option>
                 </select>
             </div>
 
@@ -188,7 +163,7 @@
                     Cancel
                 </button>
             </div>
-        </form> -->
+        </form>
 
         <div class="container">
             <header>
