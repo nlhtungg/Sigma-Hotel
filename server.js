@@ -1,27 +1,27 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const session = require("express-session");
-const sql = require("mssql/msnodesqlv8");
-const cron = require("node-cron");
-const path = require("path");
-const sqlConfig = require("./sqlConfig");
-const { isNull } = require("util");
+const express = require('express');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const sql = require('mssql/msnodesqlv8');
+const cron = require('node-cron');
+const path = require('path');
+const sqlConfig = require('./sqlConfig');
+const { isNull } = require('util');
 const app = express();
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
     session({
-        secret: "your_secret_key",
+        secret: 'your_secret_key',
         resave: false,
         saveUninitialized: true,
     })
 );
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Setting up the view engine
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 // Function to update room statuses
 async function updateRoomStatus() {
@@ -42,30 +42,30 @@ async function updateRoomStatus() {
               FROM Booking
               WHERE GETDATE() BETWEEN CheckinDate AND CheckoutDate
           )`;
-        console.log("Room statuses updated successfully.");
+        console.log('Room statuses updated successfully.');
     } catch (err) {
-        console.error("Error updating room statuses: ", err);
+        console.error('Error updating room statuses: ', err);
     }
 }
 
 // Schedule the task to run every day at midnight
-cron.schedule("0 0 * * *", () => {
-    console.log("Running scheduled task to update room statuses...");
+cron.schedule('0 0 * * *', () => {
+    console.log('Running scheduled task to update room statuses...');
     updateRoomStatus();
 });
 
 // Main page
-app.get("/", (req, res) => {
-    res.render("landing-page");
+app.get('/', (req, res) => {
+    res.render('landing-page');
 });
 
 // Log in - Sign up
-app.get("/login", (req, res) => {
-    res.render("login", { loginfail: req.session.loginfail });
+app.get('/login', (req, res) => {
+    res.render('login', { loginfail: req.session.loginfail });
     req.session.message = null;
 });
 
-app.post("/login", async (req, res) => {
+app.post('/login', async (req, res) => {
     const { username, password } = req.body;
     try {
         // Connect to SQL Server
@@ -75,23 +75,23 @@ app.post("/login", async (req, res) => {
         if (result.recordset.length > 0) {
             const user = result.recordset[0];
             req.session.user = user;
-            req.session.role = "guest";
-            res.redirect("/guest");
+            req.session.role = 'guest';
+            res.redirect('/guest');
         } else {
-            req.session.loginfail = "Invalid username or password";
-            res.redirect("/login");
+            req.session.loginfail = 'Invalid username or password';
+            res.redirect('/login');
         }
     } catch (err) {
-        console.error("SQL error", err);
-        res.status(500).send("Internal Server Error");
+        console.error('SQL error', err);
+        res.status(500).send('Internal Server Error');
     }
 });
 
-app.get("/staff-login", (req, res) => {
-    res.render("staff-login", { message: req.session.message });
+app.get('/staff-login', (req, res) => {
+    res.render('staff-login', { message: req.session.message });
 });
 
-app.post("/staff-login", async (req, res) => {
+app.post('/staff-login', async (req, res) => {
     const { username, password } = req.body;
     try {
         // Connect to SQL Server
@@ -102,28 +102,28 @@ app.post("/staff-login", async (req, res) => {
             const user = result.recordset[0];
             req.session.user = user;
 
-            if (user.Position === "Manager") {
-                req.session.role = "admin";
-                res.redirect("/admin");
+            if (user.Position === 'Manager') {
+                req.session.role = 'admin';
+                res.redirect('/admin');
             } else {
-                req.session.role = "staff";
-                res.redirect("/staff");
+                req.session.role = 'staff';
+                res.redirect('/staff');
             }
         } else {
-            req.session.message = "Invalid username or password";
-            res.redirect("/staff-login");
+            req.session.message = 'Invalid username or password';
+            res.redirect('/staff-login');
         }
     } catch (err) {
-        console.error("SQL error", err);
-        res.status(500).send("Internal Server Error");
+        console.error('SQL error', err);
+        res.status(500).send('Internal Server Error');
     }
 });
 
-app.get("/signup", (req, res) => {
-    res.render("signup", { signupMessage: req.session.signupMessage });
+app.get('/signup', (req, res) => {
+    res.render('signup', { signupMessage: req.session.signupMessage });
 });
 
-app.post("/signup", async (req, res) => {
+app.post('/signup', async (req, res) => {
     const { username, password, name, dob, address, phone, email } = req.body;
     try {
         await sql.connect(sqlConfig);
@@ -131,30 +131,30 @@ app.post("/signup", async (req, res) => {
         const checkUsernameResult =
             await sql.query`SELECT Username FROM Guest WHERE Username = ${username}`;
         if (checkUsernameResult.recordset.length > 0) {
-            req.session.message = "Username already exists";
-            return res.redirect("/signup");
+            req.session.message = 'Username already exists';
+            return res.redirect('/signup');
         }
         const result =
             await sql.query`INSERT INTO Guest (Username, Password, Name, DOB, Address, Phone, Email) VALUES (${username}, ${password}, ${name}, ${dob}, ${address}, ${phone}, ${email})`;
-        return res.redirect("/login");
+        return res.redirect('/login');
     } catch (err) {
-        console.error("SQL error", err);
-        res.status(500).send("Internal Server Error");
+        console.error('SQL error', err);
+        res.status(500).send('Internal Server Error');
     }
 });
 
 // Admin Session
-app.get("/admin", (req, res) => {
-    if (req.session.role === "admin") {
-        res.render("admin", { user: req.session.user });
+app.get('/admin', (req, res) => {
+    if (req.session.role === 'admin') {
+        res.render('admin', { user: req.session.user });
     } else {
-        res.redirect("/staff-login");
+        res.redirect('/staff-login');
     }
 });
 
 // Manage Guests
-app.get("/manage-users", async (req, res) => {
-    if (req.session.role === "admin") {
+app.get('/manage-users', async (req, res) => {
+    if (req.session.role === 'admin') {
         try {
             const {
                 filterName,
@@ -191,47 +191,47 @@ app.get("/manage-users", async (req, res) => {
             } else {
                 query += ` ORDER BY GuestID`;
             }
-            if (desc === "DESC") {
+            if (desc === 'DESC') {
                 query += ` DESC`;
             }
             console.log(query);
             await sql.connect(sqlConfig);
             const result = await sql.query(query);
-            res.render("manage-users", { users: result.recordset });
+            res.render('manage-users', { users: result.recordset });
         } catch (err) {
-            console.error("SQL error", err);
-            res.status(500).send("Internal Server Error");
+            console.error('SQL error', err);
+            res.status(500).send('Internal Server Error');
         }
     } else {
-        res.redirect("/admin");
+        res.redirect('/admin');
     }
 });
 
-app.post("/delete-user", async (req, res) => {
+app.post('/delete-user', async (req, res) => {
     const { GuestID } = req.body;
     try {
         await sql.connect(sqlConfig);
         await sql.query`DELETE FROM Guest WHERE GuestID = ${GuestID}`;
-        res.redirect("/manage-users");
+        res.redirect('/manage-users');
     } catch (err) {
-        console.error("SQL error", err);
-        res.status(500).send("Internal Server Error");
+        console.error('SQL error', err);
+        res.status(500).send('Internal Server Error');
     }
 });
 
-app.post("/add-user", async (req, res) => {
+app.post('/add-user', async (req, res) => {
     const { username, password, name, dob, address, phone, email } = req.body;
     try {
         await sql.connect(sqlConfig);
         await sql.query`INSERT INTO Guest (Username, Password, Name, DOB, Address, Phone, Email ) VALUES (${username}, ${password}, ${name}, ${dob}, ${address}, ${phone}, ${email})`;
-        res.redirect("/manage-users");
+        res.redirect('/manage-users');
     } catch (err) {
-        console.error("SQL error", err);
-        res.status(500).send("Internal Server Error");
+        console.error('SQL error', err);
+        res.status(500).send('Internal Server Error');
     }
 });
 
-app.get("/edit-user", async (req, res) => {
+app.get('/edit-user', async (req, res) => {
     const guestID = req.query.GuestID;
 
     try {
@@ -239,16 +239,16 @@ app.get("/edit-user", async (req, res) => {
         const result =
             await sql.query`SELECT * FROM Guest WHERE GuestID = ${guestID}`;
         if (result.recordset.length === 0) {
-            return res.status(404).send("User not found");
+            return res.status(404).send('User not found');
         }
-        res.render("edit-user", { user: result.recordset[0] });
+        res.render('edit-user', { user: result.recordset[0] });
     } catch (err) {
-        console.error("SQL error", err);
-        res.status(500).send("Internal Server Error");
+        console.error('SQL error', err);
+        res.status(500).send('Internal Server Error');
     }
 });
 
-app.post("/edit-user", async (req, res) => {
+app.post('/edit-user', async (req, res) => {
     const {
         guestID,
         name,
@@ -266,7 +266,7 @@ app.post("/edit-user", async (req, res) => {
         const result =
             await sql.query`SELECT * FROM Guest WHERE GuestID = ${guestID}`;
         if (result.recordset.length === 0) {
-            return res.status(404).send("Wrong password");
+            return res.status(404).send('Wrong password');
             //res.redirect('modify-user');
         }
 
@@ -289,16 +289,16 @@ app.post("/edit-user", async (req, res) => {
         if (newpassword) {
             await sql.query`UPDATE Guest SET Password = ${newpassword} WHERE GuestID = ${guestID}`;
         }
-        res.redirect("/manage-users");
+        res.redirect('/manage-users');
     } catch (err) {
-        console.error("SQL error", err);
-        res.status(500).send("Internal Server Error");
+        console.error('SQL error', err);
+        res.status(500).send('Internal Server Error');
     }
 });
 
 // Manage Staffs
-app.get("/manage-staffs", async (req, res) => {
-    if (req.session.role === "admin") {
+app.get('/manage-staffs', async (req, res) => {
+    if (req.session.role === 'admin') {
         try {
             const {
                 filterName,
@@ -338,23 +338,23 @@ app.get("/manage-staffs", async (req, res) => {
             } else {
                 query += ` ORDER BY StaffID`;
             }
-            if (desc === "DESC") {
+            if (desc === 'DESC') {
                 query += ` DESC`;
             }
             console.log(query);
             await sql.connect(sqlConfig);
             const result = await sql.query(query);
-            res.render("manage-staffs", { users: result.recordset });
+            res.render('manage-staffs', { users: result.recordset });
         } catch (err) {
-            console.error("SQL error", err);
-            res.status(500).send("Internal Server Error");
+            console.error('SQL error', err);
+            res.status(500).send('Internal Server Error');
         }
     } else {
-        res.redirect("/admin");
+        res.redirect('/admin');
     }
 });
 
-app.get("/edit-staff", async (req, res) => {
+app.get('/edit-staff', async (req, res) => {
     const staffID = req.query.StaffID;
 
     try {
@@ -362,16 +362,16 @@ app.get("/edit-staff", async (req, res) => {
         const result =
             await sql.query`SELECT * FROM Staff WHERE StaffID = ${staffID}`;
         if (result.recordset.length === 0) {
-            return res.status(404).send("User not found");
+            return res.status(404).send('User not found');
         }
-        res.render("edit-staff", { user: result.recordset[0] });
+        res.render('edit-staff', { user: result.recordset[0] });
     } catch (err) {
-        console.error("SQL error", err);
-        res.status(500).send("Internal Server Error");
+        console.error('SQL error', err);
+        res.status(500).send('Internal Server Error');
     }
 });
 
-app.post("/edit-staff", async (req, res) => {
+app.post('/edit-staff', async (req, res) => {
     const {
         staffID,
         name,
@@ -390,7 +390,7 @@ app.post("/edit-staff", async (req, res) => {
         const result =
             await sql.query`SELECT * FROM Staff WHERE StaffID = ${staffID} and Password = ${oldpassword}`;
         if (result.recordset.length === 0) {
-            return res.status(404).send("Wrong password");
+            return res.status(404).send('Wrong password');
         }
 
         // Step 2: Dynamically build and execute individual update queries
@@ -410,21 +410,21 @@ app.post("/edit-staff", async (req, res) => {
             await sql.query`UPDATE Staff SET Password = ${newpassword} WHERE StaffID = ${staffID}`;
         }
         if (position) {
-            await sql.query`UPDATE Staff SET Address = ${position} WHERE StaffID = ${staffID}`;
+            await sql.query`UPDATE Staff SET Position = ${position} WHERE StaffID = ${staffID}`;
         }
         if (salary) {
-            await sql.query`UPDATE Staff SET Address = ${salary} WHERE StaffID = ${staffID}`;
+            await sql.query`UPDATE Staff SET Salary = ${salary} WHERE StaffID = ${staffID}`;
         }
-        res.redirect("/manage-staffs");
+        res.redirect('/manage-staffs');
     } catch (err) {
-        console.error("SQL error", err);
-        res.status(500).send("Internal Server Error");
+        console.error('SQL error', err);
+        res.status(500).send('Internal Server Error');
     }
 });
 
 // Manage Rooms
-app.get("/manage-rooms", async (req, res) => {
-    if (req.session.role === "admin") {
+app.get('/manage-rooms', async (req, res) => {
+    if (req.session.role === 'admin') {
         try {
             const {
                 filterRoom,
@@ -461,45 +461,45 @@ app.get("/manage-rooms", async (req, res) => {
             }
             if (orderBy) {
                 query += ` order by ${orderBy}`;
-                if (desc === "DESC") query += ` DESC`;
+                if (desc === 'DESC') query += ` DESC`;
             }
             const result = await sql.query(query);
-            res.render("manage-rooms", { users: result.recordset });
+            res.render('manage-rooms', { users: result.recordset });
         } catch (err) {
-            console.error("SQL error", err);
-            res.status(500).send("Internal Server Error");
+            console.error('SQL error', err);
+            res.status(500).send('Internal Server Error');
         }
     } else {
-        res.redirect("/admin");
+        res.redirect('/admin');
     }
 });
 
-app.post("/delete-room", async (req, res) => {
+app.post('/delete-room', async (req, res) => {
     const { UserID } = req.body;
     try {
         await sql.connect(sqlConfig);
         await sql.query`DELETE FROM Room WHERE RoomNumber = ${UserID}`;
-        res.redirect("/manage-rooms");
+        res.redirect('/manage-rooms');
     } catch (err) {
-        console.error("SQL error", err);
-        res.status(500).send("Internal Server Error");
+        console.error('SQL error', err);
+        res.status(500).send('Internal Server Error');
     }
 });
 
-app.post("/add-room", async (req, res) => {
+app.post('/add-room', async (req, res) => {
     const { RoomNumber, TypeID, Status } = req.body;
     try {
         await sql.connect(sqlConfig);
         await sql.query`INSERT INTO Room (RoomNumber, TypeID, Status) VALUES (${RoomNumber}, ${TypeID}, ${Status})`;
         await sql.query`INSERT INTO Manage (RoomNumber, StaffID) VALUES (${RoomNumber}, NULL)`;
-        res.redirect("/manage-rooms");
+        res.redirect('/manage-rooms');
     } catch (err) {
-        console.error("SQL error", err);
-        res.status(500).send("Internal Server Error");
+        console.error('SQL error', err);
+        res.status(500).send('Internal Server Error');
     }
 });
 
-app.get("/edit-room", async (req, res) => {
+app.get('/edit-room', async (req, res) => {
     const RoomNumber = req.query.RoomNumber;
 
     try {
@@ -509,16 +509,16 @@ app.get("/edit-room", async (req, res) => {
       FROM Room left join Manage ON Room.RoomNumber = Manage.RoomNumber
       WHERE Room.RoomNumber = ${RoomNumber}`;
         if (result.recordset.length === 0) {
-            return res.status(404).send("Room not found");
+            return res.status(404).send('Room not found');
         }
-        res.render("edit-room", { user: result.recordset[0] });
+        res.render('edit-room', { user: result.recordset[0] });
     } catch (err) {
-        console.error("SQL error", err);
-        res.status(500).send("Internal Server Error");
+        console.error('SQL error', err);
+        res.status(500).send('Internal Server Error');
     }
 });
 
-app.post("/edit-room", async (req, res) => {
+app.post('/edit-room', async (req, res) => {
     const { roomnumber, typeid, status, managedby } = req.body;
 
     try {
@@ -532,65 +532,65 @@ app.post("/edit-room", async (req, res) => {
         if (managedby) {
             await sql.query`UPDATE Manage SET StaffID = ${managedby} WHERE RoomNumber = ${roomnumber}`;
         }
-        res.redirect("/manage-rooms");
+        res.redirect('/manage-rooms');
     } catch (err) {
-        console.error("SQL error", err);
-        res.status(500).send("Internal Server Error");
+        console.error('SQL error', err);
+        res.status(500).send('Internal Server Error');
     }
 });
 
 // Manage Bookings
-app.get("/manage-bookings", async (req, res) => {
+app.get('/manage-bookings', async (req, res) => {
     try {
         await sql.connect(sqlConfig);
         let query = `
       select Booking.*, FORMAT(Booking.CheckinDate, 'dd/MM/yyyy') AS inDate, FORMAT(Booking.CheckoutDate, 'dd/MM/yyyy') AS outDate, Payment.PaymentMethod
        from Booking join Payment on Booking.BookingID = Payment.BookingID`;
         const result = await sql.query(query);
-        res.render("manage-bookings", { bookings: result.recordset });
+        res.render('manage-bookings', { bookings: result.recordset });
     } catch (error) {
-        console.error("Error fetching bookings:", error);
-        res.status(500).send("Error fetching bookings");
+        console.error('Error fetching bookings:', error);
+        res.status(500).send('Error fetching bookings');
     }
 });
 
-app.post("/delete-booking", async (req, res) => {
+app.post('/delete-booking', async (req, res) => {
     const { BookingID } = req.body;
     try {
         await sql.connect(sqlConfig);
         await sql.query`DELETE FROM Booking WHERE BookingID = ${BookingID}`;
-        res.redirect("/manage-bookings");
+        res.redirect('/manage-bookings');
     } catch (err) {
-        console.error("SQL error", err);
-        res.status(500).send("Internal Server Error");
+        console.error('SQL error', err);
+        res.status(500).send('Internal Server Error');
     }
 });
 
-app.get("/manage-payments", async (req, res) => {
+app.get('/manage-payments', async (req, res) => {
     try {
         await sql.connect(sqlConfig);
         let query = `
       select payment.*, FORMAT(Payment.PaymentDate, 'dd/MM/yyyy') as PDate, booking.GuestID 
       from Payment join Booking on Payment.BookingID = Booking.BookingID`;
         const result = await sql.query(query);
-        res.render("manage-payments", { payments: result.recordset });
+        res.render('manage-payments', { payments: result.recordset });
     } catch (error) {
-        console.error("Error fetching bookings:", error);
-        res.status(500).send("Error fetching bookings");
+        console.error('Error fetching bookings:', error);
+        res.status(500).send('Error fetching bookings');
     }
 });
 
 // Staff Session
-app.get("/staff", (req, res) => {
-    if (req.session.role === "staff") {
-        res.render("staff", { user: req.session.user });
+app.get('/staff', (req, res) => {
+    if (req.session.role === 'staff') {
+        res.render('staff', { user: req.session.user });
     } else {
-        res.redirect("/staff-login");
+        res.redirect('/staff-login');
     }
 });
 
-app.get("/staff-rooms", async (req, res) => {
-    if (req.session.role === "staff") {
+app.get('/staff-rooms', async (req, res) => {
+    if (req.session.role === 'staff') {
         await sql.connect(sqlConfig);
         const staffID = req.session.user.StaffID;
         const { filterRoom, filterType, filterStatus, orderBy, desc } =
@@ -611,19 +611,19 @@ app.get("/staff-rooms", async (req, res) => {
         if (orderBy) {
             query += ` ORDER BY ${orderBy}`;
         }
-        if (desc === "DESC") {
+        if (desc === 'DESC') {
             query += ` desc`;
         }
         const result = await sql.query(query);
         console.log(query);
-        res.render("staff-rooms", {
+        res.render('staff-rooms', {
             rooms: result.recordset,
             updatedStatus: null,
         });
     }
 });
 
-app.get("/staff-update-room", async (req, res) => {
+app.get('/staff-update-room', async (req, res) => {
     const RoomNumber = req.query.RoomNumber;
     try {
         await sql.connect(sqlConfig);
@@ -632,32 +632,32 @@ app.get("/staff-update-room", async (req, res) => {
     FROM Room Join RoomType ON Room.TypeID = RoomType.TypeID
     WHERE Room.RoomNumber = ${RoomNumber}`;
         if (result.recordset.length === 0) {
-            return res.status(404).send("Room not found");
+            return res.status(404).send('Room not found');
         }
         console.log(result.recordset[0].RoomNumber);
-        res.render("staff-update-room", { room: result.recordset[0] });
+        res.render('staff-update-room', { room: result.recordset[0] });
     } catch (err) {
-        console.error("SQL error", err);
-        res.status(500).send("Internal Server Error");
+        console.error('SQL error', err);
+        res.status(500).send('Internal Server Error');
     }
 });
 
-app.post("/staff-update-room", async (req, res) => {
+app.post('/staff-update-room', async (req, res) => {
     const { RoomNumber, Status } = req.body;
     try {
         await sql.connect(sqlConfig);
         let query = `UPDATE Room SET Status = '${Status}' WHERE RoomNumber = ${RoomNumber}`;
         await sql.query(query);
         console.log(query);
-        res.redirect("/staff-rooms");
+        res.redirect('/staff-rooms');
     } catch (err) {
-        console.error("Error: ", err);
-        res.status(500).send("Error updating room status");
+        console.error('Error: ', err);
+        res.status(500).send('Error updating room status');
     }
 });
 
-app.get("/staff-infos", async (req, res) => {
-    if (req.session.role === "staff") {
+app.get('/staff-infos', async (req, res) => {
+    if (req.session.role === 'staff') {
         try {
             req.session.wrongpass = null;
             req.session.success = null;
@@ -665,22 +665,22 @@ app.get("/staff-infos", async (req, res) => {
             await sql.connect(sqlConfig);
             let query = `SELECT * FROM Staff WHERE StaffID = ${staffID}`;
             const result = await sql.query(query);
-            res.render("staff-infos", {
+            res.render('staff-infos', {
                 staff: result.recordset[0],
                 wrongpass: req.session.wrongpass,
                 success: req.session.success,
             });
         } catch (err) {
-            console.error("SQL error", err);
-            res.status(500).send("Internal Server Error");
+            console.error('SQL error', err);
+            res.status(500).send('Internal Server Error');
         }
     } else {
-        res.redirect("/staff");
+        res.redirect('/staff');
     }
 });
 
-app.post("/staff-infos", async (req, res) => {
-    if (req.session.role === "staff") {
+app.post('/staff-infos', async (req, res) => {
+    if (req.session.role === 'staff') {
         const { name, dob, position, email, phone, newpass, password } =
             req.body;
         const staffID = req.session.user.StaffID;
@@ -691,8 +691,8 @@ app.post("/staff-infos", async (req, res) => {
             if (result.recordset.length === 0) {
                 result =
                     await sql.query`SELECT * FROM Staff WHERE StaffID = ${staffID}`;
-                req.session.wrongpass = "Wrong password";
-                res.render("staff-infos", {
+                req.session.wrongpass = 'Wrong password';
+                res.render('staff-infos', {
                     staff: result.recordset[0],
                     wrongpass: req.session.wrongpass,
                     success: null,
@@ -716,35 +716,35 @@ app.post("/staff-infos", async (req, res) => {
                 if (newpass) {
                     await sql.query`UPDATE staff SET Password = ${newpass} WHERE staffID = ${staffID}`;
                 }
-                req.session.success = "Update successfully!";
+                req.session.success = 'Update successfully!';
                 result =
                     await sql.query`SELECT * FROM Staff WHERE StaffID = ${staffID}`;
-                res.render("staff-infos", {
+                res.render('staff-infos', {
                     staff: result.recordset[0],
                     wrongpass: null,
                     success: req.session.success,
                 });
             }
         } catch (err) {
-            console.error("SQL error", err);
-            res.status(500).send("Internal Server Error");
+            console.error('SQL error', err);
+            res.status(500).send('Internal Server Error');
         }
     } else {
-        res.redirect("/login");
+        res.redirect('/login');
     }
 });
 
 // Guest Session
-app.get("/guest", (req, res) => {
-    if (req.session.role === "guest") {
-        res.render("guest", { user: req.session.user });
+app.get('/guest', (req, res) => {
+    if (req.session.role === 'guest') {
+        res.render('guest', { user: req.session.user });
     } else {
-        res.redirect("/login");
+        res.redirect('/login');
     }
 });
 
-app.get("/guest-rooms", async (req, res) => {
-    if (req.session.role === "guest") {
+app.get('/guest-rooms', async (req, res) => {
+    if (req.session.role === 'guest') {
         try {
             const {
                 filterRoom,
@@ -777,24 +777,24 @@ app.get("/guest-rooms", async (req, res) => {
             }
             if (orderBy) {
                 query += ` order by ${orderBy}`;
-                if (desc === "DESC") {
+                if (desc === 'DESC') {
                     query += ` desc`;
                 }
             }
             const result = await sql.query(query);
             console.log(query);
-            res.render("guest-rooms", { rooms: result.recordset });
+            res.render('guest-rooms', { rooms: result.recordset });
         } catch (err) {
-            console.error("SQL error", err);
-            res.status(500).send("Internal Server Error");
+            console.error('SQL error', err);
+            res.status(500).send('Internal Server Error');
         }
     } else {
-        res.redirect("/login");
+        res.redirect('/login');
     }
 });
 
-app.get("/guest-reservation", async (req, res) => {
-    if (req.session.role === "guest") {
+app.get('/guest-reservation', async (req, res) => {
+    if (req.session.role === 'guest') {
         try {
             const roomnumber = req.query.RoomNumber;
             await sql.connect(sqlConfig);
@@ -804,24 +804,24 @@ app.get("/guest-reservation", async (req, res) => {
       where RoomNumber = ${roomnumber}`;
             if (result.recordset.length > 0) {
                 req.session.checkres = null;
-                res.render("guest-reservation", {
+                res.render('guest-reservation', {
                     room: result.recordset[0],
                     user: req.session.user,
                     checkres: req.session.checkres,
                 });
             } else {
-                res.status(404).send("Room not found");
+                res.status(404).send('Room not found');
             }
         } catch (err) {
-            console.error("SQL error", err);
-            res.status(500).send("Internal Server Error");
+            console.error('SQL error', err);
+            res.status(500).send('Internal Server Error');
         }
     } else {
-        res.redirect("/login");
+        res.redirect('/login');
     }
 });
 
-app.post("/guest-reservation", async (req, res) => {
+app.post('/guest-reservation', async (req, res) => {
     try {
         const { roomnumber, startDate, endDate, paymentMethod } = req.body;
         await sql.connect(sqlConfig);
@@ -858,27 +858,27 @@ app.post("/guest-reservation", async (req, res) => {
                     paymentMethod,
                     totalPrice,
                 };
-                res.redirect("/confirm-booking");
+                res.redirect('/confirm-booking');
             } else {
-                req.session.checkres = "Room is not available at that time";
-                res.render("guest-reservation", {
+                req.session.checkres = 'Room is not available at that time';
+                res.render('guest-reservation', {
                     room: result.recordset[0],
                     user: req.session.user,
                     checkres: req.session.checkres,
                 });
             }
         } else {
-            req.session.checkres = "Invalid Dates";
-            res.render("guest-reservation", {
+            req.session.checkres = 'Invalid Dates';
+            res.render('guest-reservation', {
                 room: result.recordset[0],
                 user: req.session.user,
                 checkres: req.session.checkres,
             });
         }
     } catch (error) {
-        console.error("Error checking availability:", error);
+        console.error('Error checking availability:', error);
         res.status(500).json({
-            error: "An error occurred while checking availability",
+            error: 'An error occurred while checking availability',
         });
     }
 });
@@ -891,14 +891,14 @@ function calculateTotalPrice(checkinDate, checkoutDate, pricePerNight) {
     return differenceInDays * pricePerNight;
 }
 
-app.get("/confirm-booking", async (req, res) => {
+app.get('/confirm-booking', async (req, res) => {
     try {
         const bookingDetails = req.session.bookingDetails;
         if (!bookingDetails) {
-            res.redirect("/guest-reservation");
+            res.redirect('/guest-reservation');
             return;
         }
-        res.render("confirm-booking", {
+        res.render('confirm-booking', {
             roomnumber: bookingDetails.roomnumber,
             startDate: bookingDetails.startDate,
             endDate: bookingDetails.endDate,
@@ -906,14 +906,14 @@ app.get("/confirm-booking", async (req, res) => {
             paymentMethod: bookingDetails.paymentMethod,
         });
     } catch (error) {
-        console.error("Error loading confirmation page:", error);
+        console.error('Error loading confirmation page:', error);
         res.status(500).json({
-            error: "An error occurred while loading the confirmation page",
+            error: 'An error occurred while loading the confirmation page',
         });
     }
 });
 
-app.post("/confirm-booking", async (req, res) => {
+app.post('/confirm-booking', async (req, res) => {
     try {
         const guestID = req.session.user.GuestID;
         const bookingDetails = req.session.bookingDetails;
@@ -926,17 +926,17 @@ app.post("/confirm-booking", async (req, res) => {
     @PaymentMethod = '${bookingDetails.paymentMethod}';`;
         console.log(insertBooking);
         await sql.query(insertBooking);
-        res.redirect("/guest-bookings");
+        res.redirect('/guest-bookings');
     } catch (error) {
-        console.error("Error confirming booking:", error);
+        console.error('Error confirming booking:', error);
         res.status(500).json({
-            error: "An error occurred while confirming the booking",
+            error: 'An error occurred while confirming the booking',
         });
     }
 });
 
-app.get("/guest-bookings", async (req, res) => {
-    if (req.session.role === "guest") {
+app.get('/guest-bookings', async (req, res) => {
+    if (req.session.role === 'guest') {
         try {
             const {
                 filterRoom,
@@ -968,23 +968,23 @@ app.get("/guest-bookings", async (req, res) => {
             }
             if (orderBy) {
                 query += ` ORDER BY ${orderBy}`;
-                if (desc === "DESC") query += ` DESC`;
+                if (desc === 'DESC') query += ` DESC`;
             }
             const result = await sql.query(query);
-            res.render("guest-bookings", {
+            res.render('guest-bookings', {
                 users: result.recordset,
                 cancelfail,
             });
         } catch (err) {
-            console.error("SQL error", err);
-            res.status(500).send("Internal Server Error");
+            console.error('SQL error', err);
+            res.status(500).send('Internal Server Error');
         }
     } else {
-        res.redirect("/guest");
+        res.redirect('/guest');
     }
 });
 
-app.post("/cancel-booking", async (req, res) => {
+app.post('/cancel-booking', async (req, res) => {
     const { BookingID } = req.body;
     try {
         const {
@@ -1019,39 +1019,39 @@ app.post("/cancel-booking", async (req, res) => {
         }
         if (orderBy) {
             query += ` ORDER BY ${orderBy}`;
-            if (desc === "DESC") query += ` DESC`;
+            if (desc === 'DESC') query += ` DESC`;
         }
         const result = await sql.query(query);
         console.log(query1);
-        res.render("guest-bookings", {
+        res.render('guest-bookings', {
             users: result.recordset,
             cancelfail: noti.recordset[0].Result,
         });
     } catch (err) {
-        console.error("SQL error", err);
-        res.status(500).send("Internal Server Error");
+        console.error('SQL error', err);
+        res.status(500).send('Internal Server Error');
     }
 });
 
-app.get("/guest-payments", async (req, res) => {
-    if (req.session.role === "guest") {
+app.get('/guest-payments', async (req, res) => {
+    if (req.session.role === 'guest') {
         try {
             const guestID = req.session.user.GuestID;
             await sql.connect(sqlConfig);
             let query = `SELECT PaymentID, BookingID, Amount, FORMAT(PaymentDate, 'dd/MM/yyyy') AS PDate, PaymentMethod FROM MyPayments(${guestID}) WHERE 1=1`;
             const result = await sql.query(query);
-            res.render("guest-payments", { users: result.recordset });
+            res.render('guest-payments', { users: result.recordset });
         } catch (err) {
-            console.error("SQL error", err);
-            res.status(500).send("Internal Server Error");
+            console.error('SQL error', err);
+            res.status(500).send('Internal Server Error');
         }
     } else {
-        res.redirect("/guest");
+        res.redirect('/guest');
     }
 });
 
-app.get("/guest-infos", async (req, res) => {
-    if (req.session.role === "guest") {
+app.get('/guest-infos', async (req, res) => {
+    if (req.session.role === 'guest') {
         try {
             req.session.wrongpass = null;
             req.session.success = null;
@@ -1059,22 +1059,22 @@ app.get("/guest-infos", async (req, res) => {
             await sql.connect(sqlConfig);
             let query = `SELECT * FROM MyInfo(${guestID}) WHERE 1=1`;
             const result = await sql.query(query);
-            res.render("guest-infos", {
+            res.render('guest-infos', {
                 user: result.recordset[0],
                 wrongpass: req.session.wrongpass,
                 success: req.session.success,
             });
         } catch (err) {
-            console.error("SQL error", err);
-            res.status(500).send("Internal Server Error");
+            console.error('SQL error', err);
+            res.status(500).send('Internal Server Error');
         }
     } else {
-        res.redirect("/guest");
+        res.redirect('/guest');
     }
 });
 
-app.post("/guest-infos", async (req, res) => {
-    if (req.session.role === "guest") {
+app.post('/guest-infos', async (req, res) => {
+    if (req.session.role === 'guest') {
         const { name, dob, address, email, phone, newpass, password } =
             req.body;
         const guestID = req.session.user.GuestID;
@@ -1085,8 +1085,8 @@ app.post("/guest-infos", async (req, res) => {
             if (result.recordset.length === 0) {
                 result =
                     await sql.query`SELECT * FROM Guest WHERE GuestID = ${guestID}`;
-                req.session.wrongpass = "Wrong password";
-                res.render("guest-infos", {
+                req.session.wrongpass = 'Wrong password';
+                res.render('guest-infos', {
                     user: result.recordset[0],
                     wrongpass: req.session.wrongpass,
                     success: null,
@@ -1110,28 +1110,28 @@ app.post("/guest-infos", async (req, res) => {
                 if (newpass) {
                     await sql.query`UPDATE Guest SET Password = ${newpass} WHERE GuestID = ${guestID}`;
                 }
-                req.session.success = "Update successfully!";
+                req.session.success = 'Update successfully!';
                 result =
                     await sql.query`SELECT * FROM Guest WHERE GuestID =${guestID}`;
-                res.render("guest-infos", {
+                res.render('guest-infos', {
                     user: result.recordset[0],
                     wrongpass: null,
                     success: req.session.success,
                 });
             }
         } catch (err) {
-            console.error("SQL error", err);
-            res.status(500).send("Internal Server Error");
+            console.error('SQL error', err);
+            res.status(500).send('Internal Server Error');
         }
     } else {
-        res.redirect("/login");
+        res.redirect('/login');
     }
 });
 
 // Static files
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Start server
 app.listen(8000, () => {
-    console.log("Server started on http://localhost:8000");
+    console.log('Server started on http://localhost:8000');
 });
