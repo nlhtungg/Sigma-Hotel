@@ -98,57 +98,62 @@
             style="display: none"
         >
             <h2 class="subsection-title">Filter</h2>
-
             <div class="form-item">
-                <label for="filterUsername">Payment ID:</label>
+                <label for="filterGuest">Guest ID:</label>
                 <input
                     class="form-input"
                     type="number"
-                    id="filterUsername"
-                    name="filterUsername"
+                    id="filterGuest"
+                    name="filterGuest"
                 />
             </div>
 
             <div class="form-item">
-                <label for="filterName">Booking ID:</label>
+                <label for="filterAmount">Total Amount:</label>
                 <input
                     class="form-input"
                     type="number"
-                    id="filterName"
-                    name="filterName"
+                    id="filterAmount"
+                    name="filterAmount"
                 />
             </div>
 
             <div class="form-item">
-                <label for="filterDOB">Guest ID:</label>
-                <input
-                    class="form-input"
-                    type="number"
-                    id="filterDOB"
-                    name="filterDOB"
-                />
-            </div>
-
-            <div class="form-item">
-                <label for="filterAddress">Total Amount:</label>
-                <input
-                    class="form-input"
-                    type="number"
-                    id="filterAddress"
-                    name="filterAddress"
-                />
-            </div>
-
-            <div class="form-item">
-                <label for="PaymentMethod">Payment Method:</label>
+                <label for="filterMethod">Payment Method:</label>
                 <select
                     class="form-input"
-                    name="PaymentMethod"
-                    id="PaymentMethod"
+                    name="filterMethod"
+                    id="filterMethod"
                     size="1"
                 >
+                    <option value=""></option>
                     <option value="Credit Card">Credit Card</option>
                     <option value="Cash">Cash</option>
+                </select>
+            </div>
+
+            <div class="form-item">
+                <label for="orderBy">Order By:</label>
+                <select
+                    class="form-input"
+                    name="orderBy"
+                    id="orderBy"
+                    size="1"
+                >
+                    <option value="Payment.BookingID">Booking ID</option>
+                    <option value="Payment.PaymentID">Payment ID</option>
+                    <option value="Booking.GuestID">Guest ID</option>
+                    <option value="Payment.Amount">Amount</option>
+                    <option value="PDate">Payment Date</option>
+                    <option value="Payment.PaymentMethod">Payment Method</option>
+                </select>
+            </div>
+
+            <div class="form-item">
+                <label for="desc">Sort:</label>
+                <select class="form-input" name="desc" id="desc" size="1">
+                    <option value="ASC">ASC</option>
+                    <option value="DESC">DESC</option>
                 </select>
             </div>
 
@@ -190,8 +195,8 @@
                             <th>Booking ID</th>
                             <th>Guest ID</th>
                             <th>Total Amount</th>
+                            <th>Payment Date</th>
                             <th>Payment Method</th>
-                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>

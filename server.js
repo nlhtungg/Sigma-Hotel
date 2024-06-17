@@ -380,7 +380,6 @@ app.post('/edit-staff', async (req, res) => {
         salary,
         phone,
         email,
-        oldpassword,
         newpassword,
     } = req.body;
 
@@ -388,7 +387,7 @@ app.post('/edit-staff', async (req, res) => {
         await sql.connect(sqlConfig);
         // Step 1: Verify the current password
         const result =
-            await sql.query`SELECT * FROM Staff WHERE StaffID = ${staffID} and Password = ${oldpassword}`;
+            await sql.query`SELECT * FROM Staff WHERE StaffID = ${staffID}`;
         if (result.recordset.length === 0) {
             return res.status(404).send('Wrong password');
         }
@@ -415,6 +414,31 @@ app.post('/edit-staff', async (req, res) => {
         if (salary) {
             await sql.query`UPDATE Staff SET Salary = ${salary} WHERE StaffID = ${staffID}`;
         }
+        res.redirect('/manage-staffs');
+    } catch (err) {
+        console.error('SQL error', err);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+app.post('/delete-staff', async (req, res) => {
+    const { staffID } = req.body;
+    try {
+        await sql.connect(sqlConfig);
+        await sql.query`DELETE FROM Staff WHERE StaffID = ${staffID}`;
+        res.redirect('/manage-staffs');
+    } catch (err) {
+        console.error('SQL error', err);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+app.post('/add-staff', async (req, res) => {
+    const { username, password, name, dob, phone, email, position, salary } = req.body;
+    try {
+        await sql.connect(sqlConfig);
+        await sql.query`INSERT INTO Staff (Username, Password, Name, DOB, Phone, Email, Position, Salary ) 
+        VALUES (${username}, ${password}, ${name}, ${dob}, ${phone}, ${email}, ${position}, ${salary})`;
         res.redirect('/manage-staffs');
     } catch (err) {
         console.error('SQL error', err);
@@ -530,7 +554,9 @@ app.post('/edit-room', async (req, res) => {
             await sql.query`UPDATE Room SET Status = ${status} WHERE RoomNumber = ${roomnumber}`;
         }
         if (managedby) {
-            await sql.query`UPDATE Manage SET StaffID = ${managedby} WHERE RoomNumber = ${roomnumber}`;
+            await sql.query`
+            DELETE FROM Manage WHERE RoomNumber = ${roomnumber}
+            INSERT INTO Manage (RoomNumber, StaffID) VALUES (${roomnumber}, ${managedby})`;
         }
         res.redirect('/manage-rooms');
     } catch (err) {
@@ -569,9 +595,27 @@ app.post('/delete-booking', async (req, res) => {
 app.get('/manage-payments', async (req, res) => {
     try {
         await sql.connect(sqlConfig);
+        const {filterGuest, filterMethod, filterAmount, orderBy, desc} = req.query;
         let query = `
       select payment.*, FORMAT(Payment.PaymentDate, 'dd/MM/yyyy') as PDate, booking.GuestID 
-      from Payment join Booking on Payment.BookingID = Booking.BookingID`;
+      from Payment join Booking on Payment.BookingID = Booking.BookingID
+      WHERE 1=1`;
+        if (filterGuest) {
+            query += ` AND Booking.GuestID = ${filterGuest}`;
+        }
+        if (filterAmount) {
+            query += ` AND Payment.Amount <= ${filterAmount}`;
+        }
+        if (filterMethod) {
+            query += ` AND Payment.PaymentMethod = '${filterMethod}'`;
+        }
+        if (orderBy) {
+            query += ` ORDER BY ${orderBy}`;
+        }
+        if (desc == "DESC"){
+            query += ` desc`;
+        }
+        console.log(query);
         const result = await sql.query(query);
         res.render('manage-payments', { payments: result.recordset });
     } catch (error) {
