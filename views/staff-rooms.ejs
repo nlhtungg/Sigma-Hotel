@@ -56,15 +56,11 @@
                                 class="navbar__link"
                                 style="text-decoration: underline"
                             >
-                                Rooms
+                                Manage Rooms
                             </a>
                         </li>
                         <li class="navbar__item">
-                            <a
-                                href="/staff-infos"
-                                class="navbar__link"
-                                style="text-decoration: underline"
-                            >
+                            <a href="/staff-infos" class="navbar__link">
                                 Edit Info
                             </a>
                         </li>
@@ -181,14 +177,12 @@
                             <td><%= room.Status %></td>
                             <td>
                                 <form method="get" action="staff-update-room">
-                                    <input 
+                                    <input
                                         type="hidden"
                                         name="RoomNumber"
                                         value="<%= room.RoomNumber %>"
                                     />
-                                    <button
-                                        class="table-btn"
-                                        type="submit">
+                                    <button class="table-btn" type="submit">
                                         Edit
                                     </button>
                                 </form>
