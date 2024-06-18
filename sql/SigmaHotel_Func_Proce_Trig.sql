@@ -149,3 +149,27 @@ BEGIN
         WHERE GETDATE() BETWEEN CheckinDate AND CheckoutDate
     );
 END;
+
+CREATE TRIGGER CalculateTotalPrice
+ON Booking
+AFTER INSERT
+AS
+BEGIN
+  DECLARE @RoomNumber int, @CheckinDate date, @CheckoutDate date, @PricePerNight decimal(10,2), 
+@TotalPrice decimal(10,2);
+  
+  SELECT @RoomNumber = i.RoomNumber, @CheckinDate = i.CheckinDate, @CheckoutDate = i.CheckoutDate
+  FROM inserted i;
+
+  SELECT @PricePerNight = rt.PricePerNight
+  FROM Room r
+  JOIN RoomType rt ON r.TypeID = rt.TypeID
+  WHERE r.RoomNumber = @RoomNumber;
+
+  SET @TotalPrice = DATEDIFF(day, @CheckinDate, @CheckoutDate) * @PricePerNight;
+
+  UPDATE Booking
+  SET TotalPrice = @TotalPrice
+  WHERE RoomNumber = @RoomNumber AND CheckinDate = @CheckinDate AND CheckoutDate = @CheckoutDate;
+END;
+GO
