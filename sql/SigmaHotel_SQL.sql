@@ -1,3 +1,92 @@
+/* chay rieng dong nay truoc */
+CREATE DATABASE SigmaHotel;
+
+/* chay rieng dong nay */
+USE SigmaHotel;
+
+CREATE TABLE [RoomType] (
+  [TypeID] varchar(50) PRIMARY KEY,
+  [Description] varchar(255),
+  [PricePerNight] decimal(10,2),
+  [Capacity] int
+)
+GO
+
+
+CREATE TABLE [Guest] (
+  [GuestID] int IDENTITY(1,1) PRIMARY KEY,
+  [Username] varchar(50) NOT NULL UNIQUE,
+  [Password] varchar(50) NOT NULL,
+  [Name] varchar(50),
+  [DOB] date,
+  [Address] varchar(255),
+  [Phone] varchar(15),
+  [Email] varchar(255)
+)
+GO
+
+
+CREATE TABLE [Staff] (
+  [StaffID] int IDENTITY(1,1) PRIMARY KEY,
+  [Username] varchar(50) NOT NULL UNIQUE,
+  [Password] varchar(50) NOT NULL,
+  [Name] varchar(50),
+  [Position] varchar(50),
+  [Salary] decimal(10,2),
+  [DOB] date,
+  [Phone] varchar(15),
+  [Email] varchar(255)
+)
+GO
+
+
+CREATE TABLE [Room] (
+  [RoomNumber] int PRIMARY KEY,
+  [TypeID] varchar(50),
+  [Status] varchar(20),
+  FOREIGN KEY ([TypeID]) REFERENCES [RoomType] ([TypeID]) 
+    ON DELETE CASCADE ON UPDATE CASCADE
+)
+GO
+
+
+CREATE TABLE [Booking] (
+  [BookingID] int IDENTITY(1,1) PRIMARY KEY,
+  [GuestID] int,
+  [RoomNumber] int,
+  [CheckinDate] date,
+  [CheckoutDate] date,
+  [TotalPrice] decimal(10,2),
+  FOREIGN KEY ([GuestID]) REFERENCES [Guest] ([GuestID]) 
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY ([RoomNumber]) REFERENCES [Room] ([RoomNumber]) 
+    ON DELETE CASCADE ON UPDATE CASCADE
+)
+GO
+
+
+CREATE TABLE [Payment] (
+  [PaymentID] int IDENTITY(1,1) PRIMARY KEY,
+  [BookingID] int,
+  [Amount] decimal(10,2),
+  [PaymentDate] date,
+  [PaymentMethod] varchar(50),
+  FOREIGN KEY ([BookingID]) REFERENCES [Booking] ([BookingID]) 
+    ON DELETE CASCADE ON UPDATE CASCADE
+)
+GO
+
+
+CREATE TABLE [Manage] (
+  [RoomNumber] int,
+  [StaffID] int,
+  FOREIGN KEY ([RoomNumber]) REFERENCES [Room] ([RoomNumber]) 
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY ([StaffID]) REFERENCES [Staff] ([StaffID]) 
+    ON DELETE CASCADE ON UPDATE CASCADE
+)
+GO
+
 /*RoomType*/
 INSERT INTO RoomType (TypeID, Description, PricePerNight, Capacity) VALUES
 ('RT001', 'Single Room', 100.00, 1),
@@ -158,3 +247,201 @@ INSERT INTO Manage (RoomNumber, StaffID) VALUES
 (118, 18),
 (119, 19),
 (120, 20);
+GO
+
+/* Show all available rooms for guest */
+CREATE VIEW AvailableRooms AS
+SELECT	Room.RoomNumber, RoomType.Description, RoomType.Capacity, RoomType.PricePerNight, Room.Status
+FROM	Room INNER JOIN
+		RoomType ON Room.TypeID = RoomType.TypeID
+WHERE	(Room.Status = 'Available')
+GO
+
+/* List all bookings of a guest */
+CREATE VIEW GuestBookingView AS
+SELECT * FROM Booking
+GO
+
+/* */
+CREATE FUNCTION MyBookings (@GuestID int)
+RETURNS TABLE
+AS RETURN
+	SELECT GuestBookingView.BookingID, GuestBookingView.RoomNumber, GuestBookingView.CheckinDate, GuestBookingView.CheckoutDate, GuestBookingView.TotalPrice
+	FROM GuestBookingView
+	WHERE GuestBookingView.GuestID = @GuestID
+GO
+
+/* List all payments of a guest */
+CREATE VIEW GuestPaymentView AS
+SELECT Payment.PaymentID, Booking.GuestID, Payment.BookingID, Payment.Amount, Payment.PaymentDate, Payment.PaymentMethod
+FROM Payment INNER JOIN
+	 Booking ON Payment.BookingID = Booking.BookingID
+GO
+
+CREATE FUNCTION MyPayments (@GuestID int)
+RETURNS TABLE
+AS RETURN
+	SELECT PaymentID, BookingID, Amount, PaymentDate, PaymentMethod FROM GuestPaymentView
+	WHERE GuestPaymentView.GuestID = @GuestID
+GO
+
+/* My Info */
+CREATE FUNCTION MyInfo (@GuestID int)
+RETURNS TABLE
+AS RETURN
+	SELECT *
+	FROM Guest
+	WHERE GuestID = @GuestID
+GO
+
+CREATE FUNCTION CheckBookingAvailability(
+    @new_checkin_date DATE,
+    @new_checkout_date DATE,
+    @room_number INT
+)
+RETURNS BIT
+AS
+BEGIN
+    DECLARE @IsAvailable BIT;
+
+    IF NOT EXISTS (
+        SELECT 1
+        FROM Booking
+        WHERE RoomNumber = @room_number
+        AND NOT (
+            @new_checkin_date >= CheckoutDate OR
+            @new_checkout_date <= CheckinDate
+        )
+    )
+    BEGIN
+        SET @IsAvailable = 1;
+    END
+    ELSE
+    BEGIN
+        SET @IsAvailable = 0;
+    END
+
+    RETURN @IsAvailable;
+END;
+GO
+
+/*new Booking*/
+CREATE PROCEDURE dbo.CreateBookingAndPayment
+(
+    @GuestID INT,
+    @RoomNumber INT,
+    @CheckinDate DATE,
+    @CheckoutDate DATE,
+    @PaymentMethod VARCHAR(50)
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @TotalPrice DECIMAL(10, 2);
+    DECLARE @RoomTypeID VARCHAR(50);
+    DECLARE @PricePerNight DECIMAL(10, 2);
+    DECLARE @NumberOfNights INT;
+    DECLARE @BookingID INT;
+    DECLARE @PaymentID INT;
+
+    BEGIN TRY
+        -- Calculate total price
+        SET @NumberOfNights = DATEDIFF(DAY, @CheckinDate, @CheckoutDate);
+
+        SELECT @RoomTypeID = TypeID
+        FROM Room
+        WHERE RoomNumber = @RoomNumber;
+
+        SELECT @PricePerNight = PricePerNight
+        FROM RoomType
+        WHERE TypeID = @RoomTypeID;
+
+        SET @TotalPrice = @NumberOfNights * @PricePerNight;
+
+        -- Insert into Booking table
+        INSERT INTO Booking (GuestID, RoomNumber, CheckinDate, CheckoutDate, TotalPrice)
+        VALUES (@GuestID, @RoomNumber, @CheckinDate, @CheckoutDate, @TotalPrice);
+
+        -- Retrieve the newly inserted BookingID
+        SET @BookingID = SCOPE_IDENTITY();
+
+        -- Insert into Payment table
+        INSERT INTO Payment (BookingID, Amount, PaymentDate, PaymentMethod)
+        VALUES (@BookingID, @TotalPrice, GETDATE(), @PaymentMethod);
+
+        -- Retrieve the newly inserted PaymentID
+        SET @PaymentID = SCOPE_IDENTITY();
+
+        -- Return the result
+        SELECT @BookingID AS BookingID, @PaymentID AS PaymentID;
+    END TRY
+    BEGIN CATCH
+        -- Handle errors
+        DECLARE @ErrorMessage NVARCHAR(4000);
+        DECLARE @ErrorSeverity INT;
+        DECLARE @ErrorState INT;
+
+        SELECT 
+            @ErrorMessage = ERROR_MESSAGE(),
+            @ErrorSeverity = ERROR_SEVERITY(),
+            @ErrorState = ERROR_STATE();
+
+        RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState);
+        RETURN;
+    END CATCH;
+END;
+GO
+
+CREATE PROCEDURE DeleteBooking
+    @BookingID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @CheckinDate DATE;
+    DECLARE @Today DATE = GETDATE();
+    DECLARE @Result VARCHAR(100);
+
+    SELECT @CheckinDate = CheckinDate 
+    FROM Booking 
+    WHERE BookingID = @BookingID;
+
+    IF DATEDIFF(DAY, @Today, @CheckinDate) >= 7
+    BEGIN
+        DELETE FROM Booking WHERE BookingID = @BookingID;
+        SET @Result = 'Booking is deleted.';
+    END
+    ELSE
+    BEGIN
+        SET @Result = 'Booking is not deleted. CheckinDate is not 7 days later from today.';
+    END
+
+    SELECT @Result AS Result;
+END;
+GO
+
+CREATE PROCEDURE UpdateRoomStatus
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Update rooms to "Occupied" if the current date is within the booking period
+    UPDATE Room
+    SET Status = 'Occupied'
+    WHERE RoomNumber IN (
+        SELECT RoomNumber
+        FROM Booking
+        WHERE GETDATE() BETWEEN CheckinDate AND CheckoutDate
+    );
+
+    -- Update rooms to "Available" if the current date is not within any booking period
+    UPDATE Room
+    SET Status = 'Available'
+    WHERE RoomNumber NOT IN (
+        SELECT RoomNumber
+        FROM Booking
+        WHERE GETDATE() BETWEEN CheckinDate AND CheckoutDate
+    );
+END;
+GO
